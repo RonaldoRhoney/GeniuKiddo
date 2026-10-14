@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Genius Kiddo",
+  "appTagline": "learn by playing",
+  "tapToStart": "Tap to start",
+  "languageCardPtLabel": "Português",
+  "languageCardEnLabel": "English",
+  "welcomeFirst": "Hi! I am Kiddo!",
+  "welcomeBack": "Hi! So good to see you!",
+  "homePlaceholder": "The activity trail arrives in the next milestone (M2)."
+}

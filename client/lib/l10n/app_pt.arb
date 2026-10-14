@@ -1,0 +1,43 @@
+{
+  "@@locale": "pt",
+
+  "appTitle": "Genius Kiddo",
+  "@appTitle": {
+    "description": "Nome do app, exibido na splash. Nome de marca, nunca traduzido (seção 1.1 item 2 da especificação)."
+  },
+
+  "appTagline": "aprender brincando",
+  "@appTagline": {
+    "description": "Subtítulo curto na tela de splash"
+  },
+
+  "tapToStart": "Toque para começar",
+  "@tapToStart": {
+    "description": "Convite de toque na splash"
+  },
+
+  "languageCardPtLabel": "Português",
+  "@languageCardPtLabel": {
+    "description": "Rótulo pequeno do cartão de idioma português (seção 4.5: sem bandeiras)"
+  },
+
+  "languageCardEnLabel": "English",
+  "@languageCardEnLabel": {
+    "description": "Rótulo pequeno do cartão de idioma inglês"
+  },
+
+  "welcomeFirst": "Oi! Eu sou o Kiddo!",
+  "@welcomeFirst": {
+    "description": "Fala do guia na primeira execução, logo após escolher o idioma (Anexo C, welcome.first)"
+  },
+
+  "welcomeBack": "Oi! Que bom te ver!",
+  "@welcomeBack": {
+    "description": "Fala do guia quando o app já tem idioma salvo (Anexo C, welcome.back)"
+  },
+
+  "homePlaceholder": "A trilha de atividades chega no próximo marco (M2).",
+  "@homePlaceholder": {
+    "description": "Texto temporário da tela inicial, só até a Trilha (Fase 1) ser implementada no M2"
+  }
+}

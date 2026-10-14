@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Genius Kiddo — Fase 2: Escolinha do Kiddo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple:#7C5CFF; --blue:#4DA8FF; --yellow:#FFC93C; --green:#4FCB8D; --coral:#FF6B6B;
+  --bg:#FFF8E7; --bg2:#FFEFC9; --ink:#2B2D42; --card:#FFFFFF; --muted:#5f6380; --line:rgba(43,45,66,.14);
+  --shadow:0 6px 0 rgba(43,45,66,.13);
+  --sky1:#bfe6ff; --sky2:#eaf8ff; --grass:#a9e883; --grass2:#7fd35f; --wood:#cf9150; --wood2:#a86b34;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1d1a3a; --bg2:#14122b; --ink:#f4f1ff; --card:#2f2a5c; --muted:#c3bfe6; --line:rgba(255,255,255,.18);
+    --shadow:0 6px 0 rgba(0,0,0,.35); --sky1:#2a3a82; --sky2:#1d1a3a; --grass:#2f7048; --grass2:#245a39;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1d1a3a; --bg2:#14122b; --ink:#f4f1ff; --card:#2f2a5c; --muted:#c3bfe6; --line:rgba(255,255,255,.18);
+  --shadow:0 6px 0 rgba(0,0,0,.35); --sky1:#2a3a82; --sky2:#1d1a3a; --grass:#2f7048; --grass2:#245a39;
+}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:'Baloo 2',ui-rounded,'Nunito','Trebuchet MS',system-ui,sans-serif;font-size:18px;line-height:1.25;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;user-select:none;touch-action:manipulation}
+button{font-family:inherit;color:inherit}
+button:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.hidden{display:none!important}
+.phone{position:relative;height:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
+@media (min-width:520px){body{background:var(--bg2)}.phone{box-shadow:0 0 0 1px var(--line),0 24px 70px rgba(0,0,0,.2)}}
+
+/* barra e guia */
+.bar{display:flex;align-items:center;gap:8px;padding:10px 12px 4px}
+.rb{width:56px;height:56px;flex:none;border-radius:50%;border:0;background:var(--card);box-shadow:var(--shadow);font-size:28px;display:grid;place-items:center;cursor:pointer}
+.rb.big{width:64px;height:64px;font-size:32px}
+.rb.small{width:44px;height:44px;font-size:20px;opacity:.7}
+.rb:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(43,45,66,.13)}
+.rb.off{opacity:.55}
+.stars{margin-right:auto;display:flex;align-items:center;gap:4px;font-weight:800;font-size:24px;background:var(--card);border-radius:28px;padding:6px 14px;box-shadow:var(--shadow);min-height:48px}
+.stars.bump{animation:pop .5s}
+.langpill{display:flex;background:var(--card);border-radius:30px;padding:4px;box-shadow:var(--shadow)}
+.langpill button{border:0;background:transparent;font-weight:800;font-size:18px;padding:6px 12px;border-radius:24px;min-height:48px;cursor:pointer}
+.langpill button.on{background:var(--purple);color:#fff}
+@media (max-width:380px){
+  .rb{width:48px;height:48px;font-size:24px}.rb.big{width:54px;height:54px}.rb.small{width:40px;height:40px}
+  .bar{gap:5px;padding:8px 8px 2px}.stars{font-size:20px;padding:4px 10px}
+  .langpill button{padding:4px 8px;font-size:16px}
+}
+.guiderow{display:flex;align-items:center;gap:8px;padding:2px 12px 6px}
+.guide{width:76px;height:84px;flex:none}
+.guide svg,.bigguide svg{width:100%;height:100%;overflow:visible;animation:bob 3.2s ease-in-out infinite}
+.eye{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}
+.bubble{flex:1;position:relative;background:var(--card);border-radius:22px;padding:8px 14px;font-weight:700;font-size:19px;box-shadow:var(--shadow);min-height:56px;display:flex;align-items:center}
+.bubble::before{content:'';position:absolute;left:-9px;top:50%;margin-top:-9px;border:9px solid transparent;border-left:0;border-right-color:var(--card)}
+
+main{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+.screen{display:none;flex:1;min-height:0;flex-direction:column}
+.screen.on{display:flex}
+.center{align-items:center;justify-content:center;text-align:center;padding:20px;gap:14px}
+
+/* splash */
+#sSplash{background:radial-gradient(circle at 50% 28%,#ffe08a 0,#ffb84a 40%,#ff8d5c 100%);color:#fff;cursor:pointer}
+.bigguide{width:min(48vw,190px);height:min(53vw,210px)}
+.title{font-size:clamp(36px,11vw,52px);font-weight:800;margin:0;line-height:1;text-shadow:0 4px 0 rgba(0,0,0,.18)}
+.sub{margin:0;font-size:20px;font-weight:700;text-shadow:0 2px 0 rgba(0,0,0,.15)}
+.play{width:104px;height:104px;border-radius:50%;border:0;background:#fff;color:var(--coral);font-size:48px;box-shadow:0 8px 0 rgba(0,0,0,.2);display:grid;place-items:center;animation:pulse 1.6s ease-in-out infinite;cursor:pointer}
+.tap{font-weight:800;font-size:19px;margin:0}
+
+/* escolha da série */
+#sGrade{background:var(--bg);justify-content:flex-start;padding-top:14px;overflow-y:auto}
+#sGrade h2{margin:0;font-size:28px}
+#sGrade p{margin:0;color:var(--muted);font-weight:700;font-size:16px}
+.gtop{display:flex;width:100%;justify-content:flex-end}
+.gcards{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px}
+.gcard{display:flex;align-items:center;gap:16px;border:0;border-radius:28px;padding:14px 18px;background:var(--card);box-shadow:var(--shadow);cursor:pointer;text-align:left;min-height:92px}
+.gcard:active{transform:translateY(4px)}
+.gcard .gi{font-size:54px;line-height:1}
+.gcard b{font-size:26px;display:block}
+.gcard small{font-size:16px;color:var(--muted);font-weight:700}
+.gcard.g0{box-shadow:0 6px 0 #ffb84a}.gcard.g1{box-shadow:0 6px 0 var(--blue)}.gcard.g2{box-shadow:0 6px 0 var(--purple)}
+
+/* escola */
+#sSchool{background:var(--bg)}
+.campus{flex:1;overflow-y:auto;scrollbar-width:none}
+.campus::-webkit-scrollbar{display:none}
+.skystrip{position:relative;height:150px;background:linear-gradient(var(--sky1),var(--sky2));overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding-bottom:42px}
+.sun{position:absolute;right:18px;top:12px;font-size:44px}
+.cloud{position:absolute;font-size:44px;opacity:.9;animation:drift 38s ease-in-out infinite alternate}
+.cloud.c1{left:6%;top:14px}.cloud.c2{left:46%;top:46px;font-size:34px;animation-duration:52s}
+.sign{position:relative;z-index:2;background:linear-gradient(var(--wood),var(--wood2));border:3px solid #7a4a22;border-radius:18px;padding:6px 20px 8px;color:#fff;text-align:center;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+.sign b{display:block;font-size:22px;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.sign small{font-size:15px;font-weight:700;opacity:.95}
+.sign::before,.sign::after{content:'';position:absolute;top:-16px;width:3px;height:16px;background:#7a4a22}
+.sign::before{left:22%}.sign::after{right:22%}
+.field{position:relative;margin-top:-30px;border-radius:32px 32px 0 0;background:linear-gradient(var(--grass),var(--grass2));padding:20px 0 18px;box-shadow:0 -5px 0 rgba(255,255,255,.35);min-height:360px}
+.lots{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:6px 14px 8px}
+.lot{position:relative;border:0;border-radius:28px;min-height:158px;padding:10px 8px 10px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:4px;cursor:pointer;box-shadow:0 7px 0 rgba(0,0,0,.16)}
+.lot:active{transform:translateY(4px)}
+.lot.built{background:var(--card)}
+.lot.empty{background:rgba(255,255,255,.4);box-shadow:none;outline:4px dashed rgba(255,255,255,.85);outline-offset:-6px}
+.lot.locked{background:rgba(255,255,255,.18);box-shadow:none}
+.lot.locked .scene{filter:grayscale(1) blur(1.5px);opacity:.45}
+.lot.sug::after{content:'👆';position:absolute;right:-4px;bottom:34px;font-size:34px;animation:tapHand 1.1s ease-in-out infinite;z-index:3}
+.lot.sug{animation:pulse 1.8s ease-in-out infinite}
+.scene{flex:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:2px 4px;line-height:1;width:100%}
+.scene span{font-size:50px}
+.scene.l2 span{font-size:42px}.scene.l3 span{font-size:36px}
+.scene .plus{font-size:52px;opacity:.9}
+.lname{font-weight:800;font-size:17px;text-align:center}
+.lot.empty .lname,.lot.locked .lname{color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.lvl{font-size:15px;letter-spacing:1px}
+.chip{background:var(--yellow);color:var(--ink);border-radius:20px;padding:0 12px;font-weight:800;font-size:17px;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.chip.lockchip{background:#fff;font-size:22px}
+.up{position:absolute;top:-8px;right:-6px;width:38px;height:38px;border-radius:50%;background:var(--green);display:grid;place-items:center;font-size:20px;box-shadow:0 4px 0 rgba(0,0,0,.2);animation:pulse 1.4s ease-in-out infinite;z-index:3}
+.lot.grow{animation:pop .7s}
+.spark{position:absolute;font-size:26px;pointer-events:none;animation:spark 1s ease-out forwards;z-index:4}
+.kids{display:flex;flex-wrap:wrap;justify-content:center;gap:0 2px;padding:6px 20px 0;font-size:30px;line-height:1.1}
+.kids span.new{animation:pop .6s}
+.dock{display:flex;gap:10px;padding:8px 14px 12px;background:var(--bg)}
+.dbtn{position:relative;flex:1;height:68px;border:0;border-radius:34px;font-weight:800;font-size:20px;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.dbtn:active{transform:translateY(4px)}
+.dbtn.goals{background:var(--purple)}
+.dbtn.promo{background:var(--green);animation:pulse 1.6s ease-in-out infinite}
+.dbtn.done{background:#9a97b8;box-shadow:none}
+.dbtn .bdg{position:absolute;top:-6px;right:10px;min-width:28px;height:28px;border-radius:14px;background:var(--coral);color:#fff;font-size:16px;display:grid;place-items:center;padding:0 6px;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+
+/* aulas */
+#sLesson{padding:4px 14px 14px;gap:12px}
+.dots{display:flex;justify-content:center;gap:10px;height:16px;flex:none}
+.dots i{width:16px;height:16px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--yellow)}.dots i.cur{background:var(--purple);transform:scale(1.25)}
+.canvasbox{flex:1;min-height:0;display:grid;place-items:center;background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:8px;overflow:hidden}
+.art{width:100%;height:100%;max-height:100%}
+.reg *{fill:#fff;stroke:#2B2D42;stroke-width:3;stroke-linejoin:round;transition:fill .25s;cursor:pointer}
+.reg.hint *{animation:blinkfill 1s ease-in-out infinite}
+.palette{display:flex;gap:6px;align-items:flex-start;flex:none}
+.sw{flex:1;min-width:0;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-weight:700;font-size:13px;cursor:pointer}
+.sw i{display:block;width:100%;max-width:64px;aspect-ratio:1;border-radius:50%;background:var(--c);border:4px solid #fff;box-shadow:inset 0 -5px 0 rgba(0,0,0,.15),0 4px 0 rgba(0,0,0,.14)}
+.sw.sel i{outline:5px solid var(--ink);outline-offset:2px;transform:scale(1.08)}
+.grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:center}
+.grid.g3{grid-template-columns:repeat(3,1fr)}
+.card{aspect-ratio:1;border:0;border-radius:28px;background:var(--card);box-shadow:var(--shadow);font-size:clamp(56px,20vw,96px);display:grid;place-items:center;cursor:pointer;line-height:1;padding:10px}
+.card svg{width:100%;height:100%}
+.card:active{transform:translateY(4px)}
+.card.ok{background:#c9f5de;animation:pop .55s}
+.card.shake{animation:shake .45s}
+.card.hintglow{outline:7px solid var(--yellow);outline-offset:2px}
+.card.num{font-size:clamp(48px,16vw,72px);font-weight:800;color:var(--purple)}
+.card.let{font-size:clamp(48px,16vw,72px);font-weight:800;color:var(--blue)}
+.opts{display:flex;gap:12px;flex:none}
+.opts .card{flex:1}
+.plot{flex:1;min-height:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:6px 14px;padding:14px;border-radius:28px;background:linear-gradient(#a56a3a,#7d4f29);box-shadow:var(--shadow)}
+.pl{position:relative;border:0;background:rgba(255,255,255,.14);border-radius:22px;width:clamp(64px,19vw,84px);height:clamp(64px,19vw,84px);font-size:clamp(40px,12vw,54px);cursor:pointer;display:grid;place-items:center;line-height:1}
+.pl i{position:absolute;right:-4px;bottom:-4px;min-width:30px;height:30px;border-radius:15px;background:var(--yellow);color:var(--ink);font-style:normal;font-weight:800;font-size:18px;display:grid;place-items:center;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.pl.grow{animation:pop .6s}
+.shadowbox{flex:1;min-height:0;display:grid;place-items:center;background:var(--card);border-radius:28px;box-shadow:var(--shadow)}
+.shadowbox .big{font-size:clamp(100px,38vw,170px);line-height:1}
+.pads{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pad{border:0;border-radius:32px;background:var(--c);color:rgba(255,255,255,.85);font-size:48px;box-shadow:inset 0 -8px 0 rgba(0,0,0,.15),0 8px 0 rgba(0,0,0,.15);opacity:.82;cursor:pointer}
+.pad.lit{opacity:1;transform:scale(1.05);filter:brightness(1.2);outline:8px solid rgba(255,255,255,.8)}
+.wordcard{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:var(--card);border-radius:28px;box-shadow:var(--shadow)}
+.wordcard .em{font-size:clamp(96px,34vw,150px);line-height:1}
+.wordcard .w{font-size:30px;font-weight:800;color:var(--purple)}
+.baskets{display:flex;gap:12px;flex:none}
+.basket{flex:1;min-height:118px;border:0;border-radius:26px;font-weight:800;font-size:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 7px 0 rgba(0,0,0,.18);color:#fff;cursor:pointer}
+.basket span{font-size:46px;line-height:1}
+.basket.fruit{background:var(--coral)}.basket.veg{background:#2fae72}
+.basket:active{transform:translateY(4px)}
+.basket.hintglow{outline:7px solid var(--yellow);outline-offset:2px}
+.basket.ok{animation:pop .5s}
+.note{margin:0;text-align:center;font-size:15px;color:var(--muted);font-weight:700}
+
+/* sobreposições */
+.overlay{position:absolute;inset:0;background:rgba(29,26,58,.6);display:grid;place-items:center;z-index:30;padding:20px;overflow:hidden}
+.cele{position:relative;z-index:2;background:var(--card);border-radius:36px;padding:26px 24px 24px;text-align:center;box-shadow:0 12px 0 rgba(0,0,0,.2);max-width:340px;width:100%;display:flex;flex-direction:column;align-items:center;gap:10px}
+.bigstar{font-size:96px;line-height:1;animation:pop .7s}
+.plus{font-size:34px;font-weight:800;color:var(--purple)}
+.ptxt{margin:0;font-size:21px;font-weight:700}
+.cele .go{width:84px;height:84px;font-size:42px;background:var(--green);color:#fff}
+.cf{position:absolute;top:-50px;font-size:30px;animation:fall linear forwards;z-index:1}
+.sheetwrap{position:absolute;inset:0;z-index:25;display:flex;align-items:flex-end;background:rgba(29,26,58,.5)}
+.sheet{position:relative;width:100%;max-height:92%;overflow-y:auto;background:var(--card);border-radius:32px 32px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;animation:slideUp .26s ease-out}
+.sx{position:absolute;right:12px;top:12px;width:52px;height:52px;border-radius:50%;border:0;background:var(--bg);font-size:24px;cursor:pointer;box-shadow:var(--shadow)}
+.shead{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.shead .sc{font-size:56px;line-height:1.05;letter-spacing:4px}
+.shead b{font-size:26px}
+.shead p{margin:0;color:var(--muted);font-weight:700;font-size:16px}
+.sbtn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:72px;border:0;border-radius:36px;font-weight:800;font-size:22px;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.2);cursor:pointer;padding:0 20px}
+.sbtn:active{transform:translateY(4px)}
+.sbtn b{background:rgba(255,255,255,.28);border-radius:20px;padding:0 12px}
+.sbtn.go{background:var(--green)}.sbtn.lesson{background:var(--purple)}.sbtn.dim{background:#9a97b8;box-shadow:0 6px 0 rgba(0,0,0,.12)}
+.sbtn.shake{animation:shake .45s}
+.maxnote{text-align:center;font-weight:800;color:var(--green)}
+.gpanel{padding-top:20px}
+.gpanel h2{margin:0 60px 0 0;font-size:25px}
+.medals{font-size:20px;font-weight:800}
+.mis{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:22px;padding:12px;box-shadow:var(--shadow)}
+.mis .mi{font-size:38px;line-height:1}
+.mis .mt{flex:1;min-width:0}
+.mis .mt b{display:block;font-size:18px}
+.bar2{height:12px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar2 i{display:block;height:100%;background:var(--yellow);border-radius:6px;transition:width .4s}
+.mis.ok .bar2 i{background:var(--green)}
+.mis .mb{border:0;border-radius:24px;min-height:54px;padding:0 14px;font-weight:800;font-size:18px;background:var(--green);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer;animation:pulse 1.5s ease-in-out infinite}
+.mis .chk{font-size:34px;color:var(--green);font-weight:800}
+
+/* portão e pais */
+.lockbig{font-size:72px}
+.hold{position:relative;overflow:hidden;border:0;border-radius:30px;background:var(--card);color:var(--ink);box-shadow:var(--shadow),inset 0 0 0 3px var(--purple);min-height:68px;padding:0 26px;font-weight:800;font-size:20px;cursor:pointer;touch-action:none;width:100%;max-width:340px}
+.hold .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(124,92,255,.35)}
+.hold.holding .fill{width:100%;transition:width var(--ms,2000ms) linear}
+.hold .lbl{position:relative}
+.btn{border:0;border-radius:22px;padding:12px 20px;font-weight:800;font-size:18px;background:var(--purple);color:#fff;min-height:52px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.warn{background:var(--coral)}
+.pp{flex:1;overflow-y:auto;padding:14px 16px 28px}
+.pph{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.pph h2{margin:0;font-size:26px}
+.sec{background:var(--card);border-radius:22px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.sec h3{margin:0 0 8px;font-size:19px}
+.sec p,.sec li{font-size:16px;color:var(--muted);font-weight:600;margin:0 0 6px}
+.sec ul{margin:0;padding-left:20px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{padding:8px 14px;border-radius:14px;border:2px solid var(--line);background:transparent;font-weight:800;font-size:16px;min-height:46px;cursor:pointer}
+.seg button.on{background:var(--purple);border-color:var(--purple);color:#fff}
+.stat{font-size:19px;font-weight:800;margin-bottom:8px}
+select{width:100%;min-height:48px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:700;font-size:16px;padding:8px 12px}
+
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
+@keyframes fall{to{transform:translateY(115vh) rotate(420deg)}}
+@keyframes tapHand{0%,100%{transform:translate(0,0)}50%{transform:translate(-8px,-8px)}}
+@keyframes blinkfill{50%{fill:#ffe39a}}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
+@keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(30px)}}
+@keyframes spark{0%{transform:translate(0,0) scale(.4);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+
+  <header class="bar hidden" id="bar">
+    <button class="rb big" id="btnHome" aria-label="Voltar para a escola">🏫</button>
+    <div class="stars" id="starsBox" aria-label="Estrelas"><span>⭐</span><b id="starsN">0</b></div>
+    <div class="langpill" role="group" aria-label="Idioma"><button data-l="pt">Oi!</button><button data-l="en">Hi!</button></div>
+    <button class="rb" id="btnMusic" aria-label="Música">🎵</button>
+    <button class="rb small" id="btnLock" aria-label="Área dos pais">🔒</button>
+  </header>
+
+  <div class="guiderow hidden" id="guideRow">
+    <div class="guide" id="guide"></div>
+    <div class="bubble" id="bubble" aria-live="polite"></div>
+    <button class="rb" id="btnRepeat" aria-label="Ouvir de novo">🔊</button>
+  </div>
+
+  <main>
+    <section class="screen center on" id="sSplash">
+      <div class="bigguide" id="splashGuide"></div>
+      <h1 class="title">Escolinha do Kiddo</h1>
+      <p class="sub">construa sua escola · build your school</p>
+      <button class="play" aria-label="Começar">▶</button>
+      <p class="tap">Toque para começar · Tap to start</p>
+    </section>
+
+    <section class="screen center" id="sGrade"></section>
+
+    <section class="screen" id="sSchool">
+      <div class="campus" id="campus">
+        <div class="skystrip">
+          <span class="sun">☀️</span><span class="cloud c1">☁️</span><span class="cloud c2">☁️</span>
+          <div class="sign"><b id="signTitle">Escolinha do Kiddo</b><small id="signGrade"></small></div>
+        </div>
+        <div class="field">
+          <div class="lots" id="lots"></div>
+          <div class="kids" id="kids" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="dock" id="dock"></div>
+    </section>
+
+    <section class="screen" id="sLesson"></section>
+    <section class="screen center" id="sGate"></section>
+    <section class="screen" id="sParents"></section>
+  </main>
+
+  <div class="sheetwrap hidden" id="sheetWrap"><div class="sheet" id="sheet"></div></div>
+  <div class="sheetwrap hidden" id="goalsWrap"><div class="sheet gpanel" id="goals"></div></div>
+  <div class="overlay hidden" id="overlay"></div>
+</div>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const KEY = 'genius-kiddo-escola-v1';
+
+/* ---------- estado ---------- */
+let S = { lang: 'pt', music: true, voice: true, tone: 'fofa', voices: { pt: null, en: null },
+  grade: null, stars: 3, built: { sala: 1 }, lessons: 0, lessonsYear: 0, claimed: [false, false, false],
+  medals: 0, done: false, fresh: [], theme: 'auto' };
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const cur = { screen: 'Splash', space: null };
+let timers = [], lastText = '', justChanged = null, justKid = false;
+const later = (fn, ms) => { const t = setTimeout(fn, ms); timers.push(t); return t; };
+const L = (pt, en) => (S.lang === 'en' ? en : pt);
+const rnd = a => a[Math.floor(Math.random() * a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const buzz = () => { try { navigator.vibrate && navigator.vibrate(15); } catch (e) {} };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* ---------- séries, espaços e objetivos ---------- */
+const GRADES = [
+  { ico: '🧸', pt: 'Maternal', en: 'Nursery', age: 3 },
+  { ico: '🎒', pt: 'Pré I', en: 'Pre-K 1', age: 4 },
+  { ico: '🎓', pt: 'Pré II', en: 'Pre-K 2', age: 5 }
+];
+const gName = g => L(GRADES[g].pt, GRADES[g].en);
+const gAge = g => L(`${GRADES[g].age} anos`, `${GRADES[g].age} years old`);
+const COST = { build: 3, up: [6, 10] };
+const REWARD = 3, BONUS = 2;
+
+const SPACES = [
+  { id: 'sala',   grade: 0, ico: '🏫', pt: ['Sala de aula', 'Aqui aprendemos as formas e as cores!'], en: ['Classroom', 'Here we learn shapes and colors!'],
+    vis: [['🏫'], ['🏫', '🎒'], ['🏫', '🎒', '🌈']] },
+  { id: 'horta',  grade: 0, ico: '🌱', pt: ['Horta', 'Aqui contamos as plantinhas!'], en: ['Garden', 'Here we count the plants!'],
+    vis: [['🌱', '🌱'], ['🥕', '🌱', '🥕'], ['🌻', '🥕', '🌽', '🍅']] },
+  { id: 'atelie', grade: 0, ico: '🎨', pt: ['Ateliê de arte', 'Aqui pintamos desenhos lindos!'], en: ['Art studio', 'Here we paint beautiful pictures!'],
+    vis: [['🖌️'], ['🖌️', '🎨'], ['🖼️', '🎨', '🖌️']] },
+  { id: 'biblio', grade: 1, ico: '📚', pt: ['Biblioteca', 'Aqui descobrimos as letras!'], en: ['Library', 'Here we discover letters!'],
+    vis: [['📖'], ['📚', '📖'], ['🏛️', '📚', '📖']] },
+  { id: 'patio',  grade: 1, ico: '⚽', pt: ['Pátio', 'Aqui brincamos de repetir os sons!'], en: ['Playground', 'Here we play repeat the sounds!'],
+    vis: [['⚽'], ['⚽', '🎠'], ['🎠', '⚽', '🏀']] },
+  { id: 'refeit', grade: 2, ico: '🍽️', pt: ['Refeitório', 'Aqui separamos frutas e legumes!'], en: ['Lunchroom', 'Here we sort fruits and veggies!'],
+    vis: [['🍽️'], ['🍎', '🍽️'], ['🍎', '🥕', '🍽️']] }
+];
+const SP = id => SPACES.find(s => s.id === id);
+const lvlOf = id => S.built[id] || 0;
+const builtCount = () => SPACES.filter(s => lvlOf(s.id) > 0).length;
+const lvlCount = n => SPACES.filter(s => lvlOf(s.id) >= n).length;
+const totalLevels = () => SPACES.reduce((a, s) => a + lvlOf(s.id), 0);
+const costFor = id => { const l = lvlOf(id); return l === 0 ? COST.build : l === 1 ? COST.up[0] : l === 2 ? COST.up[1] : null; };
+
+const MISSIONS = [
+  [ { ico: '🏗️', pt: 'Construir 3 espaços', en: 'Build 3 spaces', n: 3, get: builtCount },
+    { ico: '📘', pt: 'Fazer 6 aulas', en: 'Do 6 lessons', n: 6, get: () => S.lessonsYear },
+    { ico: '⬆️', pt: 'Melhorar um espaço', en: 'Upgrade a space', n: 1, get: () => lvlCount(2) } ],
+  [ { ico: '🏗️', pt: 'Construir 5 espaços', en: 'Build 5 spaces', n: 5, get: builtCount },
+    { ico: '📘', pt: 'Fazer 12 aulas', en: 'Do 12 lessons', n: 12, get: () => S.lessonsYear },
+    { ico: '🌟', pt: 'Deixar um espaço no máximo', en: 'Max out a space', n: 1, get: () => lvlCount(3) } ],
+  [ { ico: '🏗️', pt: 'Construir 6 espaços', en: 'Build 6 spaces', n: 6, get: builtCount },
+    { ico: '📘', pt: 'Fazer 18 aulas', en: 'Do 18 lessons', n: 18, get: () => S.lessonsYear },
+    { ico: '🌟', pt: 'Deixar 2 espaços no máximo', en: 'Max out 2 spaces', n: 2, get: () => lvlCount(3) } ]
+];
+const mList = () => MISSIONS[S.grade == null ? 0 : S.grade];
+const mDone = i => mList()[i].get() >= mList()[i].n;
+const claimable = () => mList().filter((m, i) => mDone(i) && !S.claimed[i]).length;
+const allClaimed = () => S.claimed.every(Boolean);
+
+/* ---------- itens (palavras) ---------- */
+const IT = {
+  dog:{e:'🐶',pt:['o','cachorro'],en:['the','dog']}, cat:{e:'🐱',pt:['o','gato'],en:['the','cat']},
+  fish:{e:'🐟',pt:['o','peixe'],en:['the','fish']}, bird:{e:'🐦',pt:['o','passarinho'],en:['the','bird']},
+  apple:{e:'🍎',pt:['a','maçã'],en:['the','apple']}, banana:{e:'🍌',pt:['a','banana'],en:['the','banana']},
+  car:{e:'🚗',pt:['o','carro'],en:['the','car']}, ball:{e:'⚽',pt:['a','bola'],en:['the','ball']},
+  sun:{e:'☀️',pt:['o','sol'],en:['the','sun']}, flower:{e:'🌸',pt:['a','flor'],en:['the','flower']},
+  moon:{e:'🌙',pt:['a','lua'],en:['the','moon']}, house:{e:'🏠',pt:['a','casa'],en:['the','house']},
+  grape:{e:'🍇',pt:['a','uva'],en:['the','grape']}, frog:{e:'🐸',pt:['o','sapo'],en:['the','frog']},
+  duck:{e:'🦆',pt:['o','pato'],en:['the','duck']}, cow:{e:'🐮',pt:['a','vaca'],en:['the','cow']},
+  lion:{e:'🦁',pt:['o','leão'],en:['the','lion']}, egg:{e:'🥚',pt:['o','ovo'],en:['the','egg']},
+  bee:{e:'🐝',pt:['a','abelha'],en:['the','bee']}, bear:{e:'🐻',pt:['o','urso'],en:['the','bear']},
+  strawberry:{e:'🍓',pt:['o','morango'],en:['the','strawberry']}, orange:{e:'🍊',pt:['a','laranja'],en:['the','orange']},
+  watermelon:{e:'🍉',pt:['a','melancia'],en:['the','watermelon']}, carrot:{e:'🥕',pt:['a','cenoura'],en:['the','carrot']},
+  broccoli:{e:'🥦',pt:['o','brócolis'],en:['the','broccoli']}, potato:{e:'🥔',pt:['a','batata'],en:['the','potato']},
+  lettuce:{e:'🥬',pt:['a','alface'],en:['the','lettuce']}, onion:{e:'🧅',pt:['a','cebola'],en:['the','onion']}
+};
+const LETIDS = ['dog','cat','fish','bird','apple','banana','car','ball','sun','flower','moon','house','grape','frog','duck','cow','lion','egg','bee','bear'];
+const nameOf = id => (S.lang === 'en' ? IT[id].en[1] : IT[id].pt[1]);
+const artOf = id => (S.lang === 'en' ? 'the' : IT[id].pt[0]);
+const initial = id => nameOf(id).normalize('NFD').replace(/[\u0300-\u036f]/g, '')[0].toUpperCase();
+const NW = {
+  pt: ['zero','um','dois','três','quatro','cinco','seis','sete','oito','nove','dez'],
+  en: ['zero','one','two','three','four','five','six','seven','eight','nine','ten']
+};
+
+/* formas e cores */
+const SHN = { circle:{pt:['o','círculo'],en:'circle'}, square:{pt:['o','quadrado'],en:'square'}, triangle:{pt:['o','triângulo'],en:'triangle'},
+  star:{pt:['a','estrela'],en:'star'}, heart:{pt:['o','coração'],en:'heart'} };
+const CLN = { red:{hex:'#FF5A5F',pt:['vermelho','vermelha'],en:'red'}, blue:{hex:'#4DA8FF',pt:['azul','azul'],en:'blue'},
+  yellow:{hex:'#FFC93C',pt:['amarelo','amarela'],en:'yellow'}, green:{hex:'#4FCB8D',pt:['verde','verde'],en:'green'},
+  purple:{hex:'#7C5CFF',pt:['roxo','roxa'],en:'purple'} };
+const COLORS = [
+  { id:'red', hex:'#FF5A5F', pt:'vermelho', en:'red' }, { id:'blue', hex:'#4DA8FF', pt:'azul', en:'blue' },
+  { id:'yellow', hex:'#FFC93C', pt:'amarelo', en:'yellow' }, { id:'green', hex:'#4FCB8D', pt:'verde', en:'green' },
+  { id:'purple', hex:'#7C5CFF', pt:'roxo', en:'purple' }, { id:'orange', hex:'#FF9B3D', pt:'laranja', en:'orange' }
+];
+function shapeSVG(s, hex) {
+  const st = `fill="${hex}" stroke="#2B2D42" stroke-width="4" stroke-linejoin="round"`;
+  const m = {
+    circle: `<circle cx="50" cy="50" r="38" ${st}/>`,
+    square: `<rect x="14" y="14" width="72" height="72" rx="8" ${st}/>`,
+    triangle: `<polygon points="50,10 92,86 8,86" ${st}/>`,
+    star: `<polygon points="50,8 61,38 93,38 67,57 77,88 50,69 23,88 33,57 7,38 39,38" ${st}/>`,
+    heart: `<path d="M50 86 C10 58 8 28 30 22 C42 19 50 28 50 34 C50 28 58 19 70 22 C92 28 90 58 50 86Z" ${st}/>`
+  };
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${m[s]}</svg>`;
+}
+function shapeText(s, c, withCol) {
+  const sh = SHN[s], col = CLN[c], art = sh.pt[0];
+  const adj = withCol ? ' ' + (art === 'a' ? col.pt[1] : col.pt[0]) : '';
+  return { pt: `${art} ${sh.pt[1]}${adj}`, ptTap: `n${art} ${sh.pt[1]}${adj}`, en: `the ${withCol ? col.en + ' ' : ''}${sh.en}` };
+}
+function shapeRound(g) {
+  const SH = shuffle(g === 0 ? ['circle', 'square', 'triangle'] : ['circle', 'square', 'triangle', 'star', 'heart']);
+  const CL = shuffle(Object.keys(CLN));
+  if (g === 0) {
+    const fixed = { circle: 'red', square: 'blue', triangle: 'yellow' };
+    const opts = SH.map(s => ({ s, c: fixed[s] }));
+    return { target: rnd(opts), opts };
+  }
+  if (g === 1) {
+    const opts = SH.slice(0, 4).map((s, i) => ({ s, c: CL[i] }));
+    return { target: rnd(opts), opts: shuffle(opts) };
+  }
+  const t = { s: SH[0], c: CL[0] };
+  return { target: t, opts: shuffle([t, { s: SH[0], c: CL[1] }, { s: SH[1], c: CL[0] }, { s: SH[2], c: CL[2] }]) };
+}
+
+/* artes de pintura */
+const ARTS = {
+  flower: `<svg viewBox="0 0 300 300" class="art" role="img" aria-label="Flor para pintar">
+    <g class="reg" data-n="sky"><rect x="0" y="0" width="300" height="220"/></g>
+    <g class="reg" data-n="ground"><rect x="0" y="220" width="300" height="80"/></g>
+    <g class="reg" data-n="stem"><rect x="144" y="150" width="12" height="90"/></g>
+    <g class="reg" data-n="leaf"><path d="M156 205 Q212 172 218 208 Q182 228 156 205Z"/></g>
+    <g class="reg" data-n="petals"><circle cx="150" cy="120" r="42"/></g>
+    <g class="reg" data-n="center"><circle cx="150" cy="120" r="16"/></g></svg>`,
+  house: `<svg viewBox="0 0 300 300" class="art" role="img" aria-label="Casinha para pintar">
+    <g class="reg" data-n="sky"><rect x="0" y="0" width="300" height="215"/></g>
+    <g class="reg" data-n="ground"><rect x="0" y="215" width="300" height="85"/></g>
+    <g class="reg" data-n="wall"><rect x="75" y="130" width="150" height="100"/></g>
+    <g class="reg" data-n="roof"><polygon points="58,134 150,64 242,134"/></g>
+    <g class="reg" data-n="door"><rect x="134" y="170" width="34" height="60" rx="4"/></g>
+    <g class="reg" data-n="windows"><rect x="92" y="150" width="28" height="28" rx="3"/><rect x="180" y="150" width="28" height="28" rx="3"/></g></svg>`,
+  garden: `<svg viewBox="0 0 300 300" class="art" role="img" aria-label="Jardim para pintar">
+    <g class="reg" data-n="sky"><rect x="0" y="0" width="300" height="215"/></g>
+    <g class="reg" data-n="sun"><circle cx="235" cy="62" r="36"/></g>
+    <g class="reg" data-n="cloud"><path d="M45 92 Q34 66 62 62 Q70 34 102 42 Q130 32 140 60 Q168 62 160 92 Z"/></g>
+    <g class="reg" data-n="ground"><rect x="0" y="215" width="300" height="85"/></g>
+    <g class="reg" data-n="stem"><rect x="144" y="160" width="12" height="80"/></g>
+    <g class="reg" data-n="petals"><circle cx="150" cy="135" r="36"/></g>
+    <g class="reg" data-n="center"><circle cx="150" cy="135" r="14"/></g></svg>`
+};
+
+/* ---------- guia (gênio-criança, mais amigável) ---------- */
+const GUIDE_SVG = `<svg viewBox="0 0 120 132" aria-hidden="true">
+  <path d="M60 104 C36 112 42 126 64 122 C82 119 74 132 58 130" stroke="#8fd0ff" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <ellipse cx="60" cy="98" rx="27" ry="21" fill="#7C5CFF"/>
+  <path d="M37 94 Q18 82 21 62" stroke="#7C5CFF" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <circle cx="20" cy="60" r="9.5" fill="#FFD9B8"/>
+  <path d="M83 94 Q102 82 99 62" stroke="#7C5CFF" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <circle cx="100" cy="60" r="9.5" fill="#FFD9B8"/>
+  <circle cx="60" cy="54" r="38" fill="#FFD9B8"/>
+  <circle cx="33" cy="64" r="7.5" fill="#FF9AA2" opacity=".8"/><circle cx="87" cy="64" r="7.5" fill="#FF9AA2" opacity=".8"/>
+  <path d="M23 46 C25 10 95 10 97 46 C80 31 40 31 23 46Z" fill="#FFC93C"/>
+  <circle cx="60" cy="21" r="8.5" fill="#FF6B6B"/><circle cx="57" cy="18" r="2.6" fill="#fff" opacity=".65"/>
+  <ellipse class="eye" cx="45" cy="56" rx="6.5" ry="8.5" fill="#2B2D42"/><ellipse class="eye" cx="75" cy="56" rx="6.5" ry="8.5" fill="#2B2D42"/>
+  <circle cx="47.3" cy="52" r="2.4" fill="#fff"/><circle cx="77.3" cy="52" r="2.4" fill="#fff"/>
+  <circle cx="43" cy="59.5" r="1.3" fill="#fff" opacity=".7"/><circle cx="73" cy="59.5" r="1.3" fill="#fff" opacity=".7"/>
+  <path d="M45 70 Q60 86 75 70 Q60 81 45 70Z" fill="#2B2D42"/>
+  <path d="M51 73.5 Q60 79 69 73.5" stroke="#ff95a8" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>
+</svg>`;
+$('#guide').innerHTML = GUIDE_SVG;
+$('#splashGuide').innerHTML = GUIDE_SVG;
+
+/* ---------- áudio ---------- */
+let ac = null, master = null, musicGain = null, mTimer = null, mi = 0;
+function ensureAudio() {
+  if (!ac) {
+    try {
+      ac = new (window.AudioContext || window.webkitAudioContext)();
+      master = ac.createGain(); master.gain.value = 1; master.connect(ac.destination);
+      musicGain = ac.createGain(); musicGain.gain.value = S.music ? 1 : 0; musicGain.connect(master);
+    } catch (e) { ac = null; }
+  }
+  if (ac && ac.state === 'suspended') ac.resume();
+}
+function tone(freq, t, dur, type, vol, dest) {
+  if (!ac) return;
+  const o = ac.createOscillator(), g = ac.createGain();
+  o.type = type || 'triangle'; o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(dest || master); o.start(t); o.stop(t + dur + 0.05);
+}
+const PENT = [262, 294, 330, 392, 440, 523, 587, 659];
+const MEL = [0, 2, 4, 2, 5, 4, 2, 0, 1, 3, 5, 3, 4, 2, 1, 0];
+function musicTick() {
+  if (!ac || !S.music || document.hidden) return;
+  const t = ac.currentTime + 0.05, idx = MEL[mi % MEL.length];
+  tone(PENT[idx], t, 0.55, 'triangle', 0.048, musicGain);
+  tone(PENT[idx] * 2, t, 0.3, 'sine', 0.016, musicGain); /* brilho suave de oitava acima */
+  if (mi % 4 === 0) {
+    const root = PENT[idx] / 2;
+    tone(root, t, 1.3, 'sine', 0.055, musicGain);
+    tone(root * 1.5, t, 1.3, 'sine', 0.03, musicGain); /* quinta por baixo, dá corpo de acorde */
+  }
+  mi++;
+}
+function startMusic() { if (!mTimer) mTimer = setInterval(musicTick, 480); }
+function setMusic(on) {
+  S.music = on; save();
+  if (musicGain) musicGain.gain.value = on ? 1 : 0;
+  const b = $('#btnMusic'); b.textContent = on ? '🎵' : '🔇'; b.classList.toggle('off', !on);
+}
+const sfx = {
+  pop(f) { if (!ac) return; const t = ac.currentTime; f = f || 520; tone(f, t, .18, 'sine', .12); tone(f * 1.5, t + .06, .18, 'sine', .08); },
+  good() { if (!ac) return; const t = ac.currentTime; [523, 659, 784].forEach((f, i) => tone(f, t + i * .09, .3, 'triangle', .11)); },
+  win() { if (!ac) return; const t = ac.currentTime; [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, t + i * .11, .45, 'triangle', .12)); },
+  oops() { if (!ac) return; const t = ac.currentTime; tone(247, t, .14, 'sine', .045); tone(196, t + .1, .2, 'sine', .04); },
+  build() { if (!ac) return; const t = ac.currentTime; [0, .14, .28].forEach(d => tone(170, t + d, .09, 'square', .08)); [523, 659, 784, 1047].forEach((f, i) => tone(f, t + .5 + i * .1, .35, 'triangle', .12)); }
+};
+document.addEventListener('visibilitychange', () => {
+  if (!ac) return;
+  if (document.hidden) { try { ac.suspend(); } catch (e) {} } else { try { ac.resume(); } catch (e) {} }
+});
+
+/* ---------- voz do guia ---------- */
+let voices = [];
+const hasTTS = 'speechSynthesis' in window;
+function loadVoices() { try { voices = speechSynthesis.getVoices(); } catch (e) {} }
+if (hasTTS) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+const TONES = { suave: [1.45, 0.95], fofa: [1.75, 0.92], super: [1.95, 0.9] };
+const VOICE_PREF = {
+  'pt-BR': ['Luciana', 'Google português do Brasil', 'Francisca', 'Maria', 'Fernanda', 'Vitória', 'Camila'],
+  'en-US': ['Samantha', 'Kathy', 'Ava', 'Allison', 'Google US English', 'Aria', 'Jenny', 'Zira', 'Susan']
+};
+function voicePool(lang) {
+  const base = lang.slice(0, 2).toLowerCase();
+  const list = voices.filter(x => x.lang.replace('_', '-').toLowerCase().startsWith(base));
+  const exact = list.filter(x => x.lang.replace('_', '-') === lang);
+  return exact.length ? exact : list;
+}
+function pickVoice(lang) {
+  const pool = voicePool(lang); if (!pool.length) return null;
+  const chosen = S.voices && S.voices[lang === 'en-US' ? 'en' : 'pt'];
+  if (chosen) { const v = pool.find(x => x.name === chosen); if (v) return v; }
+  for (const n of VOICE_PREF[lang] || []) { const v = pool.find(x => x.name.includes(n)); if (v) return v; }
+  return pool[0];
+}
+function speakRaw(text, lang, queue) {
+  if (!hasTTS || !S.voice) return;
+  try {
+    if (!queue) speechSynthesis.cancel();
+    const tn = TONES[S.tone] || TONES.fofa, v = pickVoice(lang);
+    const chunks = text.replace(/[⭐👏🎉]/g, '').match(/[^!?.]+[!?.]*/g) || [text];
+    chunks.forEach(c => {
+      c = c.trim(); if (!c) return;
+      const u = new SpeechSynthesisUtterance(c);
+      u.lang = lang; u.rate = tn[1];
+      u.pitch = Math.min(2, tn[0] + (/!$/.test(c) ? 0.1 : 0) + (/\?$/.test(c) ? 0.05 : 0));
+      if (v) u.voice = v;
+      speechSynthesis.speak(u);
+    });
+  } catch (e) {}
+}
+function say(text, queue) { lastText = text; $('#bubble').textContent = text; speakRaw(text, S.lang === 'en' ? 'en-US' : 'pt-BR', queue); }
+/* RT-01: "tocar numa figura fala o nome dela" — voz própria, mais devagar e
+   num tom menos agudo que a fala narrativa do guia, pra garantir clareza
+   máxima na palavra isolada. Sempre interrompe o que estava tocando, pra
+   nunca sobrepor duas falas. */
+function speakName(text, lang) {
+  if (!hasTTS || !S.voice) return;
+  try {
+    speechSynthesis.cancel();
+    const l = lang || (S.lang === 'en' ? 'en-US' : 'pt-BR'), v = pickVoice(l);
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = l; u.rate = 0.8; u.pitch = 1.3;
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+function testVoice() { speakRaw(L('Oi! Eu sou o Kiddo! Vamos construir a escola?', 'Hi! I am Kiddo! Shall we build the school?'), S.lang === 'en' ? 'en-US' : 'pt-BR'); }
+function voiceSelectHTML() {
+  const lang = S.lang === 'en' ? 'en-US' : 'pt-BR', list = voicePool(lang);
+  if (!list.length) return `<p>${L('Nenhuma voz encontrada neste navegador.', 'No voices found in this browser.')}</p>`;
+  const sel = pickVoice(lang);
+  return `<select id="voiceSel" aria-label="${L('Escolher voz', 'Choose voice')}">` + list.map(v => `<option value="${esc(v.name)}"${sel && sel.name === v.name ? ' selected' : ''}>${esc(v.name)}</option>`).join('') + '</select>';
+}
+const praise = () => rnd(S.lang === 'en' ? ['Great job!', 'Yes! That is right!', 'Wow, well done!', 'Awesome!'] : ['Muito bem!', 'Isso mesmo!', 'Uau, que demais!', 'Parabéns!']);
+const tryAgain = () => rnd(S.lang === 'en' ? ['Try again!', 'Almost! Once more!', 'Look closely and try again!'] : ['Tente de novo!', 'Quase! Vamos de novo!', 'Olha com calma e tente outra vez!']);
+
+/* Regra transversal de áudio: toda figura tocada fala o próprio nome; fora do pedido, som de erro sutil. */
+function wrongTap(name, again) {
+  sfx.oops();
+  later(() => speakName(name), 260);
+  if (again) later(() => { if (cur.screen === 'Lesson') say(again); }, 1700);
+}
+
+/* ---------- navegação ---------- */
+function go(name) {
+  timers.forEach(clearTimeout); timers = [];
+  $$('.screen').forEach(s => s.classList.remove('on'));
+  $('#s' + name).classList.add('on');
+  cur.screen = name;
+  const show = name === 'School' || name === 'Lesson';
+  $('#bar').classList.toggle('hidden', !show);
+  $('#guideRow').classList.toggle('hidden', !show);
+  $('#btnHome').style.visibility = name === 'Lesson' ? 'visible' : 'hidden';
+  if (hasTTS && !show) { try { speechSynthesis.cancel(); } catch (e) {} }
+}
+function updateStars(bump) {
+  $('#starsN').textContent = S.stars;
+  if (bump) { const b = $('#starsBox'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
+}
+function updateLangUI() {
+  $$('.langpill button').forEach(b => b.classList.toggle('on', b.dataset.l === S.lang));
+  document.documentElement.lang = S.lang === 'en' ? 'en' : 'pt-BR';
+  $('#signTitle').textContent = L('Escolinha do Kiddo', "Kiddo's School");
+}
+function applyTheme() {
+  if (S.theme === 'light' || S.theme === 'dark') document.documentElement.dataset.theme = S.theme;
+  else delete document.documentElement.dataset.theme;
+}
+function setLang(l) {
+  S.lang = l; save(); updateLangUI();
+  if (cur.screen === 'Lesson') startLesson(cur.space);
+  else if (cur.screen === 'School') { renderSchool(); say(schoolHint()); }
+  else if (cur.screen === 'Grade') renderGrade();
+  else if (cur.screen === 'Parents') renderParents(true);
+}
+
+/* ---------- escolha da série ---------- */
+function renderGrade() {
+  const g = $('#sGrade');
+  g.innerHTML = `<div class="gtop"><div class="langpill" role="group" aria-label="Idioma"><button data-l="pt">Oi!</button><button data-l="en">Hi!</button></div></div>
+    <div class="bigguide" style="width:110px;height:122px">${GUIDE_SVG}</div>
+    <h2>${L('Qual é a série?', 'Which grade?')}</h2>
+    <p>${L('Tela para os pais: escolha a série da criança. Dá para mudar depois na área dos pais.', 'Parents screen: choose the child’s grade. You can change it later in the parents area.')}</p>
+    <div class="gcards">${GRADES.map((x, i) => `<button class="gcard g${i}" data-g="${i}"><span class="gi">${x.ico}</span><span><b>${L(x.pt, x.en)}</b><small>${gAge(i)}</small></span></button>`).join('')}</div>`;
+  updateLangUI();
+  bindLangPills(g);
+  $$('.gcard', g).forEach(b => b.onclick = () => {
+    ensureAudio(); sfx.good();
+    S.grade = +b.dataset.g; S.claimed = [false, false, false]; S.lessonsYear = 0; S.fresh = []; save();
+    go('School'); renderSchool();
+    say(L('Bem-vindo à nossa escolinha! Toque na sala de aula!', 'Welcome to our school! Tap the classroom!'));
+  });
+}
+function bindLangPills(root) { $$('.langpill button', root).forEach(b => b.onclick = () => { sfx.pop(); setLang(b.dataset.l); }); }
+
+/* ---------- a escola ---------- */
+function suggest() {
+  if (S.grade == null) return null;
+  const open = SPACES.filter(s => S.grade >= s.grade);
+  const fr = (S.fresh || []).find(id => SP(id) && S.grade >= SP(id).grade);
+  if (fr) return fr;
+  const b = open.find(s => !lvlOf(s.id) && S.stars >= COST.build); if (b) return b.id;
+  const u = open.find(s => lvlOf(s.id) && costFor(s.id) != null && S.stars >= costFor(s.id)); if (u) return u.id;
+  return 'sala';
+}
+function schoolHint() {
+  if (claimable() > 0) return L('Você cumpriu um objetivo! Toque no troféu!', 'You reached a goal! Tap the trophy!');
+  const s = suggest();
+  if (s && S.stars >= (costFor(s) || 99) && !(s === 'sala' && lvlOf('sala') && S.stars < COST.up[0])) return L('Você tem estrelas! Toque no espaço brilhante!', 'You have stars! Tap the glowing space!');
+  return L('Toque num espaço para ter aula e ganhar estrelas!', 'Tap a space to have a lesson and earn stars!');
+}
+function lotHTML(sp, sug) {
+  const lvl = lvlOf(sp.id), locked = S.grade < sp.grade, name = L(sp.pt[0], sp.en[0]);
+  let cls = 'lot ', scene = '', foot = '', badge = '';
+  if (locked) {
+    cls += 'locked'; scene = `<div class="scene"><span>${sp.ico}</span></div>`; foot = `<span class="chip lockchip">${GRADES[sp.grade].ico}</span>`;
+  } else if (!lvl) {
+    cls += 'empty'; scene = `<div class="scene"><span class="plus">🔨</span></div>`; foot = `<span class="chip">⭐ ${COST.build}</span>`;
+  } else {
+    cls += 'built'; scene = `<div class="scene l${lvl}">${sp.vis[lvl - 1].map(e => `<span>${e}</span>`).join('')}</div>`;
+    foot = `<span class="lvl">${'⭐'.repeat(lvl)}${'☆'.repeat(3 - lvl)}</span>`;
+    const c = costFor(sp.id); if (c != null && S.stars >= c) badge = '<span class="up">⬆️</span>';
+  }
+  if (sug && !locked) cls += ' sug';
+  return `<button class="${cls}" data-id="${sp.id}" aria-label="${name}">${badge}${scene}<div class="lname">${name}</div>${foot}</button>`;
+}
+function renderSchool() {
+  if (S.grade == null) return;
+  $('#signGrade').textContent = `${GRADES[S.grade].ico} ${gName(S.grade)} · ${gAge(S.grade)}`;
+  const sg = suggest();
+  $('#lots').innerHTML = SPACES.map(sp => lotHTML(sp, sg === sp.id)).join('');
+  const N = Math.min(14, 2 + totalLevels()), pool = ['🧒', '👧', '👦', '🧒🏽', '👧🏾', '👦🏻', '🧒🏿', '👧🏼'];
+  $('#kids').innerHTML = Array.from({ length: N }, (_, i) => `<span class="${justKid && i === N - 1 ? 'new' : ''}">${pool[i % pool.length]}</span>`).join('');
+  justKid = false;
+  const n = claimable(), g = S.grade;
+  let dock = `<button class="dbtn goals" id="btnGoals"><span>🏆</span><span>${L('Objetivos', 'Goals')}</span>${n ? `<span class="bdg">${n}</span>` : ''}</button>`;
+  if (S.done) dock += `<button class="dbtn done" disabled><span>🎓</span><span>${L('Formatura!', 'Graduated!')}</span></button>`;
+  else if (allClaimed()) dock += `<button class="dbtn promo" id="btnPromo"><span>🎓</span><span>${g < 2 ? L('Passar de ano', 'Next grade') : L('Formatura', 'Graduate')}</span></button>`;
+  $('#dock').innerHTML = dock;
+  $('#btnGoals').onclick = () => { sfx.pop(); openGoals(); };
+  const pb = $('#btnPromo'); if (pb) pb.onclick = () => { sfx.pop(); promote(); };
+  if (justChanged) {
+    const el = $(`.lot[data-id="${justChanged}"]`);
+    if (el) {
+      el.classList.add('grow');
+      for (let i = 0; i < 6; i++) {
+        const s = document.createElement('span'); s.className = 'spark'; s.textContent = rnd(['✨', '⭐', '💫']);
+        s.style.left = (20 + Math.random() * 60) + '%'; s.style.top = (20 + Math.random() * 40) + '%';
+        s.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px'); s.style.setProperty('--dy', (-30 - Math.random() * 50) + 'px');
+        el.appendChild(s); setTimeout(() => s.remove(), 1100);
+      }
+      setTimeout(() => el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 80);
+    }
+    justChanged = null;
+  }
+}
+$('#lots').addEventListener('click', e => {
+  const b = e.target.closest('.lot'); if (!b) return;
+  const sp = SP(b.dataset.id); buzz();
+  if (S.grade < sp.grade) {
+    sfx.oops(); b.style.animation = 'shake .45s'; setTimeout(() => b.style.animation = '', 480);
+    say(L(`Esse espaço chega no ${GRADES[sp.grade].pt}! Vamos passar de ano!`, `This space arrives in ${GRADES[sp.grade].en}! Let us move up a grade!`));
+    return;
+  }
+  sfx.pop(); openSheet(sp.id);
+});
+
+/* ---------- bottom sheet do espaço ---------- */
+function closeSheet() { $('#sheetWrap').classList.add('hidden'); $('#sheet').innerHTML = ''; }
+function openSheet(id) {
+  const sp = SP(id), lvl = lvlOf(id), cost = costFor(id), can = cost != null && S.stars >= cost;
+  S.fresh = (S.fresh || []).filter(x => x !== id); save();
+  const name = L(sp.pt[0], sp.en[0]), desc = L(sp.pt[1], sp.en[1]);
+  const preview = (lvl ? sp.vis[lvl - 1] : sp.vis[0]).join(' ');
+  let btns = '';
+  if (!lvl) {
+    btns = can
+      ? `<button class="sbtn go" data-a="up">🔨 <span>${L('Construir', 'Build')}</span><b>⭐ ${cost}</b></button>`
+      : `<button class="sbtn dim" data-a="need">🔨 <span>${L('Construir', 'Build')}</span><b>⭐ ${cost}</b></button><button class="sbtn lesson" data-a="quick">▶ <span>${L('Ganhar estrelas', 'Earn stars')}</span></button>`;
+  } else {
+    btns = `<button class="sbtn lesson" data-a="lesson">▶ <span>${L('Ter aula', 'Start lesson')}</span></button>` +
+      (cost == null ? `<div class="maxnote">${L('Espaço no máximo! 🌟', 'Fully grown! 🌟')}</div>`
+        : can ? `<button class="sbtn go" data-a="up">⬆️ <span>${L('Melhorar', 'Upgrade')}</span><b>⭐ ${cost}</b></button>`
+        : `<button class="sbtn dim" data-a="need">⬆️ <span>${L('Melhorar', 'Upgrade')}</span><b>⭐ ${cost}</b></button>`);
+  }
+  $('#sheet').innerHTML = `<button class="sx" data-a="close" aria-label="${L('Fechar', 'Close')}">✕</button>
+    <div class="shead"><div class="sc" style="${lvl ? '' : 'opacity:.55'}">${preview}</div><b>${name}</b><p>${desc}</p></div>${btns}`;
+  $('#sheetWrap').classList.remove('hidden');
+  say(`${name}! ${desc}`);
+  $('#sheet').onclick = e => {
+    const b = e.target.closest('[data-a]'); if (!b) return;
+    const a = b.dataset.a;
+    if (a === 'close') { closeSheet(); return; }
+    if (a === 'lesson') { closeSheet(); startLesson(id); return; }
+    if (a === 'quick') { closeSheet(); quickLesson(); return; }
+    if (a === 'need') { sfx.oops(); b.classList.add('shake'); setTimeout(() => b.classList.remove('shake'), 480); say(L('Faça uma aula para ganhar estrelas!', 'Do a lesson to earn stars!')); return; }
+    if (a === 'up') { buildOrUpgrade(id); }
+  };
+}
+$('#sheetWrap').addEventListener('click', e => { if (e.target.id === 'sheetWrap') closeSheet(); });
+function buildOrUpgrade(id) {
+  const c = costFor(id); if (c == null || S.stars < c) return;
+  const isNew = !lvlOf(id);
+  S.stars -= c; S.built[id] = lvlOf(id) + 1; S.fresh = (S.fresh || []).filter(x => x !== id); save();
+  closeSheet(); updateStars(true); sfx.build(); buzz();
+  justChanged = id; justKid = true; renderSchool();
+  say(isNew ? L('Que lindo! Nossa escola cresceu!', 'So pretty! Our school grew!') : L('Uau! Ficou ainda melhor!', 'Wow! It got even better!'));
+  later(() => { if (claimable() > 0) say(L('Você cumpriu um objetivo! Toque no troféu!', 'You reached a goal! Tap the trophy!')); }, 2600);
+}
+function quickLesson() {
+  const ids = SPACES.filter(s => S.grade >= s.grade && lvlOf(s.id) > 0).map(s => s.id);
+  startLesson(rnd(ids));
+}
+
+/* ---------- objetivos do ano ---------- */
+function closeGoals() { $('#goalsWrap').classList.add('hidden'); $('#goals').innerHTML = ''; }
+function openGoals() {
+  const g = S.grade, ms = mList();
+  const rows = ms.map((m, i) => {
+    const v = Math.min(m.get(), m.n), done = m.get() >= m.n, got = S.claimed[i];
+    return `<div class="mis ${done ? 'ok' : ''}"><span class="mi">${m.ico}</span>
+      <div class="mt"><b>${L(m.pt, m.en)}</b><div class="bar2"><i style="width:${Math.round(v / m.n * 100)}%"></i></div><small>${v}/${m.n}</small></div>
+      ${got ? '<span class="chk">✓</span>' : done ? `<button class="mb" data-c="${i}">⭐ +${BONUS}</button>` : ''}</div>`;
+  }).join('');
+  let foot = '';
+  if (S.done) foot = `<div class="maxnote">${L('🎓 Formatura concluída! Em breve: 1º ano.', '🎓 Graduation complete! Coming soon: 1st grade.')}</div>`;
+  else if (allClaimed()) foot = `<button class="sbtn go" data-p="1">🎓 <span>${g < 2 ? L('Passar de ano', 'Move up a grade') : L('Formatura', 'Graduate')}</span></button>`;
+  $('#goals').innerHTML = `<button class="sx" data-x="1" aria-label="${L('Fechar', 'Close')}">✕</button>
+    <h2>${GRADES[g].ico} ${L('Objetivos do', 'Goals for')} ${gName(g)}</h2>
+    <div class="medals">🏅 ${S.medals}</div>${rows}${foot}`;
+  $('#goalsWrap').classList.remove('hidden');
+  $('#goals').onclick = e => {
+    if (e.target.closest('[data-x]')) { closeGoals(); renderSchool(); return; }
+    if (e.target.closest('[data-p]')) { closeGoals(); promote(); return; }
+    const b = e.target.closest('[data-c]'); if (!b) return;
+    const i = +b.dataset.c; if (S.claimed[i] || !mDone(i)) return;
+    S.claimed[i] = true; S.stars += BONUS; S.medals++; save(); updateStars(true); sfx.win(); buzz();
+    say(L('Medalha conquistada! Parabéns!', 'Medal earned! Congratulations!'));
+    openGoals(); renderSchool();
+  };
+}
+$('#goalsWrap').addEventListener('click', e => { if (e.target.id === 'goalsWrap') { closeGoals(); renderSchool(); } });
+
+function promote() {
+  if (!allClaimed()) return;
+  if (S.grade < 2) {
+    S.grade++; S.claimed = [false, false, false]; S.lessonsYear = 0;
+    S.fresh = SPACES.filter(s => s.grade === S.grade).map(s => s.id); save();
+    renderSchool();
+    celebrate({ icon: '🎓', msg: L(`Parabéns! Agora você está no ${GRADES[S.grade].pt}! Chegaram espaços novos!`, `Congratulations! You are now in ${GRADES[S.grade].en}! New spaces arrived!`) },
+      () => { go('School'); renderSchool(); say(L('Toque no espaço novo que está brilhando!', 'Tap the new glowing space!')); });
+  } else {
+    S.done = true; save();
+    celebrate({ icon: '🎓', msg: L('Formatura! Você completou a escolinha! Em breve: 1º ano!', 'Graduation! You finished the school! Coming soon: 1st grade!') },
+      () => { go('School'); renderSchool(); say(L('Vamos brincar mais na nossa escola?', 'Shall we play more in our school?')); });
+  }
+}
+
+/* ---------- celebração ---------- */
+function confetti() {
+  return Array.from({ length: 26 }, () => `<span class="cf" style="left:${Math.random() * 100}%;animation-duration:${2 + Math.random() * 2}s;animation-delay:${Math.random() * .5}s">${rnd(['🎉', '⭐', '✨', '🎈', '💜'])}</span>`).join('');
+}
+function celebrate(o, after) {
+  sfx.win(); buzz();
+  const ov = $('#overlay'); ov.classList.remove('hidden');
+  ov.innerHTML = confetti() + `<div class="cele"><div class="bigstar">${o.icon || '⭐'}</div>${o.plus ? `<div class="plus">${o.plus}</div>` : ''}<p class="ptxt">${o.msg}</p><button class="rb big go" id="goOn" aria-label="${L('Continuar', 'Continue')}">▶</button></div>`;
+  say(o.msg);
+  $('#goOn').onclick = () => { ov.classList.add('hidden'); ov.innerHTML = ''; after(); };
+}
+function finishLesson() {
+  const before = claimable();
+  S.lessons++; S.lessonsYear++; S.stars += REWARD; save(); updateStars(true);
+  const got = claimable() > before;
+  celebrate({ icon: '⭐', plus: `+${REWARD}`, msg: `${praise()} ${L('Você ganhou estrelas!', 'You earned stars!')}` },
+    () => { go('School'); renderSchool(); say(got ? L('Você cumpriu um objetivo! Toque no troféu!', 'You reached a goal! Tap the trophy!') : schoolHint()); });
+}
+
+/* ---------- aulas ---------- */
+const LES = {};
+const dots = (k, t) => Array.from({ length: t }, (_, i) => `<i class="${i < k ? 'on' : (i === k ? 'cur' : '')}"></i>`).join('');
+function rounds(total, show) {
+  let r = 0; const el = $('#dots');
+  const start = () => { el.innerHTML = dots(r, total); show(r); };
+  return { start, next(ms) { later(() => { r++; if (r >= total) finishLesson(); else start(); }, ms || 1500); } };
+}
+function startLesson(id) {
+  cur.space = id; go('Lesson');
+  const map = { sala: 'sala', horta: 'horta', atelie: 'atelie', biblio: 'biblio', patio: 'patio', refeit: 'refeit' };
+  LES[map[id]]();
+}
+
+/* sala de aula: formas e cores */
+LES.sala = () => {
+  const A = $('#sLesson'), g = S.grade;
+  A.innerHTML = `<div class="dots" id="dots"></div><div class="grid" id="grid"></div>`;
+  let target = null, lock = false;
+  const R = rounds(3, () => {
+    lock = false; const x = shapeRound(g); target = x.target;
+    const grid = $('#grid'); grid.className = 'grid' + (x.opts.length === 3 ? ' g3' : '');
+    grid.innerHTML = x.opts.map(o => `<button class="card" data-k="${o.s}|${o.c}" aria-label="${shapeText(o.s, o.c, g === 2).pt}">${shapeSVG(o.s, CLN[o.c].hex)}</button>`).join('');
+    const t = shapeText(target.s, target.c, g === 2);
+    say(L(`Toque ${t.ptTap}!`, `Tap ${t.en}!`));
+  });
+  R.start();
+  $('#grid').onclick = e => {
+    const b = e.target.closest('.card'); if (!b || lock) return; const k = b.dataset.k;
+    if (k === `${target.s}|${target.c}`) { lock = true; b.classList.add('ok'); sfx.good(); buzz(); const w0 = shapeText(target.s, target.c, g === 2); speakName(L(cap(w0.pt), cap(w0.en))); say(praise(), true); R.next(1500); }
+    else {
+      const [s, c] = k.split('|'); b.classList.add('shake'); later(() => b.classList.remove('shake'), 480);
+      const w = shapeText(s, c, g === 2), t0 = shapeText(target.s, target.c, g === 2);
+      wrongTap(L(w.pt, w.en), L(`Toque ${t0.ptTap}!`, `Tap ${t0.en}!`));
+      const h = $(`.card[data-k="${target.s}|${target.c}"]`, A); if (h) h.classList.add('hintglow');
+    }
+  };
+};
+
+/* horta: contar */
+LES.horta = () => {
+  const A = $('#sLesson'), g = S.grade, range = g === 0 ? [1, 3] : g === 1 ? [1, 5] : [3, 9], maxN = g === 0 ? 4 : g === 1 ? 6 : 10;
+  A.innerHTML = `<div class="dots" id="dots"></div><div class="plot" id="plot"></div><div class="opts" id="opts"></div>`;
+  let n = 0, prev = 0, counted = 0, lock = false;
+  const nw = k => (S.lang === 'en' ? NW.en : NW.pt)[k];
+  const R = rounds(3, () => {
+    lock = false; counted = 0;
+    do { n = range[0] + Math.floor(Math.random() * (range[1] - range[0] + 1)); } while (n === prev); prev = n;
+    $('#plot').innerHTML = Array.from({ length: n }, () => `<button class="pl" aria-label="${L('planta', 'plant')}">🌱</button>`).join('');
+    const pool = []; for (let k = 1; k <= maxN; k++) if (k !== n) pool.push(k);
+    const opts = shuffle([n, ...shuffle(pool).slice(0, g === 2 ? 3 : 2)]);
+    $('#opts').innerHTML = opts.map(k => `<button class="card num" data-n="${k}">${k}</button>`).join('');
+    say(L('Toque nas plantinhas e conte! Quantas são?', 'Tap the plants and count! How many are there?'));
+  });
+  R.start();
+  $('#plot').onclick = e => {
+    const b = e.target.closest('.pl'); if (!b || lock || b.dataset.c) return;
+    counted++; b.dataset.c = counted; b.insertAdjacentHTML('beforeend', `<i>${counted}</i>`);
+    sfx.pop(380 + counted * 50); speakName(nw(counted));
+  };
+  $('#opts').onclick = e => {
+    const b = e.target.closest('.card'); if (!b || lock) return;
+    if (+b.dataset.n === n) {
+      lock = true; b.classList.add('ok');
+      $$('.pl', A).forEach(p => { p.firstChild.textContent = '🌻'; p.classList.add('grow'); });
+      sfx.good(); buzz(); speakName(nw(n)); say(praise(), true); R.next(1800);
+    } else { b.classList.add('shake'); later(() => b.classList.remove('shake'), 480); wrongTap(nw(+b.dataset.n), L('Conte as plantinhas de novo!', 'Count the plants again!')); }
+  };
+};
+
+/* ateliê: pintar */
+LES.atelie = () => {
+  const A = $('#sLesson'), art = ['flower', 'house', 'garden'][S.grade];
+  A.innerHTML = `<div class="canvasbox">${ARTS[art]}</div><div class="palette" id="pal">${COLORS.map((c, k) => `<button class="sw${k === 0 ? ' sel' : ''}" data-c="${c.id}" style="--c:${c.hex}" aria-label="${L(c.pt, c.en)}"><i></i><span>${L(c.pt, c.en)}</span></button>`).join('')}</div>`;
+  let color = COLORS[0], hintT = null;
+  const painted = new Set(), regs = $$('.reg', A), total = regs.length;
+  say(L('Escolha uma cor e toque no desenho!', 'Pick a color and tap the picture!'));
+  const arm = () => {
+    clearTimeout(hintT); regs.forEach(r => r.classList.remove('hint'));
+    hintT = later(() => { const left = regs.filter(r => !painted.has(r.dataset.n)); if (left.length) rnd(left).classList.add('hint'); }, 7000);
+  };
+  arm();
+  $('#pal').onclick = e => {
+    const b = e.target.closest('.sw'); if (!b) return;
+    color = COLORS.find(c => c.id === b.dataset.c);
+    $$('.sw', A).forEach(x => x.classList.toggle('sel', x === b)); sfx.pop(600); speakName(L(color.pt, color.en)); arm();
+  };
+  $('svg', A).onclick = e => {
+    const gr = e.target.closest('.reg'); if (!gr) return;
+    $$('*', gr).forEach(c => c.style.fill = color.hex);
+    painted.add(gr.dataset.n); sfx.pop(420 + painted.size * 60); buzz(); arm();
+    if (painted.size === total) { clearTimeout(hintT); later(finishLesson, 450); }
+  };
+};
+
+/* biblioteca: letras */
+LES.biblio = () => {
+  const A = $('#sLesson'), g = S.grade;
+  A.innerHTML = `<div class="dots" id="dots"></div><div class="shadowbox"><span class="big" id="big"></span></div><div class="opts" id="opts"></div>`;
+  let target = null, lock = false; const used = [];
+  const R = rounds(3, () => {
+    lock = false; target = rnd(LETIDS.filter(i => !used.includes(i))); used.push(target);
+    $('#big').textContent = IT[target].e;
+    $('#big').onclick = () => { sfx.pop(700); speakName(cap(nameOf(target))); };
+    const nm = nameOf(target), l0 = initial(target);
+    const pool = [...new Set(LETIDS.map(initial))].filter(x => x !== l0);
+    const opts = shuffle([l0, ...shuffle(pool).slice(0, g === 1 ? 2 : 3)]);
+    $('#opts').innerHTML = opts.map(x => `<button class="card let" data-l="${x}">${x}</button>`).join('');
+    say(L(`${cap(nm)}! Com qual letra começa?`, `${cap(nm)}! Which letter does it start with?`));
+  });
+  R.start();
+  $('#opts').onclick = e => {
+    const b = e.target.closest('.card'); if (!b || lock) return; const l = b.dataset.l;
+    if (l === initial(target)) { lock = true; b.classList.add('ok'); sfx.good(); buzz(); speakName(cap(nameOf(target))); say(L(`${praise()} Começa com ${l}!`, `${praise()} It starts with ${l}!`), true); R.next(2000); }
+    else { b.classList.add('shake'); later(() => b.classList.remove('shake'), 480); wrongTap(l, L(`${cap(nameOf(target))}! Com qual letra começa?`, `${cap(nameOf(target))}! Which letter does it start with?`)); }
+  };
+};
+
+/* pátio: repetir sequência de sons */
+LES.patio = () => {
+  const A = $('#sLesson'), lens = S.grade === 1 ? [2, 3] : [3, 4];
+  const COL = ['#FF5A5F', '#4DA8FF', '#FFC93C', '#4FCB8D'], FR = [262, 330, 392, 523], SYM = ['●', '▲', '■', '★'];
+  A.innerHTML = `<div class="dots" id="dots"></div><div class="pads" id="pads">${COL.map((c, i) => `<button class="pad" data-p="${i}" style="--c:${c}" aria-label="${L('Botão', 'Pad')} ${i + 1}">${SYM[i]}</button>`).join('')}</div><p class="note">${L('Olhe, escute e repita a sequência!', 'Watch, listen and repeat the sequence!')}</p>`;
+  let seq = [], idx = 0, input = false;
+  const flash = p => {
+    const b = $(`.pad[data-p="${p}"]`, A); if (!b) return;
+    b.classList.add('lit'); if (ac) tone(FR[p], ac.currentTime, .4, 'triangle', .14); later(() => b.classList.remove('lit'), 380);
+  };
+  const play = () => {
+    input = false; say(L('Olhe e escute!', 'Watch and listen!'));
+    seq.forEach((p, k) => later(() => flash(p), 1100 + k * 750));
+    later(() => { input = true; idx = 0; say(L('Sua vez!', 'Your turn!')); }, 1100 + seq.length * 750 + 150);
+  };
+  const R = rounds(2, r => { seq = Array.from({ length: lens[r] }, () => Math.floor(Math.random() * 4)); play(); });
+  R.start();
+  $('#pads').onclick = e => {
+    const b = e.target.closest('.pad'); if (!b || !input) return;
+    const p = +b.dataset.p; flash(p); buzz();
+    if (p === seq[idx]) {
+      idx++;
+      if (idx >= seq.length) { input = false; later(() => { sfx.good(); say(praise()); }, 450); R.next(2100); }
+    } else {
+      input = false; idx = 0;
+      later(() => { sfx.oops(); say(L('Quase! Vamos ouvir de novo!', 'Almost! Let us listen again!')); }, 350);
+      later(play, 2400);
+    }
+  };
+};
+
+/* refeitório: separar frutas e legumes */
+LES.refeit = () => {
+  const A = $('#sLesson');
+  const FRU = ['apple', 'banana', 'grape', 'strawberry', 'orange', 'watermelon'], VEG = ['carrot', 'broccoli', 'potato', 'lettuce', 'onion'];
+  const seq = shuffle([...shuffle(FRU).slice(0, 3).map(i => ({ i, k: 'fruit' })), ...shuffle(VEG).slice(0, 2).map(i => ({ i, k: 'veg' }))]);
+  A.innerHTML = `<div class="dots" id="dots"></div><div class="wordcard"><div class="em" id="em"></div><div class="w" id="wd"></div></div>
+    <div class="baskets" id="bk"><button class="basket fruit" data-k="fruit"><span>🧺</span><b>${L('Frutas', 'Fruits')}</b></button><button class="basket veg" data-k="veg"><span>🧺</span><b>${L('Legumes', 'Veggies')}</b></button></div>`;
+  let lock = false, now = null;
+  const R = rounds(5, r => {
+    lock = false; now = seq[r]; $$('.basket', A).forEach(b => b.classList.remove('hintglow', 'ok'));
+    $('#em').textContent = IT[now.i].e; $('#wd').textContent = nameOf(now.i);
+    $('#em').onclick = () => { sfx.pop(700); speakName(cap(nameOf(now.i))); };
+    say(L(`Onde vai ${artOf(now.i)} ${nameOf(now.i)}? Frutas ou legumes?`, `Where does ${artOf(now.i)} ${nameOf(now.i)} go? Fruits or veggies?`));
+  });
+  R.start();
+  $('#bk').onclick = e => {
+    const b = e.target.closest('.basket'); if (!b || lock) return;
+    if (b.dataset.k === now.k) { lock = true; b.classList.add('ok'); sfx.good(); buzz(); speakName(cap(nameOf(now.i))); say(praise(), true); R.next(1500); }
+    else { b.classList.add('shake'); later(() => b.classList.remove('shake'), 480); wrongTap(nameOf(now.i), L('Frutas ou legumes?', 'Fruits or veggies?')); const h = $(`.basket[data-k="${now.k}"]`, A); if (h) h.classList.add('hintglow'); }
+  };
+};
+
+/* ---------- área dos pais ---------- */
+function bindHold(btn, cb) {
+  let t = null;
+  const ms = parseInt(getComputedStyle(btn).getPropertyValue('--ms')) || 2000;
+  const start = e => { e.preventDefault(); btn.classList.add('holding'); clearTimeout(t); t = setTimeout(() => { btn.classList.remove('holding'); cb(); }, ms); };
+  const stop = () => { clearTimeout(t); btn.classList.remove('holding'); };
+  btn.addEventListener('pointerdown', start);
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => btn.addEventListener(ev, stop));
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+}
+function renderGate() {
+  const g = $('#sGate');
+  g.innerHTML = `<div class="lockbig">🔒</div><h2 style="margin:0;font-size:28px">${L('Área dos pais', 'Parents area')}</h2>
+    <p style="margin:0;color:var(--muted);font-weight:700">${L('Segure o botão por 2 segundos para entrar.', 'Hold the button for 2 seconds to enter.')}</p>
+    <button class="hold" id="holdGate" style="--ms:2000ms"><span class="fill"></span><span class="lbl">${L('Segure aqui', 'Hold here')}</span></button>
+    <button class="btn ghost" id="gateBack">${L('← Voltar', '← Back')}</button>`;
+  bindHold($('#holdGate'), () => { sfx.good(); renderParents(); go('Parents'); });
+  $('#gateBack').onclick = () => { go('School'); renderSchool(); };
+}
+function renderParents(keep) {
+  const P = $('#sParents'), prev = keep && $('.pp', P) ? $('.pp', P).scrollTop : 0;
+  const seg = (act, opts, now) => `<div class="seg">${opts.map(o => `<button data-act="${act}" data-v="${o[0]}" class="${String(now) === String(o[0]) ? 'on' : ''}">${o[1]}</button>`).join('')}</div>`;
+  const g = S.grade == null ? 0 : S.grade;
+  P.innerHTML = `<div class="pp">
+    <div class="pph"><button class="rb" data-act="back" aria-label="${L('Voltar', 'Back')}">←</button><h2>${L('Área dos pais', 'Parents area')}</h2></div>
+
+    <div class="sec"><h3>${L('Série da criança', 'Child’s grade')}</h3>
+      ${seg('grade', GRADES.map((x, i) => [i, `${x.ico} ${L(x.pt, x.en)}`]), g)}
+      <p style="margin-top:8px">${L('A série muda a dificuldade das aulas e os espaços disponíveis. O que já foi construído é mantido.', 'The grade changes lesson difficulty and available spaces. What was already built is kept.')}</p></div>
+
+    <div class="sec"><h3>${L('Idioma', 'Language')}</h3>${seg('lang', [['pt', 'Português'], ['en', 'English']], S.lang)}
+      <p style="margin-top:8px">${L('Voz, palavras e instruções mudam juntas. O progresso é compartilhado entre os idiomas.', 'Voice, words and instructions switch together. Progress is shared across languages.')}</p></div>
+
+    <div class="sec"><h3>${L('Som', 'Sound')}</h3>
+      ${seg('music', [['1', L('Música ligada', 'Music on')], ['0', L('Música desligada', 'Music off')]], S.music ? 1 : 0)}
+      <div style="height:8px"></div>
+      ${seg('voice', [['1', L('Voz do personagem ligada', 'Character voice on')], ['0', L('Só texto', 'Text only')]], S.voice ? 1 : 0)}</div>
+
+    <div class="sec"><h3>${L('Tom da voz', 'Voice tone')}</h3>
+      ${seg('tone', [['suave', L('Suave', 'Soft')], ['fofa', L('Fofa', 'Cute')], ['super', L('Super fofa', 'Extra cute')]], S.tone)}
+      <div style="height:8px"></div>${voiceSelectHTML()}<div style="height:8px"></div>
+      <button class="btn ghost" data-act="testVoice">${L('🔊 Testar a voz', '🔊 Test the voice')}</button></div>
+
+    <div class="sec"><h3>${L('Progresso da escola', 'School progress')}</h3>
+      <div class="stat">⭐ ${S.stars} · 🏫 ${builtCount()}/${SPACES.length} · 📘 ${S.lessons} · 🏅 ${S.medals}</div>
+      <p>${L('Espaços construídos, aulas feitas e medalhas. Tudo fica só neste aparelho.', 'Built spaces, lessons done and medals. Everything stays on this device.')}</p></div>
+
+    <div class="sec"><h3>${L('Para testar o protótipo', 'To test the prototype')}</h3>
+      <div class="seg">
+        <button data-act="plus10">⭐ +10</button>
+        <button data-act="nextGrade">${L('Avançar de série', 'Advance grade')}</button>
+        <button data-act="doGoals">${L('Cumprir objetivos', 'Complete goals')}</button>
+      </div>
+      <div style="height:10px"></div>
+      <button class="btn warn" data-act="reset">${L('Reiniciar escola', 'Reset school')}</button></div>
+
+    <div class="sec"><h3>${L('Aparência', 'Appearance')}</h3>${seg('theme', [['auto', 'Auto'], ['light', L('Claro', 'Light')], ['dark', L('Escuro', 'Dark')]], S.theme)}</div>
+
+    <div class="sec"><h3>${L('Privacidade e segurança', 'Privacy and safety')}</h3><ul>
+      <li>${L('Sem login, sem anúncios e sem compras acessíveis à criança.', 'No login, no ads and no purchases a child can reach.')}</li>
+      <li>${L('Nenhum dado pessoal é coletado ou enviado. A série é só uma configuração local, sem data de nascimento.', 'No personal data is collected or sent. The grade is only a local setting, with no birth date.')}</li>
+      <li>${L('Sem relógio nem pressão: a escola cresce com as aulas feitas, não com o tempo. Sem sequência perdida, sem contagem regressiva.', 'No clock and no pressure: the school grows with lessons done, not with time. No lost streaks, no countdowns.')}</li>
+      <li>${L('O microfone nunca é usado.', 'The microphone is never used.')}</li></ul></div>
+
+    <div class="sec"><h3>${L('Sobre este protótipo', 'About this prototype')}</h3>
+      <p>${L('Fase 2 do Genius Kiddo: a criança constrói e melhora a escolinha com as estrelas das aulas, cumpre os objetivos do ano e passa de série. As vozes vêm do aparelho e a música é gerada na hora. Pausa para descansar e voz gravada ficam para a versão final.', 'Genius Kiddo phase 2: the child builds and upgrades the school with lesson stars, reaches the year’s goals and moves up a grade. Voices come from the device and music is generated on the fly. Rest break and recorded voice come in the final version.')}</p></div>
+  </div>`;
+  const pp = $('.pp', P); if (prev) pp.scrollTop = prev;
+}
+$('#sParents').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act, v = b.dataset.v;
+  if (a === 'back') { go('School'); renderSchool(); say(schoolHint()); return; }
+  if (a === 'grade') { S.grade = +v; S.claimed = [false, false, false]; S.lessonsYear = 0; S.fresh = []; save(); }
+  if (a === 'lang') { S.lang = v; save(); updateLangUI(); }
+  if (a === 'music') setMusic(v === '1');
+  if (a === 'voice') { S.voice = v === '1'; save(); }
+  if (a === 'tone') { S.tone = v; save(); testVoice(); }
+  if (a === 'testVoice') { testVoice(); return; }
+  if (a === 'theme') { S.theme = v; save(); applyTheme(); }
+  if (a === 'plus10') { S.stars += 10; save(); updateStars(true); }
+  if (a === 'nextGrade') {
+    if (S.grade < 2) { S.grade++; S.claimed = [false, false, false]; S.lessonsYear = 0; S.fresh = SPACES.filter(s => s.grade === S.grade).map(s => s.id); save(); }
+  }
+  if (a === 'doGoals') {
+    const ms = mList();
+    SPACES.filter(s => S.grade >= s.grade).forEach(s => { if (lvlOf(s.id) < 1) S.built[s.id] = 1; });
+    if (ms[2].n >= 1) { const need = ms[2].n, lv = ms[2].ico === '⬆️' ? 2 : 3; SPACES.filter(s => S.grade >= s.grade).slice(0, need).forEach(s => { if (lvlOf(s.id) < lv) S.built[s.id] = lv; }); }
+    S.lessonsYear = Math.max(S.lessonsYear, ms[1].n); save();
+  }
+  if (a === 'reset') {
+    if (b.dataset.sure) { S = Object.assign(S, { grade: null, stars: 3, built: { sala: 1 }, lessons: 0, lessonsYear: 0, claimed: [false, false, false], medals: 0, done: false, fresh: [] }); save(); updateStars(); go('Grade'); renderGrade(); return; }
+    b.dataset.sure = '1'; b.textContent = L('Toque de novo para confirmar', 'Tap again to confirm');
+    setTimeout(() => { if (b.isConnected) { delete b.dataset.sure; b.textContent = L('Reiniciar escola', 'Reset school'); } }, 3000); return;
+  }
+  renderParents(true);
+});
+$('#sParents').addEventListener('change', e => {
+  if (e.target.id === 'voiceSel') { S.voices[S.lang === 'en' ? 'en' : 'pt'] = e.target.value; save(); testVoice(); }
+});
+
+/* ---------- eventos globais ---------- */
+$('#sSplash').addEventListener('click', () => {
+  ensureAudio(); startMusic();
+  if (S.grade == null) {
+    go('Grade'); renderGrade();
+    speakRaw('Oi! Peça ajuda a um adulto para escolher a série!', 'pt-BR');
+  } else {
+    go('School'); renderSchool();
+    say(L('Oi! Que bom te ver! Vamos cuidar da nossa escola?', 'Hi! So good to see you! Shall we take care of our school?'));
+  }
+});
+$$('#bar .langpill button').forEach(b => b.addEventListener('click', () => { sfx.pop(); setLang(b.dataset.l); }));
+$('#btnHome').onclick = () => { sfx.pop(); go('School'); renderSchool(); say(schoolHint()); };
+$('#btnMusic').onclick = () => { ensureAudio(); setMusic(!S.music); };
+$('#btnRepeat').onclick = () => { if (lastText) say(lastText); };
+$('#btnLock').onclick = () => { closeSheet(); renderGate(); go('Gate'); };
+document.addEventListener('pointerdown', () => { if (ac && ac.state === 'suspended') ac.resume(); }, { passive: true });
+
+/* ---------- início ---------- */
+applyTheme(); updateStars(); updateLangUI(); setMusic(S.music);
+})();
+</script>
+</body>
+</html>
