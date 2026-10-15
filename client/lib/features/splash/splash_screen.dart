@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/guide_avatar.dart';
 import '../../app/theme.dart';
+import '../../core/audio_services.dart';
 import '../../core/language_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../language/language_screen.dart';
@@ -17,19 +18,23 @@ class SplashScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final colors = AppColors.light;
+    final colors = AppColors.of(context);
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => _start(context, ref),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: const Alignment(0, -0.4),
+            // Mesmas 3 cores SÓLIDAS do protótipo HTML (nunca com alpha —
+            // um alpha aqui composita com o fundo creme do Scaffold por
+            // baixo e lava o centro do degradê, derrubando o contraste do
+            // texto branco por cima; achado real testando no celular).
+            gradient: const RadialGradient(
+              center: Alignment(0, -0.4),
               colors: [
-                colors.purple.withValues(alpha: .65),
-                colors.purple,
-                const Color(0xFF5A3FD6),
+                Color(0xFFA58BFF),
+                Color(0xFF7C5CFF),
+                Color(0xFF5A3FD6),
               ],
             ),
           ),
@@ -102,6 +107,9 @@ class SplashScreen extends ConsumerWidget {
   }
 
   void _start(BuildContext context, WidgetRef ref) {
+    // Seção 4.4: "o áudio só inicia após o primeiro toque" — este é
+    // literalmente o primeiro toque real da criança no app.
+    ref.read(musicControllerProvider.notifier).start();
     final hasLanguage = ref.read(languageControllerProvider).code != null;
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(

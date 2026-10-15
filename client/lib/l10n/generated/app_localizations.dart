@@ -140,11 +140,311 @@ abstract class AppLocalizations {
   /// **'Oi! Que bom te ver!'**
   String get welcomeBack;
 
-  /// Texto temporário da tela inicial, só até a Trilha (Fase 1) ser implementada no M2
+  /// No description provided for @itemDog.
   ///
   /// In pt, this message translates to:
-  /// **'A trilha de atividades chega no próximo marco (M2).'**
-  String get homePlaceholder;
+  /// **'cachorro'**
+  String get itemDog;
+
+  /// No description provided for @itemCat.
+  ///
+  /// In pt, this message translates to:
+  /// **'gato'**
+  String get itemCat;
+
+  /// No description provided for @itemFish.
+  ///
+  /// In pt, this message translates to:
+  /// **'peixe'**
+  String get itemFish;
+
+  /// No description provided for @itemBird.
+  ///
+  /// In pt, this message translates to:
+  /// **'passarinho'**
+  String get itemBird;
+
+  /// No description provided for @itemApple.
+  ///
+  /// In pt, this message translates to:
+  /// **'maçã'**
+  String get itemApple;
+
+  /// No description provided for @itemBanana.
+  ///
+  /// In pt, this message translates to:
+  /// **'banana'**
+  String get itemBanana;
+
+  /// No description provided for @itemCar.
+  ///
+  /// In pt, this message translates to:
+  /// **'carro'**
+  String get itemCar;
+
+  /// No description provided for @itemBall.
+  ///
+  /// In pt, this message translates to:
+  /// **'bola'**
+  String get itemBall;
+
+  /// No description provided for @itemSun.
+  ///
+  /// In pt, this message translates to:
+  /// **'sol'**
+  String get itemSun;
+
+  /// No description provided for @colorRed.
+  ///
+  /// In pt, this message translates to:
+  /// **'vermelho'**
+  String get colorRed;
+
+  /// No description provided for @colorBlue.
+  ///
+  /// In pt, this message translates to:
+  /// **'azul'**
+  String get colorBlue;
+
+  /// No description provided for @colorYellow.
+  ///
+  /// In pt, this message translates to:
+  /// **'amarelo'**
+  String get colorYellow;
+
+  /// No description provided for @colorGreen.
+  ///
+  /// In pt, this message translates to:
+  /// **'verde'**
+  String get colorGreen;
+
+  /// No description provided for @colorPurple.
+  ///
+  /// In pt, this message translates to:
+  /// **'roxo'**
+  String get colorPurple;
+
+  /// No description provided for @colorOrange.
+  ///
+  /// In pt, this message translates to:
+  /// **'laranja'**
+  String get colorOrange;
+
+  /// No description provided for @trailNodePaintGarden.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pintar o jardim'**
+  String get trailNodePaintGarden;
+
+  /// No description provided for @trailNodeListenAnimals.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ouvir os bichinhos'**
+  String get trailNodeListenAnimals;
+
+  /// No description provided for @trailNodeMatchShadow.
+  ///
+  /// In pt, this message translates to:
+  /// **'Quem é a sombra?'**
+  String get trailNodeMatchShadow;
+
+  /// No description provided for @trailNodeTrace1.
+  ///
+  /// In pt, this message translates to:
+  /// **'Traçar o número 1'**
+  String get trailNodeTrace1;
+
+  /// No description provided for @trailNodeSpeakWords.
+  ///
+  /// In pt, this message translates to:
+  /// **'Repetir palavras'**
+  String get trailNodeSpeakWords;
+
+  /// No description provided for @trailNodePaintHouse.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pintar a casinha'**
+  String get trailNodePaintHouse;
+
+  /// No description provided for @trailNodeListenFruits.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ouvir: frutas e coisas'**
+  String get trailNodeListenFruits;
+
+  /// No description provided for @trailNodeTraceO.
+  ///
+  /// In pt, this message translates to:
+  /// **'Traçar a letra O'**
+  String get trailNodeTraceO;
+
+  /// RT: fala ao tocar numa etapa ainda bloqueada
+  ///
+  /// In pt, this message translates to:
+  /// **'Ainda não! Vamos fazer a estrela brilhante primeiro!'**
+  String get trailLocked;
+
+  /// No description provided for @trailFreeDraw.
+  ///
+  /// In pt, this message translates to:
+  /// **'Rabisco livre'**
+  String get trailFreeDraw;
+
+  /// No description provided for @trailNewActivity.
+  ///
+  /// In pt, this message translates to:
+  /// **'Uma nova atividade apareceu! Toque na estrela!'**
+  String get trailNewActivity;
+
+  /// No description provided for @trailAllDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você completou a trilha! Quer brincar de novo?'**
+  String get trailAllDone;
+
+  /// No description provided for @trailPlayMore.
+  ///
+  /// In pt, this message translates to:
+  /// **'Vamos brincar mais?'**
+  String get trailPlayMore;
+
+  /// No description provided for @paintIntro.
+  ///
+  /// In pt, this message translates to:
+  /// **'Escolha uma cor e toque no desenho!'**
+  String get paintIntro;
+
+  /// No description provided for @paintDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Que lindo! Você pintou tudo!'**
+  String get paintDone;
+
+  /// No description provided for @traceIntro.
+  ///
+  /// In pt, this message translates to:
+  /// **'Siga a trilha e desenhe {glyphName}!'**
+  String traceIntro(String glyphName);
+
+  /// No description provided for @traceDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Muito bem! Você desenhou {glyphName}!'**
+  String traceDone(String glyphName);
+
+  /// No description provided for @glyphName1.
+  ///
+  /// In pt, this message translates to:
+  /// **'o número 1'**
+  String get glyphName1;
+
+  /// No description provided for @glyphNameO.
+  ///
+  /// In pt, this message translates to:
+  /// **'a letra O'**
+  String get glyphNameO;
+
+  /// No description provided for @listenPrompt.
+  ///
+  /// In pt, this message translates to:
+  /// **'Toque n{article} {name}!'**
+  String listenPrompt(String article, String name);
+
+  /// No description provided for @listenDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você ouviu e acertou tudo!'**
+  String get listenDone;
+
+  /// No description provided for @matchIntro.
+  ///
+  /// In pt, this message translates to:
+  /// **'Quem está escondido na sombra?'**
+  String get matchIntro;
+
+  /// No description provided for @matchDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você descobriu todas as sombras!'**
+  String get matchDone;
+
+  /// No description provided for @speakPrompt.
+  ///
+  /// In pt, this message translates to:
+  /// **'Diga: {name}! Agora é com você!'**
+  String speakPrompt(String name);
+
+  /// No description provided for @speakDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você repetiu todas as palavras!'**
+  String get speakDone;
+
+  /// No description provided for @speakMicNote.
+  ///
+  /// In pt, this message translates to:
+  /// **'O app não grava a voz da criança'**
+  String get speakMicNote;
+
+  /// No description provided for @speakGood.
+  ///
+  /// In pt, this message translates to:
+  /// **'Muito bem! Você falou ótimo!'**
+  String get speakGood;
+
+  /// No description provided for @speakISaidIt.
+  ///
+  /// In pt, this message translates to:
+  /// **'Já falei'**
+  String get speakISaidIt;
+
+  /// No description provided for @freeDrawIntro.
+  ///
+  /// In pt, this message translates to:
+  /// **'Desenhe do seu jeito!'**
+  String get freeDrawIntro;
+
+  /// No description provided for @freeDrawClear.
+  ///
+  /// In pt, this message translates to:
+  /// **'limpar'**
+  String get freeDrawClear;
+
+  /// Botão grande pra sair do rabisco livre quando a criança terminou (nunca conta como etapa concluída)
+  ///
+  /// In pt, this message translates to:
+  /// **'Pronto!'**
+  String get freeDrawDone;
+
+  /// No description provided for @praise1.
+  ///
+  /// In pt, this message translates to:
+  /// **'Muito bem!'**
+  String get praise1;
+
+  /// No description provided for @praise2.
+  ///
+  /// In pt, this message translates to:
+  /// **'Isso mesmo!'**
+  String get praise2;
+
+  /// No description provided for @praise3.
+  ///
+  /// In pt, this message translates to:
+  /// **'Uau, que demais!'**
+  String get praise3;
+
+  /// No description provided for @praise4.
+  ///
+  /// In pt, this message translates to:
+  /// **'Parabéns!'**
+  String get praise4;
+
+  /// No description provided for @celebrationContinue.
+  ///
+  /// In pt, this message translates to:
+  /// **'Continuar'**
+  String get celebrationContinue;
 }
 
 class _AppLocalizationsDelegate

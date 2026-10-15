@@ -25,6 +25,11 @@ class AppColors {
   final Color ink;
   final Color card;
 
+  /// Resolve pelo brilho ATUAL do tema (seção 4.7: automático/claro/escuro)
+  /// — usar isto em vez de `AppColors.light` direto em qualquer tela.
+  static AppColors of(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark ? dark : light;
+
   static const light = AppColors(
     purple: Color(0xFF7C5CFF),
     blue: Color(0xFF4DA8FF),

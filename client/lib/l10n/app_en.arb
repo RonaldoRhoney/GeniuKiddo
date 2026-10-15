@@ -8,5 +8,53 @@
   "languageCardEnLabel": "English",
   "welcomeFirst": "Hi! I am Kiddo!",
   "welcomeBack": "Hi! So good to see you!",
-  "homePlaceholder": "The activity trail arrives in the next milestone (M2)."
+
+  "itemDog": "dog", "itemCat": "cat", "itemFish": "fish", "itemBird": "bird",
+  "itemApple": "apple", "itemBanana": "banana", "itemCar": "car", "itemBall": "ball", "itemSun": "sun",
+
+  "colorRed": "red", "colorBlue": "blue", "colorYellow": "yellow",
+  "colorGreen": "green", "colorPurple": "purple", "colorOrange": "orange",
+
+  "trailNodePaintGarden": "Paint the garden",
+  "trailNodeListenAnimals": "Listen: animals",
+  "trailNodeMatchShadow": "Who is the shadow?",
+  "trailNodeTrace1": "Trace the number 1",
+  "trailNodeSpeakWords": "Repeat words",
+  "trailNodePaintHouse": "Paint the house",
+  "trailNodeListenFruits": "Listen: fruits & things",
+  "trailNodeTraceO": "Trace the letter O",
+
+  "trailLocked": "Not yet! Let us do the glowing star first!",
+  "trailFreeDraw": "Free draw",
+  "trailNewActivity": "A new activity appeared! Tap the star!",
+  "trailAllDone": "You finished the trail! Want to play again?",
+  "trailPlayMore": "Want to play more?",
+
+  "paintIntro": "Pick a color and tap the picture!",
+  "paintDone": "So pretty! You painted it all!",
+
+  "traceIntro": "Follow the path and draw {glyphName}!",
+  "traceDone": "Great! You drew {glyphName}!",
+  "glyphName1": "the number 1",
+  "glyphNameO": "the letter O",
+
+  "listenPrompt": "Tap {article} {name}!",
+  "listenDone": "You listened and got them all!",
+
+  "matchIntro": "Who is hiding in the shadow?",
+  "matchDone": "You found all the shadows!",
+
+  "speakPrompt": "Say: {name}! Now it is your turn!",
+  "speakDone": "You repeated all the words!",
+  "speakMicNote": "The app never records the child's voice",
+  "speakGood": "Very good! You said it great!",
+  "speakISaidIt": "I said it",
+
+  "freeDrawIntro": "Draw your own way!",
+  "freeDrawClear": "clear",
+  "freeDrawDone": "Done!",
+
+  "praise1": "Great job!", "praise2": "Yes! That is right!", "praise3": "Wow, well done!", "praise4": "Awesome!",
+
+  "celebrationContinue": "Continue"
 }

@@ -4,17 +4,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/guide_avatar.dart';
 import '../../app/theme.dart';
 import '../../core/language_controller.dart';
+import '../../core/supported_languages.dart';
 import '../trail/trail_screen.dart';
 
 /// Escolha de idioma (seção 4.5, só na 1ª vez pela rota normal — Splash
-/// decide se cai aqui ou direto na trilha). Dois cartões grandes, SEM
-/// bandeiras (evita associar idioma a país), mesmo padrão dos protótipos.
+/// decide se cai aqui ou direto na trilha). Um cartão grande por idioma de
+/// `supportedLanguages`, SEM bandeiras (evita associar idioma a país) —
+/// adicionar um idioma novo na lista central já aparece aqui sozinho, sem
+/// mudar esta tela.
 class LanguageScreen extends ConsumerWidget {
   const LanguageScreen({super.key});
 
+  // Ciclo de cores de marca pros cartões — se um dia houver mais idiomas
+  // que cores aqui, repete do início (nunca quebra, só repete tom).
+  static const _cardColors = [Color(0xFF7C5CFF), Color(0xFF2F86E6), Color(0xFFFF9B3D), Color(0xFF4FCB8D)];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = AppColors.light;
+    final colors = AppColors.of(context);
     return Scaffold(
       backgroundColor: colors.bg,
       body: SafeArea(
@@ -28,9 +35,15 @@ class LanguageScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   children: [
-                    Expanded(child: _LanguageCard(code: 'pt', color: colors.purple, hi: 'Oi!', ref: ref)),
-                    const SizedBox(width: 16),
-                    Expanded(child: _LanguageCard(code: 'en', color: const Color(0xFF2F86E6), hi: 'Hi!', ref: ref)),
+                    for (var i = 0; i < supportedLanguages.length; i++) ...[
+                      if (i > 0) const SizedBox(width: 16),
+                      Expanded(
+                        child: _LanguageCard(
+                          lang: supportedLanguages[i],
+                          color: _cardColors[i % _cardColors.length],
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -42,24 +55,21 @@ class LanguageScreen extends ConsumerWidget {
   }
 }
 
-class _LanguageCard extends StatelessWidget {
-  const _LanguageCard({required this.code, required this.color, required this.hi, required this.ref});
+class _LanguageCard extends ConsumerWidget {
+  const _LanguageCard({required this.lang, required this.color});
 
-  final String code;
+  final SupportedLanguage lang;
   final Color color;
-  final String hi;
-  final WidgetRef ref;
 
   @override
-  Widget build(BuildContext context) {
-    final label = code == 'pt' ? 'Português' : 'English';
+  Widget build(BuildContext context, WidgetRef ref) {
     return Material(
       color: color,
       borderRadius: BorderRadius.circular(32),
       child: InkWell(
         borderRadius: BorderRadius.circular(32),
         onTap: () async {
-          await ref.read(languageControllerProvider.notifier).choose(code);
+          await ref.read(languageControllerProvider.notifier).choose(lang.code);
           if (context.mounted) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const TrailScreen()));
           }
@@ -69,9 +79,9 @@ class _LanguageCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(hi, style: const TextStyle(fontSize: 46, fontWeight: FontWeight.w800, color: Colors.white)),
+              Text(lang.greeting, style: const TextStyle(fontSize: 46, fontWeight: FontWeight.w800, color: Colors.white)),
               const SizedBox(height: 4),
-              Text(label, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Colors.white)),
+              Text(lang.nativeName, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Colors.white)),
             ],
           ),
         ),

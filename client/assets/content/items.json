@@ -1,0 +1,11 @@
+{
+  "dog": {"emoji": "🐶", "articlePt": "o"},
+  "cat": {"emoji": "🐱", "articlePt": "o"},
+  "fish": {"emoji": "🐟", "articlePt": "o"},
+  "bird": {"emoji": "🐦", "articlePt": "o"},
+  "apple": {"emoji": "🍎", "articlePt": "a"},
+  "banana": {"emoji": "🍌", "articlePt": "a"},
+  "car": {"emoji": "🚗", "articlePt": "o"},
+  "ball": {"emoji": "⚽", "articlePt": "a"},
+  "sun": {"emoji": "☀️", "articlePt": "o"}
+}

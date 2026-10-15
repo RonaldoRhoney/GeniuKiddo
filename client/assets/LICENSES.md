@@ -12,9 +12,20 @@ formal: toda fonte, imagem, som e música usada no app precisa de licença e ori
 Empacotada localmente no app (nunca carregada de `fonts.googleapis.com`), por exigência de R3
 (zero requisição de rede na área da criança) e da seção 9.3 da especificação.
 
-## Ícones, artes, sons e músicas
+## Efeitos sonoros e música de fundo (M3)
 
-Nenhum ativo final (ilustrações originais, sons gravados, músicas compostas) foi adicionado
-ainda — Fase 1/2 do roadmap técnico (M1) usa só placeholders de código (formas geométricas via
-`CustomPainter`/SVG simples, sons sintetizados via `just_audio`/osciladores). Este arquivo deve
-ser atualizado assim que cada ativo final entrar no projeto (M8 — Conteúdo e conformidade).
+| Ativo | Origem | Licença | Arquivo |
+|---|---|---|---|
+| `pop`, `good`, `win`, `oops`, `build` (efeitos curtos) | Gerados por síntese (osciladores senoidais/triangulares), mesmo desenho sonoro já aprovado nos protótipos HTML — renderizados em WAV por `tool/gen_audio.py` | Autoria própria (RhoneyInc) — nenhum conteúdo de terceiros, nenhuma licença externa envolvida | `assets/sfx/*.wav` |
+| `music_loop.wav` (trilha de fundo em loop) | Mesma melodia/harmonia pentatônica já codificada nos protótipos, renderizada em WAV pelo mesmo script | Autoria própria (RhoneyInc) | `assets/music/music_loop.wav` |
+
+**Interino, não final.** Seção 4.4 da especificação: "no app final, usar trilhas originais
+GRAVADAS" — o áudio acima é sintetizado por código, não uma gravação/composição de verdade.
+Serve pra M3 entregar som real e testável agora, sem esperar produção musical. Troca pelos
+ativos finais (composição/gravação profissional) é trabalho do M8 — Conteúdo e conformidade —
+e não deve exigir nenhuma mudança de código, só substituir os arquivos nos mesmos caminhos.
+
+## Ícones e artes
+
+Nenhuma ilustração final foi adicionada ainda — a Fase 1 usa placeholders de código (formas
+geométricas via `CustomPainter`, emoji do sistema como substituto de ilustração). Entra no M8.

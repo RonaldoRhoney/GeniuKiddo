@@ -41,5 +41,12 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- M3: visibilidade de pacote (Android 11+) pro flutter_tts
+             enxergar o motor de síntese de voz nativo do aparelho. Não é
+             permissão sensível (seção 11.3) — só deixa o app PERGUNTAR
+             quais apps de TTS existem, sem acessar dado nenhum. -->
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE"/>
+        </intent>
     </queries>
 </manifest>

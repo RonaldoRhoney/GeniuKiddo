@@ -1,0 +1,10 @@
+[
+  {"id": "paint_garden", "type": "paint", "art": "garden"},
+  {"id": "listen_animals", "type": "listen", "items": ["dog", "cat", "fish", "bird"]},
+  {"id": "match_shadow", "type": "match", "items": ["dog", "cat", "fish", "bird", "apple", "ball"]},
+  {"id": "trace_1", "type": "trace", "glyph": "1"},
+  {"id": "speak_words", "type": "speak", "items": ["ball", "apple", "sun"]},
+  {"id": "paint_house", "type": "paint", "art": "house"},
+  {"id": "listen_fruits", "type": "listen", "items": ["apple", "banana", "car", "ball"]},
+  {"id": "trace_o", "type": "trace", "glyph": "O"}
+]

@@ -36,8 +36,58 @@
     "description": "Fala do guia quando o app já tem idioma salvo (Anexo C, welcome.back)"
   },
 
-  "homePlaceholder": "A trilha de atividades chega no próximo marco (M2).",
-  "@homePlaceholder": {
-    "description": "Texto temporário da tela inicial, só até a Trilha (Fase 1) ser implementada no M2"
-  }
+  "itemDog": "cachorro", "itemCat": "gato", "itemFish": "peixe", "itemBird": "passarinho",
+  "itemApple": "maçã", "itemBanana": "banana", "itemCar": "carro", "itemBall": "bola", "itemSun": "sol",
+
+  "colorRed": "vermelho", "colorBlue": "azul", "colorYellow": "amarelo",
+  "colorGreen": "verde", "colorPurple": "roxo", "colorOrange": "laranja",
+
+  "trailNodePaintGarden": "Pintar o jardim",
+  "trailNodeListenAnimals": "Ouvir os bichinhos",
+  "trailNodeMatchShadow": "Quem é a sombra?",
+  "trailNodeTrace1": "Traçar o número 1",
+  "trailNodeSpeakWords": "Repetir palavras",
+  "trailNodePaintHouse": "Pintar a casinha",
+  "trailNodeListenFruits": "Ouvir: frutas e coisas",
+  "trailNodeTraceO": "Traçar a letra O",
+
+  "trailLocked": "Ainda não! Vamos fazer a estrela brilhante primeiro!",
+  "@trailLocked": {"description": "RT: fala ao tocar numa etapa ainda bloqueada"},
+  "trailFreeDraw": "Rabisco livre",
+  "trailNewActivity": "Uma nova atividade apareceu! Toque na estrela!",
+  "trailAllDone": "Você completou a trilha! Quer brincar de novo?",
+  "trailPlayMore": "Vamos brincar mais?",
+
+  "paintIntro": "Escolha uma cor e toque no desenho!",
+  "paintDone": "Que lindo! Você pintou tudo!",
+
+  "traceIntro": "Siga a trilha e desenhe {glyphName}!",
+  "@traceIntro": {"placeholders": {"glyphName": {"type": "String"}}},
+  "traceDone": "Muito bem! Você desenhou {glyphName}!",
+  "@traceDone": {"placeholders": {"glyphName": {"type": "String"}}},
+  "glyphName1": "o número 1",
+  "glyphNameO": "a letra O",
+
+  "listenPrompt": "Toque n{article} {name}!",
+  "@listenPrompt": {"placeholders": {"article": {"type": "String"}, "name": {"type": "String"}}},
+  "listenDone": "Você ouviu e acertou tudo!",
+
+  "matchIntro": "Quem está escondido na sombra?",
+  "matchDone": "Você descobriu todas as sombras!",
+
+  "speakPrompt": "Diga: {name}! Agora é com você!",
+  "@speakPrompt": {"placeholders": {"name": {"type": "String"}}},
+  "speakDone": "Você repetiu todas as palavras!",
+  "speakMicNote": "O app não grava a voz da criança",
+  "speakGood": "Muito bem! Você falou ótimo!",
+  "speakISaidIt": "Já falei",
+
+  "freeDrawIntro": "Desenhe do seu jeito!",
+  "freeDrawClear": "limpar",
+  "freeDrawDone": "Pronto!",
+  "@freeDrawDone": {"description": "Botão grande pra sair do rabisco livre quando a criança terminou (nunca conta como etapa concluída)"},
+
+  "praise1": "Muito bem!", "praise2": "Isso mesmo!", "praise3": "Uau, que demais!", "praise4": "Parabéns!",
+
+  "celebrationContinue": "Continuar"
 }

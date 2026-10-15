@@ -44,6 +44,18 @@ dependencies:
   # Parte do SDK do Flutter (intl), usado só pra ARB/i18n — sem rede.
   intl: ^0.20.2
 
+  # M3 (disclosure no plano do M0, confirmado agora): MIT. Usa o motor de
+  # síntese de voz NATIVO do sistema (Android/iOS/Web) — mesmo padrão já
+  # usado nos protótipos (`speechSynthesis` do navegador), ADR-008.
+  flutter_tts: ^4.2.5
+  # M3 (disclosure no plano do M0): Apache-2.0/MIT. REGRA DE CÓDIGO
+  # OBRIGATÓRIA: só `AudioSource.asset`, nunca `setUrl`/qualquer fonte de
+  # rede (R3 — zero requisição de rede na área da criança).
+  just_audio: ^0.10.6
+  # M3 (disclosure feito agora): MIT, mesmo autor do just_audio
+  # (ryanheise), só configura foco/categoria de áudio do SO — sem rede.
+  audio_session: ^0.2.4
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -75,6 +87,10 @@ flutter:
   assets:
     - assets/content/
     - assets/LICENSES.md
+    - assets/sfx/
+    - assets/music/
+    - assets/voice/pt-BR/
+    - assets/voice/en-US/
 
   # Baloo 2 (OFL) empacotada localmente — nunca carregada de rede (R3,
   # seção 9.3). Fonte variável: cada peso aponta pro MESMO arquivo .ttf,
