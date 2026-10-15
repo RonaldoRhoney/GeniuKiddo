@@ -410,11 +410,17 @@ abstract class AppLocalizations {
   /// **'limpar'**
   String get freeDrawClear;
 
-  /// Botão grande pra sair do rabisco livre quando a criança terminou (nunca conta como etapa concluída)
+  /// RT-08 (Anexo C, free.first): fala ao tocar no botão ✓ com a tela ainda em branco
   ///
   /// In pt, this message translates to:
-  /// **'Pronto!'**
-  String get freeDrawDone;
+  /// **'Desenhe um pouquinho primeiro!'**
+  String get freeDrawFirst;
+
+  /// RT-08 (Anexo C, free.done): mensagem da celebração curta ao tocar no botão ✓ depois de desenhar
+  ///
+  /// In pt, this message translates to:
+  /// **'Que desenho lindo!'**
+  String get freeDrawCelebrate;
 
   /// No description provided for @praise1.
   ///

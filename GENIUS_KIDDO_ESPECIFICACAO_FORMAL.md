@@ -2,17 +2,23 @@
 
 | Campo | Valor |
 |---|---|
-| **Versão** | 1.0 (formalizada por solicitação do Rhoney) |
-| **Data** | 13/10/2026 |
+| **Versão** | 1.1 (formalizada por solicitação do Rhoney) |
+| **Data** | 14/10/2026 |
 | **Responsável** | Rhoney (Ronaldo Martins), RhoneyInc |
 | **Destinatário** | Claude Code (implementação) |
-| **Substitui** | Todos os rascunhos anteriores (`GENIUS_KIDDO_SPEC.md` e anotações de conversa). Este é o único documento válido |
+| **Substitui** | A versão 1.0 deste documento, o rascunho `GENIUS_KIDDO_SPEC.md` e as anotações de conversa. Este é o único documento válido |
 | **Referências visuais** | Protótipos HTML da Fase 1 e da Fase 2 (Anexo D) |
 
 > **Convenção de status.** Cada requisito indica seu estado:
 > **[DEFINIDO]** = decidido e pronto para implementar.
 > **[PLANEJADO]** = decidido em conceito, mas ainda sem detalhamento final; exige plano aprovado antes de implementar.
 > **[PENDENTE]** = depende de decisão do Rhoney. Não presuma.
+
+### Histórico de versões
+| Versão | Data | Mudanças |
+|---|---|---|
+| 1.0 | 13/10/2026 | Primeira versão formal consolidada (histórico, restrições, Fases 1 a 3, regras transversais, arquitetura, conformidade, roadmap) |
+| 1.1 | 14/10/2026 | **Rabisco livre** ganha botão ✓ de conclusão (RF-06, RT-08, seção 6.10). **Fase 3 detalhada** (seção 8): subfases 3A e 3B, identidade e consentimento, tarefas do professor, ajuda entre alunos, custo, dados e retenção. Roadmap com M10 e M11. ADR 014 e 015 |
 
 ---
 
@@ -45,9 +51,10 @@
 6. **Bilíngue e progressivo:** app construído em português, com troca para inglês a qualquer momento (todo o conteúdo do idioma escolhido), e conteúdo liberado conforme a criança avança.
 7. **Protótipo da Fase 1** (trilha de atividades) aprovado e implantado; voz ajustada para um tom mais infantil e amigável.
 8. **Fase 2 — Escolinha:** inspirada nos jogos de fazenda, a criança constrói a escola aos poucos, evoluindo com a série (Maternal, Pré I, Pré II). Protótipo aprovado.
-9. **Fase 3 (conceito):** vida social entre alunos (ajuda mútua com pontos divididos) e **atividades deixadas pelo professor**, com liberação sequencial das fases. Apenas rascunho.
+9. **Fase 3 (conceito detalhado):** Modo Turma opcional com **tarefas deixadas pelo professor** (3A) e **ajuda entre alunos** com pontos divididos (3B), com liberação sequencial das fases. O desenho foi refinado em conversa; faltam confirmações (seção 8.8).
 10. **Regra transversal de áudio:** toda figura tocada fala o próprio nome; toque fora do pedido gera um som de erro sutil. Vale para todas as fases e versões.
 11. **Experiência de exploração:** o Rhoney pediu que a escola deixe de ser linear e vire um **mundo que a criança arrasta** para ver outros ambientes, como nos jogos de fazenda. Anotado, a detalhar.
+12. **Rabisco livre:** foi verificado que a atividade não tinha botão de conclusão. Adicionado o botão ✓ (RT-08), sem estrela, e aplicado no protótipo da Fase 1.
 
 ### 1.3 Público
 | Item | Definição |
@@ -95,7 +102,7 @@
 |---|---|---|---|
 | **1** | Trilha de atividades | 8 etapas de atividades (pintar, ouvir, associar, traçar, falar) e rabisco livre | [DEFINIDO] |
 | **2** | Escolinha do Kiddo | Construir e evoluir a escola por séries, com objetivos e aulas por espaço | [DEFINIDO] |
-| **3** | Turma, ajuda entre alunos e professor | Modo Turma opcional, ajuda mútua, tarefas do professor | [PLANEJADO] |
+| **3** | Turma, tarefas do professor e ajuda entre alunos | **3A:** turma e tarefas do professor · **3B:** ajuda entre alunos (Modo Turma opcional) | [PLANEJADO] |
 
 ### 3.1 Liberação sequencial (RF-FASE)
 - **RF-FASE-01 — A Fase N+1 só é liberada depois que a criança passa pela Fase N.** A regra vale para as fases atuais e futuras ("e assim sucessivamente").
@@ -173,6 +180,12 @@ Salvar localmente, sem dado pessoal: idioma, música, voz, tom, vozes escolhidas
 - Contraste AA nos textos dos pais; **nunca informar só por cor** (nomes das cores falados e escritos); rótulos semânticos; respeitar "reduzir movimento".
 - Tratar o botão voltar do Android: volta para a tela anterior, não fecha o app. Links externos só após o portão.
 
+### 4.11 Atividades livres: conclusão explícita (RT-08)
+- **RT-08 — Toda atividade livre (sem objetivo definido, como o rabisco livre) precisa de um botão de conclusão ✓ claro**, grande, verde, no mesmo estilo dos demais botões de conclusão, para a criança saber como "terminar" e seguir.
+- O botão fica **apagado enquanto não houver ação da criança** (ex.: tela em branco) e acende no primeiro uso; se tocado apagado, o guia incentiva ("Desenhe um pouquinho primeiro!") com o som sutil de erro (RT-04).
+- A conclusão gera uma **celebração curta com ícone próprio da atividade**, sem estrela e sem recompensa, para a atividade continuar livre.
+- O botão 🏠 continua como saída rápida.
+
 ---
 
 ## 5. Fase 1 — Trilha de atividades [DEFINIDO]
@@ -208,7 +221,7 @@ Regras: libera por participação; etapas futuras aparecem **borradas** (mistér
 - **RF-03 Ouvir e tocar.** 3 rodadas, 4 cartões (2×2), pedido falado ("Toque no gato!"). Segue RT-01 a RT-04.
 - **RF-04 Associar (quem é a sombra).** 3 rodadas, silhueta e 3 opções. Acerto revela a figura colorida. Segue RT-05.
 - **RF-05 Falar (repetir sem gravar).** 3 palavras; o guia diz a palavra e "agora é com você!"; a criança repete em voz alta e toca num botão grande ✓. Tocar na figura grande repete o nome. Aviso: "O app não grava a voz da criança". **Nenhum acesso ao microfone.**
-- **RF-06 Rabisco livre.** Pincel grosso (24 px), 6 cores, botão limpar; sem salvar nem compartilhar.
+- **RF-06 Rabisco livre.** Pincel grosso (24 px), 6 cores, botão limpar 🧽; sem salvar nem compartilhar. **Tem botão de conclusão ✓ (RT-08):** grande, verde, no canto inferior direito; fica apagado enquanto a tela está em branco e acende no primeiro traço; apaga de novo ao limpar. Tocar nele em branco: som sutil e fala "Desenhe um pouquinho primeiro!". Tocar depois de desenhar: celebração curta com 🎨 ("Que desenho lindo!"), **sem estrela**, e volta à trilha pelo ▶.
 
 ### 5.4 Celebração
 Sobreposição com estrela grande, "+1" (só na primeira vez), confete leve, som de vitória, fala de elogio e botão ▶ grande.
@@ -286,6 +299,9 @@ No app final, os emojis são **substituídos por ilustrações originais** (seç
 - **Sem notificações** e **sem mecânica de volta diária** (R14).
 - O protótipo da Fase 2 ainda é uma grade linear; a experiência de mundo explorável está na seção 7.
 
+### 6.10 Rabisco livre na escola [PLANEJADO]
+O protótipo da Fase 2 não inclui desenho livre. Se for incluído (por exemplo, no Ateliê de arte ou como atividade sempre liberada), **herda o RF-06 e o RT-08**: botão ✓ de conclusão, celebração sem estrela e nenhuma interferência na economia da escola.
+
 ---
 
 ## 7. Mundo explorável (a criança arrasta para ver os ambientes) [PLANEJADO]
@@ -305,39 +321,78 @@ Requisitos candidatos (a detalhar e aprovar em plano antes de implementar):
 
 ---
 
-## 8. Fase 3 — Turma, ajuda entre alunos e tarefas do professor [PLANEJADO]
+## 8. Fase 3 — Turma, tarefas do professor e ajuda entre alunos [PLANEJADO]
 
-> Esta fase muda a natureza do app. As Fases 1 e 2 são offline, sem login e sem dados; a Fase 3 exige conta, servidor e dados de criança. Por isso é um **"Modo Turma" opcional, desligado por padrão e ativado só pelos pais** (R15). Nada nesta seção deve ser implementado sem plano aprovado, contrato e revisão jurídica.
+> Esta fase muda a natureza do app. As Fases 1 e 2 são offline, sem login e sem dados; a Fase 3 exige conta, servidor e dados de criança. Por isso é um **"Modo Turma" opcional, desligado por padrão e ativado só pelos pais** (R15). Nada nesta seção deve ser implementado sem plano aprovado, contrato com escolas e revisão jurídica.
 
-### 8.1 Exigências legais que moldam o desenho
+### 8.1 Divisão em subfases [PENDENTE confirmação]
+- **3A — Turma e tarefas do professor.** O professor passa lição e a criança joga aulas que já conhece. Não há interação entre crianças, o que reduz o risco legal, e o produto serve às escolas.
+- **3B — Ajuda entre alunos.** Entra depois, em cima da turma já existente.
+
+### 8.2 Exigências legais que moldam o desenho
 - **ECA Digital:** se o app permitir interação entre usuários, o recurso deve vir **bloqueado por padrão até o consentimento dos pais**; as ferramentas de supervisão parental devem vir no nível mais protetivo por padrão e limitar recompensas por tempo de uso e notificações que estendam o uso.
-- **Google Play (Families Policy):** os recursos sociais devem ser declarados no questionário de classificação; é preciso oferecer meio para os adultos ativarem, desativarem ou ajustarem os recursos sociais; exige-se **ação do adulto antes** de a criança trocar informações pessoais; e um lembrete de segurança online antes da troca de conteúdo livre. Apps focados em conversar com desconhecidos são proibidos para crianças.
+- **Google Play (Families Policy):** os recursos sociais devem ser declarados no questionário de classificação; é preciso oferecer meio para os adultos ativarem, desativarem ou ajustarem esses recursos; exige-se **ação do adulto antes** de a criança trocar informações pessoais; e um lembrete de segurança online antes da troca de conteúdo livre. Apps focados em conversar com desconhecidos são proibidos para crianças.
 
-### 8.2 Ajuda entre alunos (rascunho aprovado em conceito)
-- **RS-01 — Turma fechada.** Só dentro de uma turma criada por professor ou pais, com código. **Sem busca de desconhecidos.**
-- **RS-02 — Sem conteúdo livre.** Nada de texto livre, foto ou voz. Só **figurinhas prontas** ("obrigado!"). Avatar de bichinho, **sem nome real**.
-- **RS-03 — Ajuda com pontos divididos.** Um aluno pode ir à escola de um colega e fazer algumas tarefas; as estrelas são **divididas entre os dois** (ex.: 2 + 2), sem tirar de ninguém. Limite diário por aluno e por colega. **[PENDENTE]** regra exata de divisão e limites.
-- **RS-04 — Ausência não é punida.** A ideia original associa a ajuda a quem passou mais de um dia sem visitar a escola. Recomendação: a ajuda fica **disponível sempre**, a escola do colega aparece como "descansando 💤", **nada se perde** e **não há notificação** de "sentimos sua falta" (R14).
-- **RS-05 — A ajuda não conta para os objetivos do ano do dono** (somente estrelas), para preservar a padronização de evolução. **[PENDENTE]** confirmação.
-- **RS-06 — Antifraude.** As estrelas precisam ser validadas em servidor.
+### 8.3 Identidade, entrada e consentimento
+- **RS-01 — Contas só para adultos.** Pais e professores têm conta. **A criança nunca faz login.**
+- **RS-02 — Perfil de aluno anônimo.** Apelido de bichinho e avatar, **sem nome real, foto ou data de nascimento**. A série é o único dado escolar.
+- **RS-03 — Entrada na turma** por **código de 6 caracteres** e **aprovação do responsável** atrás do portão dos pais.
+- **RS-04 — O servidor nunca conhece o nome real.** O professor mantém, fora do app, a relação entre bichinho e aluno.
+- **RS-05 — Consentimento.** O Modo Turma vem desligado; a ativação é feita pelos pais atrás do portão, com explicação em linguagem simples do que será compartilhado. **[PENDENTE]** O método de verificação do consentimento do responsável (ex.: confirmação por e-mail) deve ser definido com assessoria jurídica.
+- **RS-06 — Controle parental.** Os pais veem o estado da turma, podem **sair dela** e **solicitar a exclusão dos dados** a qualquer momento.
 
-### 8.3 Tarefas do professor
-- **RS-07 — Caixa de lição 📬** na escola, com aulas do catálogo escolhidas pelo professor, **só das que a série da criança já liberou** (RF-FASE-05). Sem prazo punitivo, com bônus de estrelas.
-- **RS-08 — Painel web do professor** (é o painel administrativo de que se falou no início): cria a turma, escolhe tarefas e vê apenas "feito ou não feito", sem detalhes de desempenho.
-- **RS-09 — Contas de professor, contrato e LGPD.** A escola atua como controladora e o Rhoney como operador; exige contrato e revisão jurídica. Sem CNPJ, licenciamento para escolas fica mais difícil (nota fiscal).
+### 8.4 Tarefas do professor (3A)
+- **RS-07 — Painel web do professor** (é o painel administrativo previsto desde o início): login por e-mail, criação da turma e geração do código.
+- **RS-08 — Catálogo de tarefas.** O professor escolhe lições do catálogo, **filtradas pela série dos alunos**, com até 3 tarefas ativas por vez.
+- **RS-09 — Caixa de lição 📬** na escola. Sem prazo punitivo; uma indicação "para esta semana" é apenas informativa, sem penalidade.
+- **RS-10 — Recompensa.** Concluir a tarefa dá **+2 ⭐ de bônus**, e a aula **conta para os objetivos do ano**, por ser aula do próprio aluno. **[PENDENTE confirmação]**
+- **RS-11 — Padronização de evolução (RF-FASE-05).** Se o aluno ainda não construiu o espaço da tarefa, ela mostra 🔨 "construa primeiro". O professor não consegue passar conteúdo acima da série.
+- **RS-12 — O professor vê apenas "feito ou não feito"** por bichinho, sem notas, sem ranking e sem comparação entre crianças.
+- **RS-13 — Sem ranking público entre crianças** em nenhuma parte da Fase 3.
 
-### 8.4 Infraestrutura e custo
-- Exige **backend mínimo**, o que quebra a regra "sem backend, custo zero" das fases anteriores. O plano gratuito de serviços como o Supabase costuma ter limites e pausar por inatividade (confirmar). Preferir servidor no Brasil, comunicação por API HTTP simples e **sem SDKs proibidos**.
-- **Data safety e política de privacidade** deixam de dizer "nenhum dado coletado" e precisam descrever os dados da Fase 3 (identificador de turma e perfil, progresso compartilhado), com retenção limitada e caminho de exclusão.
+### 8.5 Ajuda entre alunos (3B)
+- **RS-14 — Visita.** Dentro da turma, a criança toca num colega e **visita a escola dele**, só para ver. Não edita espaços nem gasta as estrelas do colega.
+- **RS-15 — Tarefinhas de ajuda.** A criança joga 1 ou 2 aulas dos espaços já construídos do colega.
+- **RS-16 — Pontos divididos.** Cada ajuda gera **4 ⭐**: 2 imediatas para quem ajudou e 2 na **caixa de presentes 🎁** do dono, abertas na próxima visita dele. O total é positivo e **ninguém perde nada**. **[PENDENTE confirmação]**
+- **RS-17 — Limites.** 3 ajudas por dia por criança e 1 por colega por dia. **[PENDENTE confirmação]**
+- **RS-18 — Comunicação só por figurinhas prontas** (conjunto fixo, ex.: 8). **Sem texto livre, foto ou voz.**
+- **RS-19 — Ausência não é punida.** A ajuda fica **sempre disponível**. A escola sem visita aparece como "descansando 💤", **sem contador de dias e sem notificação** de "sentimos sua falta" (R14). Nota: a ideia original ligava a ajuda a quem passou mais de um dia sem visitar; a recomendação é **não** vincular, para evitar culpa e pressão.
+- **RS-20 — A ajuda não conta para os objetivos do ano do dono**, somente estrelas. **[PENDENTE confirmação]**
+- **RS-21 — Validação leve em servidor** (limites diários e "bilhete" de aula), já que as estrelas não têm valor monetário.
+- **RS-22 — Moderação.** Professor e responsáveis podem remover um membro da turma e desativar a ajuda.
+
+### 8.6 Infraestrutura, custo e dados
+- **Backend mínimo.** A Fase 3 é a **primeira fase com custo recorrente**; as regras R3 e R11 valem para as Fases 1 e 2.
+- **Serviço gratuito:** o plano gratuito do Supabase costuma ter cerca de 500 MB de banco e 50 mil usuários ativos por mês, e **pausa o projeto após uma semana sem uso**, o que é um risco em férias escolares. O plano pago (cerca de 25 dólares por mês) não pausa. **Confirmar valores e limites na página de preços.** **[PENDENTE]** Definir como o custo será financiado antes do M10.
+- **Offline primeiro.** O app continua jogável sem rede e sincroniza quando houver; falha de rede nunca bloqueia o jogo.
+- **Servidor** preferencialmente no Brasil (confirmar a disponibilidade da região), por API HTTP simples e **sem SDKs proibidos** (seção 11.3).
+- **Inventário de dados da Fase 3:**
+
+| Dado | Coletado? | Observação |
+|---|---|---|
+| Identificador da turma e do perfil de aluno | Sim | Pseudônimo, sem nome real |
+| Apelido de bichinho e avatar | Sim | Escolhidos entre opções prontas |
+| Série | Sim | Sem data de nascimento |
+| Contadores de progresso e estado das tarefas | Sim | Só o necessário |
+| E-mail do responsável e do professor | Sim | Para conta e registro de consentimento |
+| Nome real, foto, localização, voz | **Não** | — |
+
+- **Retenção:** apagar a turma e os dados dos alunos ao fim do ano letivo; exclusão sob pedido do responsável.
+- **Data safety, política de privacidade e classificação** deixam de dizer "nenhum dado coletado" quando o Modo Turma existir, e devem descrever os dados acima.
 - **Alternativa 100% offline (limitada):** "visita" por QR entre dois aparelhos, só presencial e sem validação; serve para sala de aula.
 
-### 8.5 Pontos em aberto da Fase 3
-1. O que vem primeiro: tarefas do professor ou ajuda entre alunos? **[PENDENTE]**
+### 8.7 Conformidade da Fase 3
+Contrato com escolas (a escola como controladora e o Rhoney como operador), política de privacidade e termos atualizados, retenção limitada, exclusão de dados e **relatório de impacto** por tratar dados de crianças. **Revisão jurídica obrigatória antes do M10.** Sem CNPJ, o licenciamento para escolas fica mais difícil (nota fiscal).
+
+### 8.8 Pontos em aberto da Fase 3
+1. Confirmar a divisão 3A (professor e turma) antes de 3B (ajuda entre alunos). **[PENDENTE]**
 2. Critério exato de liberação das fases (RF-FASE-02). **[PENDENTE]**
-3. Divisão de pontos e limites diários (RS-03). **[PENDENTE]**
-4. Se a ajuda conta para os objetivos do ano (RS-05). **[PENDENTE]**
-5. Contas de professor e contrato com escolas. **[PENDENTE]**
-6. Se o Modo Turma entra no lançamento ou em versão posterior. **[PENDENTE]**
+3. Divisão de pontos e limites diários (RS-16 e RS-17). **[PENDENTE]**
+4. Se a ajuda conta para os objetivos do ano (RS-20) e se a tarefa do professor conta (RS-10). **[PENDENTE]**
+5. Método de verificação do consentimento do responsável (RS-05). **[PENDENTE]**
+6. Contas de professor e contrato com escolas. **[PENDENTE]**
+7. Como financiar o custo recorrente do servidor. **[PENDENTE]**
+8. Se o Modo Turma entra no lançamento ou em versão posterior. **[PENDENTE]**
 
 ---
 
@@ -532,7 +587,8 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 | **M7 — Web PWA** | Build web instalável e offline | Funciona em modo avião; sem requisições externas |
 | **M8 — Conteúdo e conformidade** | Vozes gravadas, músicas e artes finais, licenças, política de privacidade, ficha da loja, Data safety | Checklist 12.5 completo |
 | **M9 — Teste fechado e produção** | Versão em teste fechado com 15+ testers por 14 dias; depois produção no Brasil | Aprovado na Google Play |
-| **M10 — Fase 3 (condicional)** | Modo Turma, ajuda entre alunos, tarefas do professor | Somente após decisões da seção 8.5, contrato, revisão jurídica e plano aprovado |
+| **M10 — Fase 3A (condicional)** | Modo Turma, painel do professor e tarefas | Somente após as decisões da seção 8.8, contrato com escolas, revisão jurídica, financiamento do servidor e plano aprovado |
+| **M11 — Fase 3B (condicional)** | Ajuda entre alunos (visita, tarefinhas, caixa de presentes, figurinhas) | Somente após o M10 estável, com checklist de segurança infantil aprovado |
 
 ---
 
@@ -544,6 +600,7 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 - **Usabilidade (obrigatória antes do teste fechado):** observar 3 a 5 crianças de 3 a 5 anos com os pais. Medir: concluem a 1ª etapa sozinhas? Entendem o que tocar? Frustração? Tempo de atenção? A voz é agradável? **Construir e melhorar a escola motiva a fazer mais aulas?** Arrastar o mundo é natural?
 - **Acessibilidade:** leitor de tela nos controles dos pais; daltonismo na pintura (nomes das cores falados).
 - **Pausa e portão:** adulto consegue, criança de 3 anos não.
+- **Rabisco livre (RT-08):** ✓ apagado com a tela em branco, acende no primeiro traço, apaga ao limpar; tocar apagado gera o som sutil e a fala de incentivo; a celebração não dá estrela.
 
 ---
 
@@ -564,6 +621,8 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 | 011 | Liberação sequencial de fases (RF-FASE-01) | Aprovado; critério pendente |
 | 012 | Mundo explorável por arrasto | Aprovado em conceito; formato pendente |
 | 013 | Fase 3 como Modo Turma opcional, atrás do consentimento dos pais | Aprovado em conceito |
+| 014 | Fase 3 dividida em 3A (turma e tarefas do professor) e 3B (ajuda entre alunos) | Proposto; confirmação pendente |
+| 015 | Atividades livres têm botão de conclusão ✓, sem estrela (RT-08) | Aprovado |
 
 **Pontos em aberto [PENDENTE]:**
 1. Quem grava as vozes e em qual inglês (americano é a premissa).
@@ -573,7 +632,7 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 5. Lançar 100% gratuito ou já com pacote pago.
 6. Mundo: faixa horizontal ou mapa livre.
 7. Critério de liberação das fases (RF-FASE-02).
-8. Todos os pontos da seção 8.5 (Fase 3).
+8. Todos os pontos da seção 8.8 (Fase 3).
 9. Futura conta dos pais para backup e método de login.
 
 ---
@@ -602,6 +661,7 @@ Quebra-cabeças e sequências adicionais; álbum de figurinhas; mais glifos de t
 | Associar | 3 rodadas · 3 opções · avança 1,7 s após o acerto |
 | Falar | 3 palavras · botão ✓ de 104 px · avança 1,7 s |
 | Rabisco livre | Pincel 24 px, 6 cores, limpar |
+| Rabisco livre: botão ✓ | 84 px, verde, canto inferior direito; apagado (opacidade ~0,45, sem pulsar) até o 1º traço e após limpar; celebração com 🎨 sem estrela |
 | Portão dos pais / pausa | Segurar **2 s** |
 | Pausa sugerida (padrão) | **15 min** (opções 0, 5, 10, 15, 20) |
 | Música (protótipo) | Pentatônica de dó (262, 294, 330, 392, 440, 523, 587, 659 Hz), nota a cada ~430 ms, onda triangular, baixo a cada 4 notas, volume baixo |
@@ -649,6 +709,8 @@ Quebra-cabeças e sequências adicionais; álbum de figurinhas; mais glifos de t
 | `rhythm.watch` / `rhythm.turn` | Olhe e escute! / Sua vez! | Watch and listen! / Your turn! |
 | `sort.prompt` | Onde vai {art} {nome}? Frutas ou legumes? | Where does the {name} go? Fruits or veggies? |
 | `free.intro` | Desenhe do seu jeito! | Draw your own way! |
+| `free.first` | Desenhe um pouquinho primeiro! | Draw a little first! |
+| `free.done` | Que desenho lindo! | What a lovely drawing! |
 | `school.built` | Que lindo! Nossa escola cresceu! | So pretty! Our school grew! |
 | `school.upgraded` | Uau! Ficou ainda melhor! | Wow! It got even better! |
 | `need.stars` | Faça uma aula para ganhar estrelas! | Do a lesson to earn stars! |
@@ -664,7 +726,7 @@ Quebra-cabeças e sequências adicionais; álbum de figurinhas; mais glifos de t
 
 | Protótipo | Arquivo sugerido no repositório | Observação |
 |---|---|---|
-| Fase 1 — Trilha | `docs/prototype/genius-kiddo-prototipo.html` | Já com a regra de áudio (RT) e a voz "Fofa" |
+| Fase 1 — Trilha | `docs/prototype/genius-kiddo-prototipo.html` | Já com a regra de áudio (RT), a voz "Fofa" e o botão ✓ do rabisco livre. **Substituir o arquivo antigo pelo atualizado** |
 | Fase 2 — Escolinha | `docs/prototype/genius-kiddo-fase2-escolinha.html` | Grade linear; mundo arrastável ainda não implementado (seção 7) |
 
 Os protótipos foram publicados como páginas privadas do Rhoney. Salvar os arquivos HTML no repositório antes de iniciar.

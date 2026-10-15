@@ -174,7 +174,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get freeDrawClear => 'clear';
 
   @override
-  String get freeDrawDone => 'Done!';
+  String get freeDrawFirst => 'Draw a little first!';
+
+  @override
+  String get freeDrawCelebrate => 'What a lovely drawing!';
 
   @override
   String get praise1 => 'Great job!';

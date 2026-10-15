@@ -84,8 +84,10 @@
 
   "freeDrawIntro": "Desenhe do seu jeito!",
   "freeDrawClear": "limpar",
-  "freeDrawDone": "Pronto!",
-  "@freeDrawDone": {"description": "Botão grande pra sair do rabisco livre quando a criança terminou (nunca conta como etapa concluída)"},
+  "freeDrawFirst": "Desenhe um pouquinho primeiro!",
+  "@freeDrawFirst": {"description": "RT-08 (Anexo C, free.first): fala ao tocar no botão ✓ com a tela ainda em branco"},
+  "freeDrawCelebrate": "Que desenho lindo!",
+  "@freeDrawCelebrate": {"description": "RT-08 (Anexo C, free.done): mensagem da celebração curta ao tocar no botão ✓ depois de desenhar"},
 
   "praise1": "Muito bem!", "praise2": "Isso mesmo!", "praise3": "Uau, que demais!", "praise4": "Parabéns!",
 

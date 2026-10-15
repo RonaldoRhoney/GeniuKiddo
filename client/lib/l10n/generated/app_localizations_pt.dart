@@ -176,7 +176,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get freeDrawClear => 'limpar';
 
   @override
-  String get freeDrawDone => 'Pronto!';
+  String get freeDrawFirst => 'Desenhe um pouquinho primeiro!';
+
+  @override
+  String get freeDrawCelebrate => 'Que desenho lindo!';
 
   @override
   String get praise1 => 'Muito bem!';

@@ -52,7 +52,8 @@
 
   "freeDrawIntro": "Draw your own way!",
   "freeDrawClear": "clear",
-  "freeDrawDone": "Done!",
+  "freeDrawFirst": "Draw a little first!",
+  "freeDrawCelebrate": "What a lovely drawing!",
 
   "praise1": "Great job!", "praise2": "Yes! That is right!", "praise3": "Wow, well done!", "praise4": "Awesome!",
 

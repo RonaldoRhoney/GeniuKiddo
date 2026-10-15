@@ -10,11 +10,14 @@ import '../../l10n/generated/app_localizations.dart';
 /// Celebração (seção 5.4): estrela grande, "+1" só na 1ª conclusão, confete
 /// leve, som de vitória, fala de elogio (feita pelo chamador via
 /// `ItemFeedback`, não aqui) e botão ▶ grande. Sempre modal — some só
-/// quando a criança toca ▶.
+/// quando a criança toca ▶. `icon`/`isFirstCompletion` suportam a variante
+/// RT-08 (atividades livres): ícone próprio da atividade (ex. 🎨), sem
+/// estrela nem "+1".
 Future<void> showCelebration(
   BuildContext context, {
   required bool isFirstCompletion,
   required String message,
+  String icon = '⭐',
 }) {
   ProviderScope.containerOf(context, listen: false).read(itemFeedbackProvider).sound.play(FeedbackSound.win);
   return showGeneralDialog<void>(
@@ -22,16 +25,17 @@ Future<void> showCelebration(
     barrierDismissible: false,
     barrierColor: const Color(0x991D1A3A),
     transitionDuration: const Duration(milliseconds: 220),
-    pageBuilder: (context, _, _) => _CelebrationContent(isFirstCompletion: isFirstCompletion, message: message),
+    pageBuilder: (context, _, _) => _CelebrationContent(isFirstCompletion: isFirstCompletion, message: message, icon: icon),
     transitionBuilder: (context, animation, _, child) => FadeTransition(opacity: animation, child: child),
   );
 }
 
 class _CelebrationContent extends StatelessWidget {
-  const _CelebrationContent({required this.isFirstCompletion, required this.message});
+  const _CelebrationContent({required this.isFirstCompletion, required this.message, required this.icon});
 
   final bool isFirstCompletion;
   final String message;
+  final String icon;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +55,7 @@ class _CelebrationContent extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('⭐', style: const TextStyle(fontSize: 72)),
+                  Text(icon, style: const TextStyle(fontSize: 72)),
                   if (isFirstCompletion) ...[
                     const SizedBox(height: 6),
                     Text('+1', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: colors.purple)),

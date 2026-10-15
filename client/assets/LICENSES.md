@@ -29,3 +29,13 @@ e não deve exigir nenhuma mudança de código, só substituir os arquivos nos m
 
 Nenhuma ilustração final foi adicionada ainda — a Fase 1 usa placeholders de código (formas
 geométricas via `CustomPainter`, emoji do sistema como substituto de ilustração). Entra no M8.
+
+### Ícone do app (launcher)
+
+| Ativo | Origem | Licença | Arquivo |
+|---|---|---|---|
+| Ícone do app (rosto do Kiddo) | Desenhado por código (`tool/gen_app_icon.py`, Pillow), mesmas cores/coordenadas de `app/guide_avatar.dart` | Autoria própria (RhoneyInc) | `assets/icon/icon.png`, `assets/icon/icon_foreground.png` |
+
+Aplicado aos ícones nativos do Android via `flutter_launcher_icons` (pacote dev, MIT, só gera os
+PNGs em build-time — não entra no app compilado, sem rede). Interino como o resto da identidade
+visual: troca por arte final ilustrada é trabalho do M8, sem mudar o fluxo de geração.

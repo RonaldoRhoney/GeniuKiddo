@@ -6,6 +6,7 @@ import '../../../content/labels.dart';
 import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../celebration/celebration_overlay.dart';
 import '../activity_shell.dart';
 
 /// RF-06 — Rabisco livre: pincel grosso, 6 cores, botão limpar, sem salvar
@@ -72,21 +73,26 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
       body: Column(
         children: [
           Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(28),
-              child: Container(
-                color: Colors.white,
-                child: GestureDetector(
-                  key: const ValueKey('freeDrawCanvas'),
-                  onPanStart: (d) => setState(() {
-                    _strokes.add(_Stroke(_color)..points.add(d.localPosition));
-                  }),
-                  onPanUpdate: (d) => setState(() {
-                    _strokes.last.points.add(d.localPosition);
-                  }),
-                  child: CustomPaint(painter: _FreeDrawPainter(_strokes), size: Size.infinite),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(28),
+                  child: Container(
+                    color: Colors.white,
+                    child: GestureDetector(
+                      key: const ValueKey('freeDrawCanvas'),
+                      onPanStart: (d) => setState(() {
+                        _strokes.add(_Stroke(_color)..points.add(d.localPosition));
+                      }),
+                      onPanUpdate: (d) => setState(() {
+                        _strokes.last.points.add(d.localPosition);
+                      }),
+                      child: CustomPaint(painter: _FreeDrawPainter(_strokes), size: Size.infinite),
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(right: 16, bottom: 16, child: _CompletionButton(hasDrawn: _strokes.isNotEmpty, onTap: _onCompletionTap)),
+              ],
             ),
           ),
           const SizedBox(height: 12),
@@ -132,28 +138,52 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 10),
-          // Achado real (Rhoney, 14/10/2026): o rabisco livre não tinha
-          // nenhum jeito claro de "terminei, posso seguir" — só o ícone
-          // pequeno de casa no topo. Mesmo sem contar como etapa concluída
-          // (RF-06 continua "sempre liberado, nunca concluído", não mexe
-          // em TrailController), a criança precisa de um botão grande e
-          // óbvio pra voltar, igual às outras atividades têm ao terminar.
-          SizedBox(
-            height: 60,
-            width: double.infinity,
-            child: FilledButton.icon(
-              style: FilledButton.styleFrom(backgroundColor: AppColors.of(context).green, shape: const StadiumBorder()),
-              onPressed: () {
-                ref.read(itemFeedbackProvider).sound.play(FeedbackSound.pop);
-                ref.read(itemFeedbackProvider).speech.speak(l10n.freeDrawDone);
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.check_rounded, color: Colors.white),
-              label: Text(l10n.freeDrawDone, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18, color: Colors.white)),
-            ),
-          ),
         ],
+      ),
+    );
+  }
+
+  /// RT-08 (seção 4.11): tocar com a tela em branco é erro sutil + fala de
+  /// incentivo, sem navegar; tocar depois de desenhar é uma celebração
+  /// curta com o ícone próprio da atividade (🎨), sem estrela, e volta à
+  /// trilha pelo ▶ — não conta como etapa concluída (RF-06).
+  void _onCompletionTap() {
+    final l10n = AppLocalizations.of(context)!;
+    final feedback = ref.read(itemFeedbackProvider);
+    if (_strokes.isEmpty) {
+      feedback.sound.play(FeedbackSound.wrong);
+      feedback.speech.speak(l10n.freeDrawFirst);
+      return;
+    }
+    showCelebration(context, isFirstCompletion: false, icon: '🎨', message: l10n.freeDrawCelebrate);
+  }
+}
+
+class _CompletionButton extends StatelessWidget {
+  const _CompletionButton({required this.hasDrawn, required this.onTap});
+
+  final bool hasDrawn;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    return AnimatedOpacity(
+      opacity: hasDrawn ? 1 : 0.45,
+      duration: const Duration(milliseconds: 200),
+      child: Material(
+        color: colors.green,
+        shape: const CircleBorder(),
+        elevation: hasDrawn ? 4 : 0,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: const SizedBox(
+            width: 84,
+            height: 84,
+            child: Icon(Icons.check_rounded, size: 44, color: Colors.white),
+          ),
+        ),
       ),
     );
   }
