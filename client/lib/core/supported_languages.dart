@@ -6,7 +6,11 @@
 /// pílula de idioma (core/language_pill.dart) e a escolha inicial
 /// (features/language/language_screen.dart) já leem esta lista.
 class SupportedLanguage {
-  const SupportedLanguage({required this.code, required this.greeting, required this.nativeName});
+  const SupportedLanguage({
+    required this.code,
+    required this.greeting,
+    required this.nativeName,
+  });
 
   /// Código do idioma, igual ao `@@locale` do ARB (`pt`, `en`...).
   final String code;

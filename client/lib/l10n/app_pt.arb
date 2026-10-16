@@ -91,5 +91,45 @@
 
   "praise1": "Muito bem!", "praise2": "Isso mesmo!", "praise3": "Uau, que demais!", "praise4": "Parabéns!",
 
-  "celebrationContinue": "Continuar"
+  "celebrationContinue": "Continuar",
+
+  "breakMessage": "Hora de descansar os olhinhos! Vamos beber água?",
+  "@breakMessage": {"description": "Seção 4.8: fala/texto da pausa sugerida"},
+  "breakHoldHint": "Peça pra um adulto segurar aqui",
+  "@breakHoldHint": {"description": "Dica sob o cadeado da sobreposição de pausa, pra um adulto saber como dispensar"},
+
+  "parentGateLabel": "Área dos pais",
+  "@parentGateLabel": {"description": "Rótulo semântico (acessibilidade) do cadeado discreto — nunca exibido como texto visível na tela da criança"},
+
+  "parentsAreaTitle": "Área dos pais",
+  "parentsLanguageLabel": "Idioma",
+  "parentsSoundLabel": "Som e voz",
+  "parentsMusicLabel": "Música",
+  "parentsVoiceToneLabel": "Tom da voz",
+  "parentsVoiceToneSuave": "Suave",
+  "parentsVoiceToneFofa": "Fofa",
+  "parentsVoiceToneSuper": "Super fofa",
+  "parentsVoicePickLabel": "Voz do guia",
+  "parentsVoiceAuto": "Automática",
+  "parentsTestVoice": "Testar a voz",
+  "parentsVoiceTestPhrase": "Oi! Essa é a minha voz!",
+  "@parentsVoiceTestPhrase": {"description": "Frase falada pelo botão \"Testar a voz\" na área dos pais"},
+
+  "parentsBreakLabel": "Pausa sugerida",
+  "parentsBreakOff": "Desligada",
+  "parentsBreakMinutes": "{minutes} minutos",
+  "@parentsBreakMinutes": {"placeholders": {"minutes": {"type": "int"}}},
+
+  "parentsProgressLabel": "Progresso",
+  "parentsProgressSteps": "{done} de {total} etapas concluídas",
+  "@parentsProgressSteps": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "parentsProgressStars": "{stars} estrelas",
+  "@parentsProgressStars": {"placeholders": {"stars": {"type": "int"}}},
+
+  "parentsAppearanceLabel": "Aparência",
+
+  "parentsPrivacyLabel": "Privacidade",
+  "parentsPrivacySummary": "O Genius Kiddo não pede nome, data de nascimento nem e-mail da criança. Tudo fica guardado só neste aparelho, sem conexão com a internet, e a voz da criança nunca é gravada.",
+  "parentsPrivacyPolicyPlaceholder": "A política de privacidade completa será publicada junto com o app na loja.",
+  "@parentsPrivacyPolicyPlaceholder": {"description": "Placeholder até o M8 publicar a política de privacidade de verdade e virar link"}
 }

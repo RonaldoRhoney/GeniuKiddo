@@ -451,6 +451,156 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Continuar'**
   String get celebrationContinue;
+
+  /// Seção 4.8: fala/texto da pausa sugerida
+  ///
+  /// In pt, this message translates to:
+  /// **'Hora de descansar os olhinhos! Vamos beber água?'**
+  String get breakMessage;
+
+  /// Dica sob o cadeado da sobreposição de pausa, pra um adulto saber como dispensar
+  ///
+  /// In pt, this message translates to:
+  /// **'Peça pra um adulto segurar aqui'**
+  String get breakHoldHint;
+
+  /// Rótulo semântico (acessibilidade) do cadeado discreto — nunca exibido como texto visível na tela da criança
+  ///
+  /// In pt, this message translates to:
+  /// **'Área dos pais'**
+  String get parentGateLabel;
+
+  /// No description provided for @parentsAreaTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Área dos pais'**
+  String get parentsAreaTitle;
+
+  /// No description provided for @parentsLanguageLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Idioma'**
+  String get parentsLanguageLabel;
+
+  /// No description provided for @parentsSoundLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Som e voz'**
+  String get parentsSoundLabel;
+
+  /// No description provided for @parentsMusicLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Música'**
+  String get parentsMusicLabel;
+
+  /// No description provided for @parentsVoiceToneLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Tom da voz'**
+  String get parentsVoiceToneLabel;
+
+  /// No description provided for @parentsVoiceToneSuave.
+  ///
+  /// In pt, this message translates to:
+  /// **'Suave'**
+  String get parentsVoiceToneSuave;
+
+  /// No description provided for @parentsVoiceToneFofa.
+  ///
+  /// In pt, this message translates to:
+  /// **'Fofa'**
+  String get parentsVoiceToneFofa;
+
+  /// No description provided for @parentsVoiceToneSuper.
+  ///
+  /// In pt, this message translates to:
+  /// **'Super fofa'**
+  String get parentsVoiceToneSuper;
+
+  /// No description provided for @parentsVoicePickLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Voz do guia'**
+  String get parentsVoicePickLabel;
+
+  /// No description provided for @parentsVoiceAuto.
+  ///
+  /// In pt, this message translates to:
+  /// **'Automática'**
+  String get parentsVoiceAuto;
+
+  /// No description provided for @parentsTestVoice.
+  ///
+  /// In pt, this message translates to:
+  /// **'Testar a voz'**
+  String get parentsTestVoice;
+
+  /// Frase falada pelo botão "Testar a voz" na área dos pais
+  ///
+  /// In pt, this message translates to:
+  /// **'Oi! Essa é a minha voz!'**
+  String get parentsVoiceTestPhrase;
+
+  /// No description provided for @parentsBreakLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pausa sugerida'**
+  String get parentsBreakLabel;
+
+  /// No description provided for @parentsBreakOff.
+  ///
+  /// In pt, this message translates to:
+  /// **'Desligada'**
+  String get parentsBreakOff;
+
+  /// No description provided for @parentsBreakMinutes.
+  ///
+  /// In pt, this message translates to:
+  /// **'{minutes} minutos'**
+  String parentsBreakMinutes(int minutes);
+
+  /// No description provided for @parentsProgressLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Progresso'**
+  String get parentsProgressLabel;
+
+  /// No description provided for @parentsProgressSteps.
+  ///
+  /// In pt, this message translates to:
+  /// **'{done} de {total} etapas concluídas'**
+  String parentsProgressSteps(int done, int total);
+
+  /// No description provided for @parentsProgressStars.
+  ///
+  /// In pt, this message translates to:
+  /// **'{stars} estrelas'**
+  String parentsProgressStars(int stars);
+
+  /// No description provided for @parentsAppearanceLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aparência'**
+  String get parentsAppearanceLabel;
+
+  /// No description provided for @parentsPrivacyLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Privacidade'**
+  String get parentsPrivacyLabel;
+
+  /// No description provided for @parentsPrivacySummary.
+  ///
+  /// In pt, this message translates to:
+  /// **'O Genius Kiddo não pede nome, data de nascimento nem e-mail da criança. Tudo fica guardado só neste aparelho, sem conexão com a internet, e a voz da criança nunca é gravada.'**
+  String get parentsPrivacySummary;
+
+  /// Placeholder até o M8 publicar a política de privacidade de verdade e virar link
+  ///
+  /// In pt, this message translates to:
+  /// **'A política de privacidade completa será publicada junto com o app na loja.'**
+  String get parentsPrivacyPolicyPlaceholder;
 }
 
 class _AppLocalizationsDelegate

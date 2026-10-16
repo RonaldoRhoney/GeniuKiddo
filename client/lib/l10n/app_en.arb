@@ -57,5 +57,40 @@
 
   "praise1": "Great job!", "praise2": "Yes! That is right!", "praise3": "Wow, well done!", "praise4": "Awesome!",
 
-  "celebrationContinue": "Continue"
+  "celebrationContinue": "Continue",
+
+  "breakMessage": "Time to rest your eyes! Let's drink some water?",
+  "breakHoldHint": "Ask a grown-up to hold here",
+
+  "parentGateLabel": "Parents area",
+
+  "parentsAreaTitle": "Parents area",
+  "parentsLanguageLabel": "Language",
+  "parentsSoundLabel": "Sound and voice",
+  "parentsMusicLabel": "Music",
+  "parentsVoiceToneLabel": "Voice tone",
+  "parentsVoiceToneSuave": "Gentle",
+  "parentsVoiceToneFofa": "Sweet",
+  "parentsVoiceToneSuper": "Extra sweet",
+  "parentsVoicePickLabel": "Guide's voice",
+  "parentsVoiceAuto": "Automatic",
+  "parentsTestVoice": "Test the voice",
+  "parentsVoiceTestPhrase": "Hi! This is my voice!",
+
+  "parentsBreakLabel": "Suggested break",
+  "parentsBreakOff": "Off",
+  "parentsBreakMinutes": "{minutes} minutes",
+  "@parentsBreakMinutes": {"placeholders": {"minutes": {"type": "int"}}},
+
+  "parentsProgressLabel": "Progress",
+  "parentsProgressSteps": "{done} of {total} steps completed",
+  "@parentsProgressSteps": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "parentsProgressStars": "{stars} stars",
+  "@parentsProgressStars": {"placeholders": {"stars": {"type": "int"}}},
+
+  "parentsAppearanceLabel": "Appearance",
+
+  "parentsPrivacyLabel": "Privacy",
+  "parentsPrivacySummary": "Genius Kiddo never asks for the child's name, birth date or email. Everything is stored only on this device, with no internet connection, and the child's voice is never recorded.",
+  "parentsPrivacyPolicyPlaceholder": "The full privacy policy will be published together with the app in the store."
 }

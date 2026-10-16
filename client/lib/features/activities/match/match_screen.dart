@@ -30,7 +30,9 @@ class MatchScreen extends ConsumerStatefulWidget {
 class _MatchScreenState extends ConsumerState<MatchScreen> {
   static const _rounds = 3;
   final _random = Random();
-  late final List<String> _targets = (List.of(widget.items)..shuffle(_random)).take(_rounds).toList();
+  late final List<String> _targets = (List.of(
+    widget.items,
+  )..shuffle(_random)).take(_rounds).toList();
   int _round = 0;
   bool _locked = false;
   bool _revealed = false;
@@ -52,14 +54,22 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
     _locked = false;
     _revealed = false;
     final target = _targets[_round];
-    final distractors = (List.of(widget.items)..remove(target)..shuffle(_random)).take(2).toList();
+    final distractors =
+        (List.of(widget.items)
+              ..remove(target)
+              ..shuffle(_random))
+            .take(2)
+            .toList();
     _options = [target, ...distractors]..shuffle(_random);
     setState(() {});
     WidgetsBinding.instance.addPostFrameCallback((_) => _speakPrompt());
   }
 
   void _speakPrompt() {
-    ref.read(itemFeedbackProvider).speech.speak(AppLocalizations.of(context)!.matchIntro);
+    ref
+        .read(itemFeedbackProvider)
+        .speech
+        .speak(AppLocalizations.of(context)!.matchIntro);
   }
 
   void _onTapOption(String id) {
@@ -71,7 +81,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
     if (id == target) {
       _locked = true;
       setState(() => _revealed = true);
-      feedback.correct(itemName(l10n, content.item(target).id), randomPraise(l10n, _round + id.length));
+      feedback.correct(
+        itemName(l10n, content.item(target).id),
+        randomPraise(l10n, _round + id.length),
+      );
       Future.delayed(const Duration(milliseconds: 1700), () {
         if (!mounted) return;
         if (_round + 1 >= _rounds) {
@@ -88,9 +101,15 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref.read(trailControllerProvider.notifier).complete(widget.nodeIndex);
+    final isFirst = await ref
+        .read(trailControllerProvider.notifier)
+        .complete(widget.nodeIndex);
     if (!mounted) return;
-    await showCelebration(context, isFirstCompletion: isFirst, message: l10n.matchDone);
+    await showCelebration(
+      context,
+      isFirstCompletion: isFirst,
+      message: l10n.matchDone,
+    );
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -113,7 +132,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
           Expanded(
             key: ValueKey('matchTarget_${_targets[_round]}'),
             child: Container(
-              decoration: BoxDecoration(color: AppColors.of(context).card, borderRadius: BorderRadius.circular(28)),
+              decoration: BoxDecoration(
+                color: AppColors.of(context).card,
+                borderRadius: BorderRadius.circular(28),
+              ),
               alignment: Alignment.center,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
@@ -124,10 +146,19 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   // `filter: brightness(0)` do protótipo — só revela a cor
                   // de verdade depois do acerto.
                   child: _revealed
-                      ? Text(target.emoji, style: const TextStyle(fontSize: 120))
+                      ? Text(
+                          target.emoji,
+                          style: const TextStyle(fontSize: 120),
+                        )
                       : ColorFiltered(
-                          colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                          child: Text(target.emoji, style: const TextStyle(fontSize: 120)),
+                          colorFilter: const ColorFilter.mode(
+                            Colors.black,
+                            BlendMode.srcIn,
+                          ),
+                          child: Text(
+                            target.emoji,
+                            style: const TextStyle(fontSize: 120),
+                          ),
                         ),
                 ),
               ),
@@ -149,7 +180,12 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(24),
                           onTap: () => _onTapOption(id),
-                          child: Center(child: Text(content.item(id).emoji, style: const TextStyle(fontSize: 48))),
+                          child: Center(
+                            child: Text(
+                              content.item(id).emoji,
+                              style: const TextStyle(fontSize: 48),
+                            ),
+                          ),
                         ),
                       ),
                     ),

@@ -11,7 +11,8 @@ class TrailState {
   final int done;
   final int stars;
 
-  TrailState copyWith({int? done, int? stars}) => TrailState(done: done ?? this.done, stars: stars ?? this.stars);
+  TrailState copyWith({int? done, int? stars}) =>
+      TrailState(done: done ?? this.done, stars: stars ?? this.stars);
 }
 
 /// Progressão da Fase 1 (seção 5.2 + 4.6): "libera por participação, não
@@ -46,4 +47,6 @@ class TrailController extends Notifier<TrailState> {
   }
 }
 
-final trailControllerProvider = NotifierProvider<TrailController, TrailState>(TrailController.new);
+final trailControllerProvider = NotifierProvider<TrailController, TrailState>(
+  TrailController.new,
+);

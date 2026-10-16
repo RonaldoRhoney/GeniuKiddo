@@ -26,7 +26,14 @@ class _Stroke {
 }
 
 class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
-  static const _colorIds = ['red', 'blue', 'yellow', 'green', 'purple', 'orange'];
+  static const _colorIds = [
+    'red',
+    'blue',
+    'yellow',
+    'green',
+    'purple',
+    'orange',
+  ];
 
   final List<_Stroke> _strokes = [];
   Color _color = PaintPalette.colors[0];
@@ -36,7 +43,10 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(itemFeedbackProvider).speech.speak(AppLocalizations.of(context)!.freeDrawIntro);
+      ref
+          .read(itemFeedbackProvider)
+          .speech
+          .speak(AppLocalizations.of(context)!.freeDrawIntro);
     });
   }
 
@@ -46,7 +56,10 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
     setState(_strokes.clear);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      ref.read(itemFeedbackProvider).speech.speak(AppLocalizations.of(context)!.freeDrawIntro);
+      ref
+          .read(itemFeedbackProvider)
+          .speech
+          .speak(AppLocalizations.of(context)!.freeDrawIntro);
     });
   }
 
@@ -69,7 +82,8 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
     final l10n = AppLocalizations.of(context)!;
     return ActivityShell(
       bubbleText: l10n.freeDrawIntro,
-      onRepeat: () => ref.read(itemFeedbackProvider).speech.speak(l10n.freeDrawIntro),
+      onRepeat: () =>
+          ref.read(itemFeedbackProvider).speech.speak(l10n.freeDrawIntro),
       body: Column(
         children: [
           Expanded(
@@ -82,16 +96,28 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
                     child: GestureDetector(
                       key: const ValueKey('freeDrawCanvas'),
                       onPanStart: (d) => setState(() {
-                        _strokes.add(_Stroke(_color)..points.add(d.localPosition));
+                        _strokes.add(
+                          _Stroke(_color)..points.add(d.localPosition),
+                        );
                       }),
                       onPanUpdate: (d) => setState(() {
                         _strokes.last.points.add(d.localPosition);
                       }),
-                      child: CustomPaint(painter: _FreeDrawPainter(_strokes), size: Size.infinite),
+                      child: CustomPaint(
+                        painter: _FreeDrawPainter(_strokes),
+                        size: Size.infinite,
+                      ),
                     ),
                   ),
                 ),
-                Positioned(right: 16, bottom: 16, child: _CompletionButton(hasDrawn: _strokes.isNotEmpty, onTap: _onCompletionTap)),
+                Positioned(
+                  right: 16,
+                  bottom: 16,
+                  child: _CompletionButton(
+                    hasDrawn: _strokes.isNotEmpty,
+                    onTap: _onCompletionTap,
+                  ),
+                ),
               ],
             ),
           ),
@@ -114,7 +140,9 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
                               color: PaintPalette.colors[i],
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: _colorId == _colorIds[i] ? AppColors.of(context).ink : Colors.transparent,
+                                color: _colorId == _colorIds[i]
+                                    ? AppColors.of(context).ink
+                                    : Colors.transparent,
                                 width: 3,
                               ),
                             ),
@@ -130,7 +158,13 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(Icons.cleaning_services_rounded, size: 32),
-                        Text(l10n.freeDrawClear, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
+                        Text(
+                          l10n.freeDrawClear,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -155,7 +189,12 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
       feedback.speech.speak(l10n.freeDrawFirst);
       return;
     }
-    showCelebration(context, isFirstCompletion: false, icon: '🎨', message: l10n.freeDrawCelebrate);
+    showCelebration(
+      context,
+      isFirstCompletion: false,
+      icon: '🎨',
+      message: l10n.freeDrawCelebrate,
+    );
   }
 }
 
@@ -206,7 +245,11 @@ class _FreeDrawPainter extends CustomPainter {
         canvas.drawLine(stroke.points[i], stroke.points[i + 1], paint);
       }
       if (stroke.points.length == 1) {
-        canvas.drawCircle(stroke.points.first, 12, paint..style = PaintingStyle.fill);
+        canvas.drawCircle(
+          stroke.points.first,
+          12,
+          paint..style = PaintingStyle.fill,
+        );
       }
     }
   }

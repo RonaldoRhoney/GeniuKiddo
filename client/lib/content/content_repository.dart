@@ -11,14 +11,24 @@ class ContentRepository {
   final Map<String, ItemDef> items;
   final List<TrailNodeDef> trail;
 
-  ItemDef item(String id) => items[id] ?? (throw StateError('item desconhecido: $id'));
+  ItemDef item(String id) =>
+      items[id] ?? (throw StateError('item desconhecido: $id'));
 
   static Future<ContentRepository> load() async {
-    final itemsRaw = jsonDecode(await rootBundle.loadString('assets/content/items.json')) as Map<String, dynamic>;
-    final trailRaw = jsonDecode(await rootBundle.loadString('assets/content/trail.json')) as List<dynamic>;
+    final itemsRaw = jsonDecode(
+      await rootBundle.loadString('assets/content/items.json'),
+    ) as Map<String, dynamic>;
+    final trailRaw = jsonDecode(
+      await rootBundle.loadString('assets/content/trail.json'),
+    ) as List<dynamic>;
     return ContentRepository(
-      items: {for (final e in itemsRaw.entries) e.key: ItemDef.fromJson(e.key, e.value as Map<String, dynamic>)},
-      trail: trailRaw.map((e) => TrailNodeDef.fromJson(e as Map<String, dynamic>)).toList(),
+      items: {
+        for (final e in itemsRaw.entries)
+          e.key: ItemDef.fromJson(e.key, e.value as Map<String, dynamic>),
+      },
+      trail: trailRaw
+          .map((e) => TrailNodeDef.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -26,5 +36,7 @@ class ContentRepository {
 /// Sobrescrito em `main.dart` depois do `ContentRepository.load()`
 /// assíncrono — nunca lido antes disso (mesmo padrão de persistenceServiceProvider).
 final contentRepositoryProvider = Provider<ContentRepository>(
-  (ref) => throw UnimplementedError('contentRepositoryProvider precisa de override em main.dart'),
+  (ref) => throw UnimplementedError(
+    'contentRepositoryProvider precisa de override em main.dart',
+  ),
 );

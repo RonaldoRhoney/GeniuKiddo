@@ -70,7 +70,11 @@ class TtsSpeechPort implements SpeechPort {
     }
   }
 
-  Future<void> _setPreferredVoice(String locale, String languageCode, PersistenceService persistence) async {
+  Future<void> _setPreferredVoice(
+    String locale,
+    String languageCode,
+    PersistenceService persistence,
+  ) async {
     final voices = await _voicesFor(locale);
     if (voices.isEmpty) return;
 
@@ -81,19 +85,45 @@ class TtsSpeechPort implements SpeechPort {
     }
     pick ??= _bestAutomaticVoice(voices, locale);
     if (pick == null) return;
-    await _tts.setVoice({'name': pick['name'] as String, 'locale': pick['locale'] as String});
+    await _tts.setVoice({
+      'name': pick['name'] as String,
+      'locale': pick['locale'] as String,
+    });
   }
 
   /// Seção 4.3: "seleção automática... preferência por vozes femininas,
   /// claras e jovens" — mesma lista curada dos protótipos HTML.
   static const _preferredNames = {
-    'pt-BR': ['Luciana', 'Google português do Brasil', 'Francisca', 'Maria', 'Fernanda', 'Vitória', 'Camila'],
-    'en-US': ['Samantha', 'Kathy', 'Ava', 'Allison', 'Google US English', 'Aria', 'Jenny', 'Zira', 'Susan'],
+    'pt-BR': [
+      'Luciana',
+      'Google português do Brasil',
+      'Francisca',
+      'Maria',
+      'Fernanda',
+      'Vitória',
+      'Camila',
+    ],
+    'en-US': [
+      'Samantha',
+      'Kathy',
+      'Ava',
+      'Allison',
+      'Google US English',
+      'Aria',
+      'Jenny',
+      'Zira',
+      'Susan',
+    ],
   };
 
-  Map<Object?, Object?>? _bestAutomaticVoice(List<Map<Object?, Object?>> voices, String locale) {
+  Map<Object?, Object?>? _bestAutomaticVoice(
+    List<Map<Object?, Object?>> voices,
+    String locale,
+  ) {
     for (final preferred in _preferredNames[locale] ?? const []) {
-      final match = voices.where((v) => (v['name'] as String? ?? '').contains(preferred)).firstOrNull;
+      final match = voices
+          .where((v) => (v['name'] as String? ?? '').contains(preferred))
+          .firstOrNull;
       if (match != null) return match;
     }
     return voices.first;
@@ -109,7 +139,11 @@ class TtsSpeechPort implements SpeechPort {
       }
     }
     final base = locale.split('-').first;
-    return _cachedVoices!.where((v) => (v['locale'] as String? ?? '').toLowerCase().startsWith(base)).toList();
+    return _cachedVoices!
+        .where(
+          (v) => (v['locale'] as String? ?? '').toLowerCase().startsWith(base),
+        )
+        .toList();
   }
 
   /// Exposto pra área dos pais (M4) listar e escolher a voz manualmente —

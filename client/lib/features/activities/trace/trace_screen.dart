@@ -39,7 +39,10 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
     final metric = path.computeMetrics().first;
     final total = metric.length;
     final n = (total / _step).floor() + 1;
-    return [for (var k = 0; k < n; k++) metric.getTangentForOffset((k * _step).clamp(0, total))!.position];
+    return [
+      for (var k = 0; k < n; k++)
+        metric.getTangentForOffset((k * _step).clamp(0, total))!.position,
+    ];
   }
 
   @override
@@ -47,7 +50,10 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final l10n = AppLocalizations.of(context)!;
-      ref.read(itemFeedbackProvider).speech.speak(l10n.traceIntro(glyphName(l10n, widget.glyph)));
+      ref
+          .read(itemFeedbackProvider)
+          .speech
+          .speak(l10n.traceIntro(glyphName(l10n, widget.glyph)));
     });
   }
 
@@ -60,7 +66,10 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final l10n = AppLocalizations.of(context)!;
-      ref.read(itemFeedbackProvider).speech.speak(l10n.traceIntro(glyphName(l10n, widget.glyph)));
+      ref
+          .read(itemFeedbackProvider)
+          .speech
+          .speak(l10n.traceIntro(glyphName(l10n, widget.glyph)));
     });
   }
 
@@ -83,9 +92,15 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref.read(trailControllerProvider.notifier).complete(widget.nodeIndex);
+    final isFirst = await ref
+        .read(trailControllerProvider.notifier)
+        .complete(widget.nodeIndex);
     if (!mounted) return;
-    await showCelebration(context, isFirstCompletion: isFirst, message: l10n.traceDone(glyphName(l10n, widget.glyph)));
+    await showCelebration(
+      context,
+      isFirstCompletion: isFirst,
+      message: l10n.traceDone(glyphName(l10n, widget.glyph)),
+    );
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -104,7 +119,10 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
       onRepeat: () => ref.read(itemFeedbackProvider).speech.speak(intro),
       body: Center(
         child: Container(
-          decoration: BoxDecoration(color: AppColors.of(context).card, borderRadius: BorderRadius.circular(28)),
+          decoration: BoxDecoration(
+            color: AppColors.of(context).card,
+            borderRadius: BorderRadius.circular(28),
+          ),
           padding: const EdgeInsets.all(10),
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -114,10 +132,16 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
                 height: side,
                 child: GestureDetector(
                   key: const ValueKey('traceCanvas'),
-                  onPanStart: (d) => _advance(_toViewBox(d.localPosition, side)),
-                  onPanUpdate: (d) => _advance(_toViewBox(d.localPosition, side)),
+                  onPanStart: (d) =>
+                      _advance(_toViewBox(d.localPosition, side)),
+                  onPanUpdate: (d) =>
+                      _advance(_toViewBox(d.localPosition, side)),
                   child: CustomPaint(
-                    painter: _TracePainter(path: _path, points: _points, idx: _idx),
+                    painter: _TracePainter(
+                      path: _path,
+                      points: _points,
+                      idx: _idx,
+                    ),
                     size: Size(side, side),
                   ),
                 ),
@@ -146,7 +170,8 @@ class _TracePainter extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = const Color(0xFF7C5CFF).withValues(alpha: .14) // marca, fixa nos dois temas (seção 9.2)
+        ..color = const Color(0xFF7C5CFF)
+            .withValues(alpha: .14) // marca, fixa nos dois temas (seção 9.2)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 46
         ..strokeCap = StrokeCap.round
@@ -168,7 +193,8 @@ class _TracePainter extends CustomPainter {
       canvas.drawPath(
         donePath,
         Paint()
-          ..color = const Color(0xFFFFC93C) // marca, fixa nos dois temas
+          ..color =
+              const Color(0xFFFFC93C) // marca, fixa nos dois temas
           ..style = PaintingStyle.stroke
           ..strokeWidth = 18
           ..strokeCap = StrokeCap.round
@@ -178,14 +204,21 @@ class _TracePainter extends CustomPainter {
 
     if (idx <= 2) {
       // Verde de marca, fixo nos dois temas (seção 9.2).
-      canvas.drawCircle(points.first, 24, Paint()..color = const Color(0xFF4FCB8D));
+      canvas.drawCircle(
+        points.first,
+        24,
+        Paint()..color = const Color(0xFF4FCB8D),
+      );
     }
     final starCenter = points[idx];
     final textPainter = TextPainter(
       text: const TextSpan(text: '⭐', style: TextStyle(fontSize: 34)),
       textDirection: TextDirection.ltr,
     )..layout();
-    textPainter.paint(canvas, starCenter - Offset(textPainter.width / 2, textPainter.height / 2));
+    textPainter.paint(
+      canvas,
+      starCenter - Offset(textPainter.width / 2, textPainter.height / 2),
+    );
 
     canvas.restore();
   }
@@ -196,8 +229,12 @@ class _TracePainter extends CustomPainter {
       var distance = 0.0;
       var draw = true;
       while (distance < metric.length) {
-        final next = (distance + (draw ? 1 : 18)).clamp(0, metric.length).toDouble();
-        if (draw) dashed.addPath(metric.extractPath(distance, next), Offset.zero);
+        final next = (distance + (draw ? 1 : 18))
+            .clamp(0, metric.length)
+            .toDouble();
+        if (draw) {
+          dashed.addPath(metric.extractPath(distance, next), Offset.zero);
+        }
         distance = next;
         draw = !draw;
       }
@@ -206,5 +243,6 @@ class _TracePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _TracePainter oldDelegate) => oldDelegate.idx != idx;
+  bool shouldRepaint(covariant _TracePainter oldDelegate) =>
+      oldDelegate.idx != idx;
 }

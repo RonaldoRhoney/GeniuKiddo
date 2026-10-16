@@ -29,7 +29,9 @@ class ListenScreen extends ConsumerStatefulWidget {
 class _ListenScreenState extends ConsumerState<ListenScreen> {
   static const _rounds = 3;
   final _random = Random();
-  late final List<String> _targets = (List.of(widget.items)..shuffle(_random)).take(_rounds).toList();
+  late final List<String> _targets = (List.of(
+    widget.items,
+  )..shuffle(_random)).take(_rounds).toList();
   int _round = 0;
   bool _locked = false;
   List<String> _grid = [];
@@ -61,7 +63,10 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
     final content = ref.read(contentRepositoryProvider);
     final item = content.item(_targets[_round]);
     final article = itemArticle(context, item);
-    ref.read(itemFeedbackProvider).speech.speak(l10n.listenPrompt(article, itemName(l10n, item.id)));
+    ref
+        .read(itemFeedbackProvider)
+        .speech
+        .speak(l10n.listenPrompt(article, itemName(l10n, item.id)));
   }
 
   void _onTapCard(String id) {
@@ -71,7 +76,10 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
     final content = ref.read(contentRepositoryProvider);
     if (id == _targets[_round]) {
       _locked = true;
-      feedback.correct(itemName(l10n, content.item(id).id), randomPraise(l10n, _round + id.length));
+      feedback.correct(
+        itemName(l10n, content.item(id).id),
+        randomPraise(l10n, _round + id.length),
+      );
       setState(() {});
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (!mounted) return;
@@ -87,7 +95,10 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
       final tItem = content.item(target);
       feedback.wrong(
         itemName(l10n, content.item(id).id),
-        l10n.listenPrompt(itemArticle(context, tItem), itemName(l10n, tItem.id)),
+        l10n.listenPrompt(
+          itemArticle(context, tItem),
+          itemName(l10n, tItem.id),
+        ),
       );
       setState(() => _hintId = target);
     }
@@ -95,9 +106,15 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref.read(trailControllerProvider.notifier).complete(widget.nodeIndex);
+    final isFirst = await ref
+        .read(trailControllerProvider.notifier)
+        .complete(widget.nodeIndex);
     if (!mounted) return;
-    await showCelebration(context, isFirstCompletion: isFirst, message: l10n.listenDone);
+    await showCelebration(
+      context,
+      isFirstCompletion: isFirst,
+      message: l10n.listenDone,
+    );
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -110,7 +127,10 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
     final l10n = AppLocalizations.of(context)!;
     final content = ref.watch(contentRepositoryProvider);
     final target = content.item(_targets[_round]);
-    final prompt = l10n.listenPrompt(itemArticle(context, target), itemName(l10n, target.id));
+    final prompt = l10n.listenPrompt(
+      itemArticle(context, target),
+      itemName(l10n, target.id),
+    );
     return ActivityShell(
       bubbleText: prompt,
       onRepeat: _speakPrompt,
@@ -140,7 +160,11 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
 }
 
 class _ListenCard extends StatelessWidget {
-  const _ListenCard({required this.emoji, required this.highlighted, required this.onTap});
+  const _ListenCard({
+    required this.emoji,
+    required this.highlighted,
+    required this.onTap,
+  });
 
   final String emoji;
   final bool highlighted;
@@ -157,9 +181,13 @@ class _ListenCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(28),
-            border: highlighted ? Border.all(color: AppColors.of(context).yellow, width: 7) : null,
+            border: highlighted
+                ? Border.all(color: AppColors.of(context).yellow, width: 7)
+                : null,
           ),
-          child: Center(child: Text(emoji, style: const TextStyle(fontSize: 64))),
+          child: Center(
+            child: Text(emoji, style: const TextStyle(fontSize: 64)),
+          ),
         ),
       ),
     );

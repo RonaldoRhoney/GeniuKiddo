@@ -9,7 +9,10 @@ class ThemeController extends Notifier<ThemeMode> {
   @override
   ThemeMode build() {
     final saved = ref.watch(persistenceServiceProvider).themeModeName;
-    return ThemeMode.values.firstWhere((m) => m.name == saved, orElse: () => ThemeMode.system);
+    return ThemeMode.values.firstWhere(
+      (m) => m.name == saved,
+      orElse: () => ThemeMode.system,
+    );
   }
 
   Future<void> setMode(ThemeMode mode) async {
@@ -20,10 +23,12 @@ class ThemeController extends Notifier<ThemeMode> {
   /// Alterna automático → claro → escuro → automático, pra um botão só
   /// (em vez de 3 segmentos) poder ciclar o tema.
   Future<void> cycle() => setMode(switch (state) {
-        ThemeMode.system => ThemeMode.light,
-        ThemeMode.light => ThemeMode.dark,
-        ThemeMode.dark => ThemeMode.system,
-      });
+    ThemeMode.system => ThemeMode.light,
+    ThemeMode.light => ThemeMode.dark,
+    ThemeMode.dark => ThemeMode.system,
+  });
 }
 
-final themeControllerProvider = NotifierProvider<ThemeController, ThemeMode>(ThemeController.new);
+final themeControllerProvider = NotifierProvider<ThemeController, ThemeMode>(
+  ThemeController.new,
+);

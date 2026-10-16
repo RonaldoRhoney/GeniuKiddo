@@ -10,7 +10,12 @@ import '../../app/top_controls.dart';
 /// alcançáveis daqui (seção 4.5/4.7), não só na área dos pais. Corpo livre
 /// por atividade.
 class ActivityShell extends StatelessWidget {
-  const ActivityShell({super.key, required this.bubbleText, required this.body, this.onRepeat});
+  const ActivityShell({
+    super.key,
+    required this.bubbleText,
+    required this.body,
+    this.onRepeat,
+  });
 
   final String bubbleText;
   final Widget body;
@@ -31,7 +36,10 @@ class ActivityShell extends StatelessWidget {
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.home_rounded),
-                    style: IconButton.styleFrom(backgroundColor: colors.card, shape: const CircleBorder()),
+                    style: IconButton.styleFrom(
+                      backgroundColor: colors.card,
+                      shape: const CircleBorder(),
+                    ),
                   ),
                   const Spacer(),
                   const TopControls(),
@@ -46,11 +54,23 @@ class ActivityShell extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                      decoration: BoxDecoration(color: colors.card, borderRadius: BorderRadius.circular(20)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colors.card,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Semantics(
                         liveRegion: true,
-                        child: Text(bubbleText, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17)),
+                        child: Text(
+                          bubbleText,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 17,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -59,13 +79,21 @@ class ActivityShell extends StatelessWidget {
                     IconButton(
                       onPressed: onRepeat,
                       icon: const Icon(Icons.volume_up_rounded),
-                      style: IconButton.styleFrom(backgroundColor: colors.card, shape: const CircleBorder()),
+                      style: IconButton.styleFrom(
+                        backgroundColor: colors.card,
+                        shape: const CircleBorder(),
+                      ),
                     ),
                   ],
                 ],
               ),
             ),
-            Expanded(child: Padding(padding: const EdgeInsets.fromLTRB(16, 8, 16, 16), child: body)),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: body,
+              ),
+            ),
           ],
         ),
       ),

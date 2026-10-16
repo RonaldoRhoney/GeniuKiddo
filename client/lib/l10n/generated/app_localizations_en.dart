@@ -193,4 +193,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get celebrationContinue => 'Continue';
+
+  @override
+  String get breakMessage => 'Time to rest your eyes! Let\'s drink some water?';
+
+  @override
+  String get breakHoldHint => 'Ask a grown-up to hold here';
+
+  @override
+  String get parentGateLabel => 'Parents area';
+
+  @override
+  String get parentsAreaTitle => 'Parents area';
+
+  @override
+  String get parentsLanguageLabel => 'Language';
+
+  @override
+  String get parentsSoundLabel => 'Sound and voice';
+
+  @override
+  String get parentsMusicLabel => 'Music';
+
+  @override
+  String get parentsVoiceToneLabel => 'Voice tone';
+
+  @override
+  String get parentsVoiceToneSuave => 'Gentle';
+
+  @override
+  String get parentsVoiceToneFofa => 'Sweet';
+
+  @override
+  String get parentsVoiceToneSuper => 'Extra sweet';
+
+  @override
+  String get parentsVoicePickLabel => 'Guide\'s voice';
+
+  @override
+  String get parentsVoiceAuto => 'Automatic';
+
+  @override
+  String get parentsTestVoice => 'Test the voice';
+
+  @override
+  String get parentsVoiceTestPhrase => 'Hi! This is my voice!';
+
+  @override
+  String get parentsBreakLabel => 'Suggested break';
+
+  @override
+  String get parentsBreakOff => 'Off';
+
+  @override
+  String parentsBreakMinutes(int minutes) {
+    return '$minutes minutes';
+  }
+
+  @override
+  String get parentsProgressLabel => 'Progress';
+
+  @override
+  String parentsProgressSteps(int done, int total) {
+    return '$done of $total steps completed';
+  }
+
+  @override
+  String parentsProgressStars(int stars) {
+    return '$stars stars';
+  }
+
+  @override
+  String get parentsAppearanceLabel => 'Appearance';
+
+  @override
+  String get parentsPrivacyLabel => 'Privacy';
+
+  @override
+  String get parentsPrivacySummary =>
+      'Genius Kiddo never asks for the child\'s name, birth date or email. Everything is stored only on this device, with no internet connection, and the child\'s voice is never recorded.';
+
+  @override
+  String get parentsPrivacyPolicyPlaceholder =>
+      'The full privacy policy will be published together with the app in the store.';
 }

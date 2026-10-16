@@ -28,8 +28,8 @@ class RoundDots extends StatelessWidget {
                 color: i < current
                     ? colors.yellow
                     : i == current
-                        ? colors.purple
-                        : colors.ink.withValues(alpha: .14),
+                    ? colors.purple
+                    : colors.ink.withValues(alpha: .14),
               ),
             ),
           ),

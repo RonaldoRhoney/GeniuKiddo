@@ -34,7 +34,9 @@ class JustAudioSoundPort implements SoundPort {
       await player.play();
       // Efeito é curtíssimo (< 1s) — espera terminar e descarta o player,
       // em vez de manter um player por som vivo a aplicação inteira.
-      await player.playerStateStream.firstWhere((s) => s.processingState == ProcessingState.completed);
+      await player.playerStateStream.firstWhere(
+        (s) => s.processingState == ProcessingState.completed,
+      );
     } catch (_) {
       // Som ausente/falha do motor de áudio nunca derruba a tela.
     } finally {
@@ -94,4 +96,6 @@ class MusicController extends Notifier<bool> {
   }
 }
 
-final musicControllerProvider = NotifierProvider<MusicController, bool>(MusicController.new);
+final musicControllerProvider = NotifierProvider<MusicController, bool>(
+  MusicController.new,
+);

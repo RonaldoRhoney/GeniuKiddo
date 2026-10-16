@@ -19,7 +19,10 @@ class LanguagePill extends ConsumerWidget {
     final current = ref.watch(languageControllerProvider).code;
     return Container(
       padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(color: colors.card, borderRadius: BorderRadius.circular(34)),
+      decoration: BoxDecoration(
+        color: colors.card,
+        borderRadius: BorderRadius.circular(34),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -28,7 +31,9 @@ class LanguagePill extends ConsumerWidget {
             _PillButton(
               label: supportedLanguages[i].greeting,
               selected: supportedLanguages[i].code == current,
-              onTap: () => ref.read(languageControllerProvider.notifier).choose(supportedLanguages[i].code),
+              onTap: () => ref
+                  .read(languageControllerProvider.notifier)
+                  .choose(supportedLanguages[i].code),
             ),
           ],
         ],
@@ -42,7 +47,11 @@ class LanguagePill extends ConsumerWidget {
 /// (14/10/2026) pra melhorar a usabilidade da pílula, que estava pequena
 /// demais pra tocar com precisão.
 class _PillButton extends StatelessWidget {
-  const _PillButton({required this.label, required this.selected, required this.onTap});
+  const _PillButton({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   final String label;
   final bool selected;
@@ -63,7 +72,11 @@ class _PillButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Text(
             label,
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: selected ? Colors.white : colors.ink),
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: 20,
+              color: selected ? Colors.white : colors.ink,
+            ),
           ),
         ),
       ),

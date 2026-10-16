@@ -17,7 +17,12 @@ class LanguageScreen extends ConsumerWidget {
 
   // Ciclo de cores de marca pros cartões — se um dia houver mais idiomas
   // que cores aqui, repete do início (nunca quebra, só repete tom).
-  static const _cardColors = [Color(0xFF7C5CFF), Color(0xFF2F86E6), Color(0xFFFF9B3D), Color(0xFF4FCB8D)];
+  static const _cardColors = [
+    Color(0xFF7C5CFF),
+    Color(0xFF2F86E6),
+    Color(0xFFFF9B3D),
+    Color(0xFF4FCB8D),
+  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,7 +76,9 @@ class _LanguageCard extends ConsumerWidget {
         onTap: () async {
           await ref.read(languageControllerProvider.notifier).choose(lang.code);
           if (context.mounted) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const TrailScreen()));
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const TrailScreen()),
+            );
           }
         },
         child: Padding(
@@ -79,9 +86,23 @@ class _LanguageCard extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(lang.greeting, style: const TextStyle(fontSize: 46, fontWeight: FontWeight.w800, color: Colors.white)),
+              Text(
+                lang.greeting,
+                style: const TextStyle(
+                  fontSize: 46,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text(lang.nativeName, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Colors.white)),
+              Text(
+                lang.nativeName,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
             ],
           ),
         ),

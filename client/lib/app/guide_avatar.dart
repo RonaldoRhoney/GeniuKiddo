@@ -53,7 +53,10 @@ class _GuidePainter extends CustomPainter {
     );
 
     // Corpo.
-    canvas.drawOval(Rect.fromCenter(center: const Offset(60, 98), width: 54, height: 42), Paint()..color = _purple);
+    canvas.drawOval(
+      Rect.fromCenter(center: const Offset(60, 98), width: 54, height: 42),
+      Paint()..color = _purple,
+    );
 
     // Braços acenando + mãos.
     final armPaint = Paint()
@@ -61,9 +64,19 @@ class _GuidePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 13
       ..strokeCap = StrokeCap.round;
-    canvas.drawPath(Path()..moveTo(37, 94)..quadraticBezierTo(18, 82, 21, 62), armPaint);
+    canvas.drawPath(
+      Path()
+        ..moveTo(37, 94)
+        ..quadraticBezierTo(18, 82, 21, 62),
+      armPaint,
+    );
     canvas.drawCircle(const Offset(20, 60), 9.5, Paint()..color = _skin);
-    canvas.drawPath(Path()..moveTo(83, 94)..quadraticBezierTo(102, 82, 99, 62), armPaint);
+    canvas.drawPath(
+      Path()
+        ..moveTo(83, 94)
+        ..quadraticBezierTo(102, 82, 99, 62),
+      armPaint,
+    );
     canvas.drawCircle(const Offset(100, 60), 9.5, Paint()..color = _skin);
 
     // Cabeça.
@@ -84,12 +97,22 @@ class _GuidePainter extends CustomPainter {
 
     // Joia.
     canvas.drawCircle(const Offset(60, 21), 8.5, Paint()..color = _gem);
-    canvas.drawCircle(const Offset(57, 18), 2.6, Paint()..color = Colors.white.withValues(alpha: .65));
+    canvas.drawCircle(
+      const Offset(57, 18),
+      2.6,
+      Paint()..color = Colors.white.withValues(alpha: .65),
+    );
 
     // Olhos.
     final eyePaint = Paint()..color = _ink;
-    canvas.drawOval(Rect.fromCenter(center: const Offset(45, 56), width: 13, height: 17), eyePaint);
-    canvas.drawOval(Rect.fromCenter(center: const Offset(75, 56), width: 13, height: 17), eyePaint);
+    canvas.drawOval(
+      Rect.fromCenter(center: const Offset(45, 56), width: 13, height: 17),
+      eyePaint,
+    );
+    canvas.drawOval(
+      Rect.fromCenter(center: const Offset(75, 56), width: 13, height: 17),
+      eyePaint,
+    );
     final shinePaint = Paint()..color = Colors.white;
     canvas.drawCircle(const Offset(47.3, 52), 2.4, shinePaint);
     canvas.drawCircle(const Offset(77.3, 52), 2.4, shinePaint);
@@ -105,7 +128,9 @@ class _GuidePainter extends CustomPainter {
       ..close();
     canvas.drawPath(mouth, Paint()..color = _ink);
     canvas.drawPath(
-      Path()..moveTo(51, 73.5)..quadraticBezierTo(60, 79, 69, 73.5),
+      Path()
+        ..moveTo(51, 73.5)
+        ..quadraticBezierTo(60, 79, 69, 73.5),
       Paint()
         ..color = _mouthShine.withValues(alpha: .6)
         ..style = PaintingStyle.stroke

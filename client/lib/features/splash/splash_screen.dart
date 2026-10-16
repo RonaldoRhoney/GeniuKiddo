@@ -31,11 +31,7 @@ class SplashScreen extends ConsumerWidget {
             // texto branco por cima; achado real testando no celular).
             gradient: const RadialGradient(
               center: Alignment(0, -0.4),
-              colors: [
-                Color(0xFFA58BFF),
-                Color(0xFF7C5CFF),
-                Color(0xFF5A3FD6),
-              ],
+              colors: [Color(0xFFA58BFF), Color(0xFF7C5CFF), Color(0xFF5A3FD6)],
             ),
           ),
           child: SafeArea(

@@ -27,7 +27,14 @@ class PaintScreen extends ConsumerStatefulWidget {
 }
 
 class _PaintScreenState extends ConsumerState<PaintScreen> {
-  static const _colorIds = ['red', 'blue', 'yellow', 'green', 'purple', 'orange'];
+  static const _colorIds = [
+    'red',
+    'blue',
+    'yellow',
+    'green',
+    'purple',
+    'orange',
+  ];
 
   late final List<PaintRegion> _regions = paintArt(widget.art);
   final Map<String, Color> _painted = {};
@@ -40,7 +47,10 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(itemFeedbackProvider).speech.speak(AppLocalizations.of(context)!.paintIntro);
+      ref
+          .read(itemFeedbackProvider)
+          .speech
+          .speak(AppLocalizations.of(context)!.paintIntro);
     });
     _armHint();
   }
@@ -56,7 +66,10 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      ref.read(itemFeedbackProvider).speech.speak(AppLocalizations.of(context)!.paintIntro);
+      ref
+          .read(itemFeedbackProvider)
+          .speech
+          .speak(AppLocalizations.of(context)!.paintIntro);
     });
     _armHint();
   }
@@ -73,7 +86,9 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
     _hintTimer = Timer(const Duration(seconds: 7), () {
       final left = _regions.where((r) => !_painted.containsKey(r.id)).toList();
       if (left.isEmpty || !mounted) return;
-      setState(() => _hintRegionId = left[DateTime.now().millisecond % left.length].id);
+      setState(
+        () => _hintRegionId = left[DateTime.now().millisecond % left.length].id,
+      );
     });
   }
 
@@ -109,9 +124,15 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
   Future<void> _finish() async {
     _hintTimer?.cancel();
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref.read(trailControllerProvider.notifier).complete(widget.nodeIndex);
+    final isFirst = await ref
+        .read(trailControllerProvider.notifier)
+        .complete(widget.nodeIndex);
     if (!mounted) return;
-    await showCelebration(context, isFirstCompletion: isFirst, message: l10n.paintDone);
+    await showCelebration(
+      context,
+      isFirstCompletion: isFirst,
+      message: l10n.paintDone,
+    );
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -124,12 +145,16 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
     final l10n = AppLocalizations.of(context)!;
     return ActivityShell(
       bubbleText: l10n.paintIntro,
-      onRepeat: () => ref.read(itemFeedbackProvider).speech.speak(l10n.paintIntro),
+      onRepeat: () =>
+          ref.read(itemFeedbackProvider).speech.speak(l10n.paintIntro),
       body: Column(
         children: [
           Expanded(
             child: Container(
-              decoration: BoxDecoration(color: AppColors.of(context).card, borderRadius: BorderRadius.circular(28)),
+              decoration: BoxDecoration(
+                color: AppColors.of(context).card,
+                borderRadius: BorderRadius.circular(28),
+              ),
               padding: const EdgeInsets.all(10),
               child: LayoutBuilder(
                 builder: (context, constraints) {
@@ -141,7 +166,14 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
                       child: GestureDetector(
                         key: const ValueKey('paintCanvas'),
                         onTapUp: (d) => _onTapUpCanvas(d, Size(side, side)),
-                        child: CustomPaint(painter: _PaintPainter(_regions, _painted, _hintRegionId), size: Size(side, side)),
+                        child: CustomPaint(
+                          painter: _PaintPainter(
+                            _regions,
+                            _painted,
+                            _hintRegionId,
+                          ),
+                          size: Size(side, side),
+                        ),
                       ),
                     ),
                   );
@@ -168,12 +200,20 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
                               color: PaintPalette.colors[i],
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: _selectedId == _colorIds[i] ? AppColors.of(context).ink : Colors.transparent,
+                                color: _selectedId == _colorIds[i]
+                                    ? AppColors.of(context).ink
+                                    : Colors.transparent,
                                 width: 3,
                               ),
                             ),
                           ),
-                          Text(colorName(l10n, _colorIds[i]), style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
+                          Text(
+                            colorName(l10n, _colorIds[i]),
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -205,7 +245,9 @@ class _PaintPainter extends CustomPainter {
       canvas.drawPath(
         path,
         Paint()
-          ..color = painted[region.id] ?? (isHint ? const Color(0xFFFFE39A) : Colors.white)
+          ..color =
+              painted[region.id] ??
+              (isHint ? const Color(0xFFFFE39A) : Colors.white)
           ..style = PaintingStyle.fill,
       );
       canvas.drawPath(
@@ -221,5 +263,6 @@ class _PaintPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _PaintPainter oldDelegate) =>
-      oldDelegate.painted.length != painted.length || oldDelegate.hintRegionId != hintRegionId;
+      oldDelegate.painted.length != painted.length ||
+      oldDelegate.hintRegionId != hintRegionId;
 }

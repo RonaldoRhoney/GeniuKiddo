@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/guide_avatar.dart';
+import '../../app/hold_to_unlock.dart';
 import '../../app/theme.dart';
 import '../../app/top_controls.dart';
 import '../../content/content_repository.dart';
@@ -18,6 +19,7 @@ import '../activities/match/match_screen.dart';
 import '../activities/paint/paint_screen.dart';
 import '../activities/speak/speak_screen.dart';
 import '../activities/trace/trace_screen.dart';
+import '../parents/parents_area_screen.dart';
 import 'trail_controller.dart';
 
 const _activityIcons = <ActivityType, IconData>{
@@ -45,7 +47,10 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
       if (!mounted) return;
       final l10n = AppLocalizations.of(context)!;
       final isFirst = ref.read(languageControllerProvider).isFirstChoice;
-      ref.read(itemFeedbackProvider).speech.speak(isFirst ? l10n.welcomeFirst : l10n.welcomeBack);
+      ref
+          .read(itemFeedbackProvider)
+          .speech
+          .speak(isFirst ? l10n.welcomeFirst : l10n.welcomeBack);
     });
   }
 
@@ -56,20 +61,27 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
       ref.read(itemFeedbackProvider).speech.speak(l10n.trailLocked);
       return;
     }
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => _activityFor(index, node))).then((_) {
-      if (!mounted) return;
-      final trail = ref.read(trailControllerProvider);
-      final content = ref.read(contentRepositoryProvider);
-      final l10n = AppLocalizations.of(context)!;
-      final justFinishedThis = trail.done == index + 1;
-      if (justFinishedThis) {
-        ref.read(itemFeedbackProvider).speech.speak(
-              trail.done < content.trail.length ? l10n.trailNewActivity : l10n.trailAllDone,
-            );
-      } else {
-        ref.read(itemFeedbackProvider).speech.speak(l10n.trailPlayMore);
-      }
-    });
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => _activityFor(index, node)))
+        .then((_) {
+          if (!mounted) return;
+          final trail = ref.read(trailControllerProvider);
+          final content = ref.read(contentRepositoryProvider);
+          final l10n = AppLocalizations.of(context)!;
+          final justFinishedThis = trail.done == index + 1;
+          if (justFinishedThis) {
+            ref
+                .read(itemFeedbackProvider)
+                .speech
+                .speak(
+                  trail.done < content.trail.length
+                      ? l10n.trailNewActivity
+                      : l10n.trailAllDone,
+                );
+          } else {
+            ref.read(itemFeedbackProvider).speech.speak(l10n.trailPlayMore);
+          }
+        });
   }
 
   Widget _activityFor(int index, TrailNodeDef node) {
@@ -89,85 +101,137 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
     final content = ref.watch(contentRepositoryProvider);
     final trail = ref.watch(trailControllerProvider);
 
-    return Scaffold(
-      backgroundColor: colors.bg,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    decoration: BoxDecoration(color: colors.card, borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      children: [
-                        const Text('⭐', style: TextStyle(fontSize: 20)),
-                        const SizedBox(width: 6),
-                        Text('${trail.stars}', style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18)),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  const TopControls(),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-              child: Row(
-                children: [
-                  const GuideAvatar(size: 56),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                      decoration: BoxDecoration(color: colors.card, borderRadius: BorderRadius.circular(20)),
-                      child: Text(
-                        ref.watch(languageControllerProvider).isFirstChoice ? l10n.welcomeFirst : l10n.welcomeBack,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
+    return PopScope(
+      // Seção 4.10: "o botão voltar do Android... não fecha o app" — a
+      // trilha é a raiz da navegação (splash sai do histórico com
+      // `pushReplacement`), então aqui simplesmente absorve o gesto.
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: colors.bg,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colors.card,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        children: [
+                          const Text('⭐', style: TextStyle(fontSize: 20)),
+                          const SizedBox(width: 6),
+                          Text(
+                            '${trail.stars}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                itemCount: content.trail.length,
-                itemBuilder: (context, index) {
-                  final node = content.trail[index];
-                  final status = ref.watch(trailControllerProvider.notifier).statusOf(index);
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Align(
-                      alignment: index.isOdd ? Alignment.centerRight : (index % 4 == 2 ? Alignment.centerLeft : Alignment.center),
-                      child: _TrailNode(
-                        title: trailNodeTitle(l10n, node.id),
-                        icon: _activityIcons[node.type]!,
-                        status: status,
-                        onTap: () => _openNode(index, node),
+                    const Spacer(),
+                    const TopControls(),
+                    const SizedBox(width: 8),
+                    HoldToUnlock(
+                      semanticLabel: l10n.parentGateLabel,
+                      onUnlock: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const ParentsAreaScreen(),
+                        ),
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-              child: SizedBox(
-                height: 60,
-                child: FilledButton.icon(
-                  style: FilledButton.styleFrom(backgroundColor: colors.purple, shape: const StadiumBorder()),
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const FreeDrawScreen())),
-                  icon: const Text('🖍️', style: TextStyle(fontSize: 22)),
-                  label: Text(l10n.trailFreeDraw, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18)),
+                  ],
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                child: Row(
+                  children: [
+                    const GuideAvatar(size: 56),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: colors.card,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          ref.watch(languageControllerProvider).isFirstChoice
+                              ? l10n.welcomeFirst
+                              : l10n.welcomeBack,
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  itemCount: content.trail.length,
+                  itemBuilder: (context, index) {
+                    final node = content.trail[index];
+                    final status = ref
+                        .watch(trailControllerProvider.notifier)
+                        .statusOf(index);
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Align(
+                        alignment: index.isOdd
+                            ? Alignment.centerRight
+                            : (index % 4 == 2
+                                  ? Alignment.centerLeft
+                                  : Alignment.center),
+                        child: _TrailNode(
+                          title: trailNodeTitle(l10n, node.id),
+                          icon: _activityIcons[node.type]!,
+                          status: status,
+                          onTap: () => _openNode(index, node),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+                child: SizedBox(
+                  height: 60,
+                  child: FilledButton.icon(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colors.purple,
+                      shape: const StadiumBorder(),
+                    ),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const FreeDrawScreen()),
+                    ),
+                    icon: const Text('🖍️', style: TextStyle(fontSize: 22)),
+                    label: Text(
+                      l10n.trailFreeDraw,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -175,7 +239,12 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
 }
 
 class _TrailNode extends StatelessWidget {
-  const _TrailNode({required this.title, required this.icon, required this.status, required this.onTap});
+  const _TrailNode({
+    required this.title,
+    required this.icon,
+    required this.status,
+    required this.onTap,
+  });
 
   final String title;
   final IconData icon;
@@ -204,7 +273,11 @@ class _TrailNode extends StatelessWidget {
                 child: status == TrailNodeStatus.locked
                     ? ImageFiltered(
                         imageFilter: ImageFilter.blur(sigmaX: 2.4, sigmaY: 2.4),
-                        child: Icon(icon, size: 38, color: Colors.white.withValues(alpha: .7)),
+                        child: Icon(
+                          icon,
+                          size: 38,
+                          color: Colors.white.withValues(alpha: .7),
+                        ),
                       )
                     : Icon(icon, size: 38, color: Colors.white),
               ),
@@ -215,12 +288,23 @@ class _TrailNode extends StatelessWidget {
                   child: Container(
                     width: 30,
                     height: 30,
-                    decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                    child: Icon(Icons.check_rounded, color: colors.green, size: 20),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.check_rounded,
+                      color: colors.green,
+                      size: 20,
+                    ),
                   ),
                 ),
               if (status == TrailNodeStatus.current)
-                const Positioned(right: -24, bottom: -8, child: Text('👆', style: TextStyle(fontSize: 30))),
+                const Positioned(
+                  right: -24,
+                  bottom: -8,
+                  child: Text('👆', style: TextStyle(fontSize: 30)),
+                ),
             ],
           ),
           const SizedBox(height: 6),
@@ -229,7 +313,11 @@ class _TrailNode extends StatelessWidget {
             child: Text(
               status == TrailNodeStatus.locked ? '?' : title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.ink.withValues(alpha: .75)),
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: colors.ink.withValues(alpha: .75),
+              ),
             ),
           ),
         ],

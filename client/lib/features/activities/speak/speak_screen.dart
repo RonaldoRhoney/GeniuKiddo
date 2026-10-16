@@ -47,7 +47,10 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
   void _speakPrompt() {
     final l10n = AppLocalizations.of(context)!;
     final item = ref.read(contentRepositoryProvider).item(widget.items[_round]);
-    ref.read(itemFeedbackProvider).speech.speak(l10n.speakPrompt(itemName(l10n, item.id)));
+    ref
+        .read(itemFeedbackProvider)
+        .speech
+        .speak(l10n.speakPrompt(itemName(l10n, item.id)));
   }
 
   void _onTapItem() {
@@ -77,9 +80,15 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref.read(trailControllerProvider.notifier).complete(widget.nodeIndex);
+    final isFirst = await ref
+        .read(trailControllerProvider.notifier)
+        .complete(widget.nodeIndex);
     if (!mounted) return;
-    await showCelebration(context, isFirstCompletion: isFirst, message: l10n.speakDone);
+    await showCelebration(
+      context,
+      isFirstCompletion: isFirst,
+      message: l10n.speakDone,
+    );
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -113,7 +122,14 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
                     children: [
                       Text(item.emoji, style: const TextStyle(fontSize: 150)),
                       const SizedBox(height: 4),
-                      Text(itemName(l10n, item.id), style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: AppColors.of(context).purple)),
+                      Text(
+                        itemName(l10n, item.id),
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.of(context).purple,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -129,12 +145,20 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
               onTap: _onConfirm,
               child: Padding(
                 padding: const EdgeInsets.all(26),
-                child: Icon(Icons.check_rounded, size: 46, color: Colors.white, semanticLabel: l10n.speakISaidIt),
+                child: Icon(
+                  Icons.check_rounded,
+                  size: 46,
+                  color: Colors.white,
+                  semanticLabel: l10n.speakISaidIt,
+                ),
               ),
             ),
           ),
           const SizedBox(height: 10),
-          Text(l10n.speakMicNote, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+          Text(
+            l10n.speakMicNote,
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
         ],
       ),
     );

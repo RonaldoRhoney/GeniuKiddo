@@ -14,7 +14,8 @@ class LanguageState {
   final String? code;
   final bool isFirstChoice;
 
-  LanguageState copyWith({String? code}) => LanguageState(code: code ?? this.code, isFirstChoice: isFirstChoice);
+  LanguageState copyWith({String? code}) =>
+      LanguageState(code: code ?? this.code, isFirstChoice: isFirstChoice);
 }
 
 class LanguageController extends Notifier<LanguageState> {
@@ -30,4 +31,5 @@ class LanguageController extends Notifier<LanguageState> {
   }
 }
 
-final languageControllerProvider = NotifierProvider<LanguageController, LanguageState>(LanguageController.new);
+final languageControllerProvider =
+    NotifierProvider<LanguageController, LanguageState>(LanguageController.new);

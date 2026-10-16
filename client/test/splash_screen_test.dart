@@ -15,29 +15,34 @@ import 'test_harness.dart';
 // bug do app (confirmado rodando no celular de verdade), é alguma
 // interação do test runner entre múltiplos testes no mesmo arquivo.
 void main() {
-  testWidgets('splash mostra o convite de toque e leva pra escolha de idioma quando não há idioma salvo', (tester) async {
-    setPhoneSize(tester);
-    SharedPreferences.setMockInitialValues({});
-    final prefs = await SharedPreferences.getInstance();
-    final content = await ContentRepository.load();
+  testWidgets(
+    'splash mostra o convite de toque e leva pra escolha de idioma quando não há idioma salvo',
+    (tester) async {
+      setPhoneSize(tester);
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final content = await ContentRepository.load();
 
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          persistenceServiceProvider.overrideWithValue(PersistenceService(prefs)),
-          contentRepositoryProvider.overrideWithValue(content),
-        ],
-        child: const GeniusKiddoApp(),
-      ),
-    );
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            persistenceServiceProvider.overrideWithValue(
+              PersistenceService(prefs),
+            ),
+            contentRepositoryProvider.overrideWithValue(content),
+          ],
+          child: const GeniusKiddoApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
 
-    expect(find.text('Toque para começar'), findsOneWidget);
+      expect(find.text('Toque para começar'), findsOneWidget);
 
-    await tester.tap(find.text('Toque para começar'));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text('Toque para começar'));
+      await tester.pumpAndSettle();
 
-    expect(find.text('Oi!'), findsOneWidget);
-    expect(find.text('Hi!'), findsOneWidget);
-  });
+      expect(find.text('Oi!'), findsOneWidget);
+      expect(find.text('Hi!'), findsOneWidget);
+    },
+  );
 }

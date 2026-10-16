@@ -17,11 +17,13 @@ class PersistenceService {
   static const _kVoiceEnabledKey = 'genius_kiddo_voice_enabled_v1';
   static const _kVoiceToneKey = 'genius_kiddo_voice_tone_v1';
   static const _kVoiceNamePrefix = 'genius_kiddo_voice_name_v1_';
+  static const _kBreakMinutesKey = 'genius_kiddo_break_minutes_v1';
 
   /// `null` = app ainda não teve idioma escolhido (primeira execução).
   String? get languageCode => _prefs.getString(_kLanguageCodeKey);
 
-  Future<void> setLanguageCode(String code) => _prefs.setString(_kLanguageCodeKey, code);
+  Future<void> setLanguageCode(String code) =>
+      _prefs.setString(_kLanguageCodeKey, code);
 
   /// Seção 4.9: progresso da Fase 1 — quantas etapas da trilha já foram
   /// concluídas (índice da próxima etapa "atual"), nenhum identificador.
@@ -38,36 +40,52 @@ class PersistenceService {
   /// ler um valor salvo por uma versão antiga do app.
   String get themeModeName => _prefs.getString(_kThemeModeKey) ?? 'auto';
 
-  Future<void> setThemeModeName(String value) => _prefs.setString(_kThemeModeKey, value);
+  Future<void> setThemeModeName(String value) =>
+      _prefs.setString(_kThemeModeKey, value);
 
   /// Seção 4.4/4.7: música e voz, ligadas por padrão, botão sempre visível
   /// pra desligar.
   bool get musicEnabled => _prefs.getBool(_kMusicEnabledKey) ?? true;
 
-  Future<void> setMusicEnabled(bool value) => _prefs.setBool(_kMusicEnabledKey, value);
+  Future<void> setMusicEnabled(bool value) =>
+      _prefs.setBool(_kMusicEnabledKey, value);
 
   bool get voiceEnabled => _prefs.getBool(_kVoiceEnabledKey) ?? true;
 
-  Future<void> setVoiceEnabled(bool value) => _prefs.setBool(_kVoiceEnabledKey, value);
+  Future<void> setVoiceEnabled(bool value) =>
+      _prefs.setBool(_kVoiceEnabledKey, value);
 
   /// Seção 4.3: 'suave'|'fofa'|'super' — padrão "Fofa".
   String get voiceTone => _prefs.getString(_kVoiceToneKey) ?? 'fofa';
 
-  Future<void> setVoiceTone(String value) => _prefs.setString(_kVoiceToneKey, value);
+  Future<void> setVoiceTone(String value) =>
+      _prefs.setString(_kVoiceToneKey, value);
 
   /// Escolha manual de voz do sistema, por idioma (seção 4.3: "escolha
   /// manual na área dos pais... preferência salva por idioma"). `null` =
   /// deixa a seleção automática escolher.
-  String? voiceNameFor(String languageCode) => _prefs.getString('$_kVoiceNamePrefix$languageCode');
+  String? voiceNameFor(String languageCode) =>
+      _prefs.getString('$_kVoiceNamePrefix$languageCode');
 
   Future<void> setVoiceNameFor(String languageCode, String? voiceName) {
-    if (voiceName == null) return _prefs.remove('$_kVoiceNamePrefix$languageCode');
+    if (voiceName == null) {
+      return _prefs.remove('$_kVoiceNamePrefix$languageCode');
+    }
     return _prefs.setString('$_kVoiceNamePrefix$languageCode', voiceName);
   }
+
+  /// Seção 4.8: minutos de uso contínuo até a pausa sugerida — 0 = desligada,
+  /// padrão 15.
+  int get breakMinutes => _prefs.getInt(_kBreakMinutesKey) ?? 15;
+
+  Future<void> setBreakMinutes(int value) =>
+      _prefs.setInt(_kBreakMinutesKey, value);
 }
 
 /// Sobrescrito em `main.dart` com a instância real, depois do
 /// `SharedPreferences.getInstance()` assíncrono — nunca lido antes disso.
 final persistenceServiceProvider = Provider<PersistenceService>(
-  (ref) => throw UnimplementedError('persistenceServiceProvider precisa de override em main.dart'),
+  (ref) => throw UnimplementedError(
+    'persistenceServiceProvider precisa de override em main.dart',
+  ),
 );

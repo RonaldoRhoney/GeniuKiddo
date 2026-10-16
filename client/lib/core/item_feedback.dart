@@ -64,9 +64,14 @@ class ItemFeedback {
   }
 }
 
-final speechPortProvider = Provider<SpeechPort>((ref) => const NoopSpeechPort());
+final speechPortProvider = Provider<SpeechPort>(
+  (ref) => const NoopSpeechPort(),
+);
 final soundPortProvider = Provider<SoundPort>((ref) => const NoopSoundPort());
 
 final itemFeedbackProvider = Provider<ItemFeedback>(
-  (ref) => ItemFeedback(speech: ref.watch(speechPortProvider), sound: ref.watch(soundPortProvider)),
+  (ref) => ItemFeedback(
+    speech: ref.watch(speechPortProvider),
+    sound: ref.watch(soundPortProvider),
+  ),
 );
