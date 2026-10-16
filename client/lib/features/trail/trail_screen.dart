@@ -138,8 +138,16 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
                         ],
                       ),
                     ),
-                    const Spacer(),
-                    const TopControls(),
+                    const SizedBox(width: 8),
+                    // Em telas estreitas os controles encolhem o mínimo
+                    // necessário — nunca empurram o cadeado (4.7) pra fora.
+                    const Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerRight,
+                        child: TopControls(),
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     HoldToUnlock(
                       semanticLabel: l10n.parentGateLabel,

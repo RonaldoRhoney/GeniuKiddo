@@ -83,7 +83,14 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+        // Soma a barra de navegação do Android (edge-to-edge) pra o fim da
+        // lista não ficar escondido atrás dela.
+        padding: EdgeInsets.fromLTRB(
+          20,
+          8,
+          20,
+          24 + MediaQuery.paddingOf(context).bottom,
+        ),
         children: [
           _Section(
             title: l10n.parentsLanguageLabel,
@@ -284,12 +291,16 @@ class _Chip extends StatelessWidget {
         child: Container(
           constraints: const BoxConstraints(minHeight: 44),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              color: selected ? Colors.white : colors.ink,
+          // `widthFactor: 1` — centraliza sem esticar o chip na largura toda.
+          child: Center(
+            widthFactor: 1,
+            heightFactor: 1,
+            child: Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: selected ? Colors.white : colors.ink,
+              ),
             ),
           ),
         ),
