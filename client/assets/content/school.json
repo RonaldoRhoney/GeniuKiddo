@@ -1,0 +1,26 @@
+{
+  "grades": [
+    {"icon": "🧸", "age": 3},
+    {"icon": "🎒", "age": 4},
+    {"icon": "🎓", "age": 5}
+  ],
+  "spaces": [
+    {"id": "sala", "grade": 0, "icon": "🏫", "lesson": "shapes", "levels": [["🏫"], ["🏫", "🎒"], ["🏫", "🎒", "🌈"]]},
+    {"id": "horta", "grade": 0, "icon": "🌱", "lesson": "count", "levels": [["🌱", "🌱"], ["🥕", "🌱", "🥕"], ["🌻", "🥕", "🌽", "🍅"]]},
+    {"id": "atelie", "grade": 0, "icon": "🎨", "lesson": "paint", "levels": [["🖌️"], ["🖌️", "🎨"], ["🖼️", "🎨", "🖌️"]]},
+    {"id": "biblio", "grade": 1, "icon": "📚", "lesson": "letters", "levels": [["📖"], ["📚", "📖"], ["🏛️", "📚", "📖"]]},
+    {"id": "patio", "grade": 1, "icon": "⚽", "lesson": "rhythm", "levels": [["⚽"], ["⚽", "🎠"], ["🎠", "⚽", "🏀"]]},
+    {"id": "refeit", "grade": 2, "icon": "🍽️", "lesson": "sorting", "levels": [["🍽️"], ["🍎", "🍽️"], ["🍎", "🥕", "🍽️"]]}
+  ],
+  "startStars": 3,
+  "startBuilt": {"sala": 1},
+  "costs": {"build": 3, "upgrade": [6, 10]},
+  "reward": 3,
+  "bonus": 2,
+  "maxKids": 14,
+  "missions": [
+    [{"type": "build", "n": 3, "icon": "🏗️"}, {"type": "lessons", "n": 6, "icon": "📘"}, {"type": "level", "level": 2, "n": 1, "icon": "⬆️"}],
+    [{"type": "build", "n": 5, "icon": "🏗️"}, {"type": "lessons", "n": 12, "icon": "📘"}, {"type": "level", "level": 3, "n": 1, "icon": "🌟"}],
+    [{"type": "build", "n": 6, "icon": "🏗️"}, {"type": "lessons", "n": 18, "icon": "📘"}, {"type": "level", "level": 3, "n": 2, "icon": "🌟"}]
+  ]
+}

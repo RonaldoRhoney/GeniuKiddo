@@ -6,10 +6,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'models.dart';
 
 class ContentRepository {
-  const ContentRepository({required this.items, required this.trail});
+  const ContentRepository({
+    required this.items,
+    required this.trail,
+    required this.school,
+  });
 
   final Map<String, ItemDef> items;
   final List<TrailNodeDef> trail;
+  final SchoolDef school;
 
   ItemDef item(String id) =>
       items[id] ?? (throw StateError('item desconhecido: $id'));
@@ -21,7 +26,11 @@ class ContentRepository {
     final trailRaw = jsonDecode(
       await rootBundle.loadString('assets/content/trail.json'),
     ) as List<dynamic>;
+    final schoolRaw = jsonDecode(
+      await rootBundle.loadString('assets/content/school.json'),
+    ) as Map<String, dynamic>;
     return ContentRepository(
+      school: SchoolDef.fromJson(schoolRaw),
       items: {
         for (final e in itemsRaw.entries)
           e.key: ItemDef.fromJson(e.key, e.value as Map<String, dynamic>),

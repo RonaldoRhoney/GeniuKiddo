@@ -18,6 +18,8 @@ class PersistenceService {
   static const _kVoiceToneKey = 'genius_kiddo_voice_tone_v1';
   static const _kVoiceNamePrefix = 'genius_kiddo_voice_name_v1_';
   static const _kBreakMinutesKey = 'genius_kiddo_break_minutes_v1';
+  static const _kSchoolStateKey = 'genius_kiddo_school_v1';
+  static const _kPhase2UnlockedKey = 'genius_kiddo_phase2_unlocked_v1';
 
   /// `null` = app ainda não teve idioma escolhido (primeira execução).
   String? get languageCode => _prefs.getString(_kLanguageCodeKey);
@@ -80,6 +82,21 @@ class PersistenceService {
 
   Future<void> setBreakMinutes(int value) =>
       _prefs.setInt(_kBreakMinutesKey, value);
+
+  /// Seção 4.9: estado da escola (Fase 2) como um único JSON — estrelas,
+  /// espaços e níveis, aulas, medalhas, série, objetivos resgatados.
+  /// `null` = escola ainda não começou.
+  String? get schoolStateJson => _prefs.getString(_kSchoolStateKey);
+
+  Future<void> setSchoolStateJson(String value) =>
+      _prefs.setString(_kSchoolStateKey, value);
+
+  /// RF-FASE-03: pais liberaram a Fase 2 manualmente na área dos pais.
+  bool get phase2ManuallyUnlocked =>
+      _prefs.getBool(_kPhase2UnlockedKey) ?? false;
+
+  Future<void> setPhase2ManuallyUnlocked(bool value) =>
+      _prefs.setBool(_kPhase2UnlockedKey, value);
 }
 
 /// Sobrescrito em `main.dart` com a instância real, depois do
