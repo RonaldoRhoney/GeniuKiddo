@@ -127,6 +127,9 @@
   "@parentsProgressStars": {"placeholders": {"stars": {"type": "int"}}},
 
   "parentsAppearanceLabel": "Aparência",
+  "parentsThemeAuto": "Automático",
+  "parentsThemeLight": "Claro",
+  "parentsThemeDark": "Escuro",
 
   "parentsPrivacyLabel": "Privacidade",
   "parentsPrivacySummary": "O Genius Kiddo não pede nome, data de nascimento nem e-mail da criança. Tudo fica guardado só neste aparelho, sem conexão com a internet, e a voz da criança nunca é gravada.",

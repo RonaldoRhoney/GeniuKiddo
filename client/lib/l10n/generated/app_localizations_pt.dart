@@ -269,6 +269,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get parentsAppearanceLabel => 'Aparência';
 
   @override
+  String get parentsThemeAuto => 'Automático';
+
+  @override
+  String get parentsThemeLight => 'Claro';
+
+  @override
+  String get parentsThemeDark => 'Escuro';
+
+  @override
   String get parentsPrivacyLabel => 'Privacidade';
 
   @override

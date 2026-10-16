@@ -584,6 +584,24 @@ abstract class AppLocalizations {
   /// **'Aparência'**
   String get parentsAppearanceLabel;
 
+  /// No description provided for @parentsThemeAuto.
+  ///
+  /// In pt, this message translates to:
+  /// **'Automático'**
+  String get parentsThemeAuto;
+
+  /// No description provided for @parentsThemeLight.
+  ///
+  /// In pt, this message translates to:
+  /// **'Claro'**
+  String get parentsThemeLight;
+
+  /// No description provided for @parentsThemeDark.
+  ///
+  /// In pt, this message translates to:
+  /// **'Escuro'**
+  String get parentsThemeDark;
+
   /// No description provided for @parentsPrivacyLabel.
   ///
   /// In pt, this message translates to:

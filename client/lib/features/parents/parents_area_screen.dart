@@ -8,6 +8,7 @@ import '../../core/break_controller.dart';
 import '../../core/item_feedback.dart';
 import '../../core/language_controller.dart';
 import '../../core/persistence_service.dart';
+import '../../core/theme_controller.dart';
 import '../../core/tts_speech_port.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../trail/trail_controller.dart';
@@ -71,6 +72,7 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
     final colors = AppColors.of(context);
     final trail = ref.watch(trailControllerProvider);
     final content = ref.watch(contentRepositoryProvider);
+    final themeMode = ref.watch(themeControllerProvider);
 
     return Scaffold(
       backgroundColor: colors.bg,
@@ -201,7 +203,24 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
           ),
           _Section(
             title: l10n.parentsAppearanceLabel,
-            child: Row(children: const [ThemeToggleButton()]),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final (mode, label) in [
+                  (ThemeMode.system, l10n.parentsThemeAuto),
+                  (ThemeMode.light, l10n.parentsThemeLight),
+                  (ThemeMode.dark, l10n.parentsThemeDark),
+                ])
+                  _Chip(
+                    label: label,
+                    selected: themeMode == mode,
+                    onTap: () => ref
+                        .read(themeControllerProvider.notifier)
+                        .setMode(mode),
+                  ),
+              ],
+            ),
           ),
           _Section(
             title: l10n.parentsPrivacyLabel,

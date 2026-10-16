@@ -267,6 +267,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get parentsAppearanceLabel => 'Appearance';
 
   @override
+  String get parentsThemeAuto => 'Automatic';
+
+  @override
+  String get parentsThemeLight => 'Light';
+
+  @override
+  String get parentsThemeDark => 'Dark';
+
+  @override
   String get parentsPrivacyLabel => 'Privacy';
 
   @override

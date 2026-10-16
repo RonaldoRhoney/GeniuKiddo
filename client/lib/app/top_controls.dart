@@ -5,6 +5,7 @@ import '../core/audio_services.dart';
 import '../core/language_controller.dart';
 import '../core/supported_languages.dart';
 import '../core/theme_controller.dart';
+import '../l10n/generated/app_localizations.dart';
 import 'theme.dart';
 
 /// Pílula de idioma (seção 4.5: "troca a qualquer momento... no topo"),
@@ -98,10 +99,11 @@ class ThemeToggleButton extends ConsumerWidget {
       ThemeMode.dark => Icons.dark_mode_rounded,
       ThemeMode.system => Icons.brightness_auto_rounded,
     };
+    final l10n = AppLocalizations.of(context)!;
     final label = switch (mode) {
-      ThemeMode.light => 'Claro',
-      ThemeMode.dark => 'Escuro',
-      ThemeMode.system => 'Automático',
+      ThemeMode.light => l10n.parentsThemeLight,
+      ThemeMode.dark => l10n.parentsThemeDark,
+      ThemeMode.system => l10n.parentsThemeAuto,
     };
     return IconButton(
       onPressed: () => ref.read(themeControllerProvider.notifier).cycle(),

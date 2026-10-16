@@ -89,6 +89,9 @@
   "@parentsProgressStars": {"placeholders": {"stars": {"type": "int"}}},
 
   "parentsAppearanceLabel": "Appearance",
+  "parentsThemeAuto": "Automatic",
+  "parentsThemeLight": "Light",
+  "parentsThemeDark": "Dark",
 
   "parentsPrivacyLabel": "Privacy",
   "parentsPrivacySummary": "Genius Kiddo never asks for the child's name, birth date or email. Everything is stored only on this device, with no internet connection, and the child's voice is never recorded.",
