@@ -14,7 +14,7 @@ void main() {
 
       await tester.tap(find.text('azul'));
       await tester.pump();
-      expect(speech.calls.last, (text: 'azul', clear: true));
+      expect(speech.calls.last, (text: 'azul', clear: true, queue: false));
 
       // As 7 regiões do jardim (paint_art.dart), em frações do viewBox
       // 300x300, uma por região, com um ponto fora do raio de "center" mas

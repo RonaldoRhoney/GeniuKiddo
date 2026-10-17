@@ -30,7 +30,10 @@ double _ttsRate(double webRate) => (webRate * 0.5).clamp(0.1, 1.0);
 /// mais devagar e menos agudo que a fala narrativa, pra garantir clareza
 /// máxima — mesma ideia do `speakName()` dos protótipos HTML.
 class TtsSpeechPort implements SpeechPort {
-  TtsSpeechPort(this._tts, this._ref);
+  TtsSpeechPort(this._tts, this._ref) {
+    // `speak()` só termina quando a fala acaba — é o que permite enfileirar.
+    unawaited(_tts.awaitSpeakCompletion(true));
+  }
 
   final FlutterTts _tts;
   final Ref _ref;
@@ -39,14 +42,26 @@ class TtsSpeechPort implements SpeechPort {
   static const _clearWebRate = 0.8;
 
   List<Map<Object?, Object?>>? _cachedVoices;
+
+  /// Fila de falas: cada fala nova (não enfileirada) troca a "geração" e
+  /// descarta o que estava esperando.
+  Future<void> _chain = Future.value();
+  int _generation = 0;
   String? _lastLoggedVoice;
 
   @override
-  void speak(String text, {bool clear = false}) {
+  void speak(String text, {bool clear = false, bool queue = false}) {
     // fire-and-forget de propósito: a UI nunca espera a fala terminar pra
-    // continuar (mesmo padrão dos protótipos — `speak()`/`speakRaw()`
-    // síncronos do ponto de vista de quem chama).
-    unawaited(_speak(text, clear: clear));
+    // continuar (mesmo padrão dos protótipos).
+    if (!queue) {
+      _generation++;
+      _chain = _tts.stop().then((_) {}, onError: (_) {});
+    }
+    final generation = _generation;
+    _chain = _chain.then((_) {
+      if (generation != _generation) return null;
+      return _speak(text, clear: clear);
+    });
   }
 
   Future<void> _speak(String text, {required bool clear}) async {
@@ -61,7 +76,6 @@ class TtsSpeechPort implements SpeechPort {
     final webRate = clear ? _clearWebRate : tone.webRate;
 
     try {
-      await _tts.stop();
       await _tts.setLanguage(locale);
       await _tts.setPitch(pitch);
       await _tts.setSpeechRate(_ttsRate(webRate));

@@ -162,8 +162,10 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
                         onTapUp: (d) => _onTapUpCanvas(d, Size(side, side)),
                         child: CustomPaint(
                           painter: _PaintPainter(
+                            // Cópia: o pintor anterior guarda o estado de
+                            // antes, então `shouldRepaint` vê a mudança.
                             _regions,
-                            _painted,
+                            Map.of(_painted),
                             _hintRegionId,
                           ),
                           size: Size(side, side),
@@ -257,6 +259,9 @@ class _PaintPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _PaintPainter oldDelegate) =>
-      oldDelegate.painted.length != painted.length ||
+      !_sameColors(oldDelegate.painted, painted) ||
       oldDelegate.hintRegionId != hintRegionId;
 }
+
+bool _sameColors(Map<String, Color> a, Map<String, Color> b) =>
+    a.length == b.length && a.entries.every((e) => b[e.key] == e.value);

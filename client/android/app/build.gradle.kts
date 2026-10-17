@@ -1,7 +1,20 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// Chave de envio da Play Store em android/key.properties +
+// android/keystore/ (NUNCA no git — ver android/.gitignore). Sem ela, o
+// build de release falha de propósito, em vez de sair assinado com a chave
+// de depuração sem aviso (mesmo padrão do MENTAL).
+val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
 android {
@@ -15,7 +28,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.rhoneyinc.genius_kiddo"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
@@ -29,11 +41,30 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            create("release") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (keystorePropertiesFile.exists()) {
+                signingConfigs.getByName("release")
+            } else if (project.hasProperty("allowInsecureDebugSigning")) {
+                signingConfigs.getByName("debug")
+            } else {
+                throw GradleException(
+                    "android/key.properties não encontrado — o release sairia assinado com a chave de " +
+                        "depuração e seria recusado pela Play Store. Só para teste local (nunca para " +
+                        "envio), rode com -PallowInsecureDebugSigning."
+                )
+            }
         }
     }
 }

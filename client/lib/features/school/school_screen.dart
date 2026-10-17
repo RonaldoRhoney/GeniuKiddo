@@ -197,7 +197,6 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     final message = result == PromotionResult.promoted
         ? l10n.promoted(l10n.gradeName(grade))
         : l10n.graduated;
-    _feedback.speech.speak(message);
     await showCelebration(context, message: message, icon: '🎓');
     if (!mounted) return;
     _say(

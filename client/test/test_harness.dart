@@ -10,10 +10,10 @@ import 'package:genius_kiddo/core/persistence_service.dart';
 import 'package:genius_kiddo/main.dart';
 
 class FakeSpeechPort implements SpeechPort {
-  final List<({String text, bool clear})> calls = [];
+  final List<({String text, bool clear, bool queue})> calls = [];
   @override
-  void speak(String text, {bool clear = false}) =>
-      calls.add((text: text, clear: clear));
+  void speak(String text, {bool clear = false, bool queue = false}) =>
+      calls.add((text: text, clear: clear, queue: queue));
 }
 
 class FakeSoundPort implements SoundPort {

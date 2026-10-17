@@ -21,8 +21,8 @@ final celebrationOpenProvider = NotifierProvider<CelebrationOpenNotifier, bool>(
 );
 
 /// Celebração (seção 5.4): estrela grande, "+1" só na 1ª conclusão, confete
-/// leve, som de vitória, fala de elogio (feita pelo chamador via
-/// `ItemFeedback`, não aqui) e botão ▶ grande. Sempre modal — some só
+/// leve, som de vitória, a mensagem falada (na fila, depois do elogio do
+/// acerto) e botão ▶ grande. Sempre modal — some só
 /// quando a criança toca ▶. `icon`/`badge` suportam a variante
 /// RT-08 (atividades livres): ícone próprio da atividade (ex. 🎨), sem
 /// estrela nem "+1".
@@ -33,7 +33,11 @@ Future<void> showCelebration(
   String icon = '⭐',
 }) {
   final container = ProviderScope.containerOf(context, listen: false);
-  container.read(itemFeedbackProvider).sound.play(FeedbackSound.win);
+  final feedback = container.read(itemFeedbackProvider);
+  feedback.sound.play(FeedbackSound.win);
+  // Seção 5.4 / Anexo C: a mensagem é falada, não só escrita — depois do
+  // que já estiver tocando (o nome/elogio do último acerto).
+  feedback.speech.speak(message, queue: true);
   container.read(celebrationOpenProvider.notifier).set(true);
   return showGeneralDialog<void>(
     context: context,

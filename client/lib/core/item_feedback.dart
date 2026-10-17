@@ -2,10 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Regra transversal de áudio (RT-01 a RT-07, seção 4.1 da especificação) —
 /// serviço ÚNICO usado por toda atividade que exibe figuras, pra regra nunca
-/// divergir entre fases (RT-06). Só a política fica aqui; a implementação de
-/// voz/som real (TTS, `just_audio`) entra no M3 — por enquanto os ports usam
-/// um backend mudo (`NoopSpeechPort`/`NoopSoundPort`), trocado depois sem
-/// mudar nenhuma chamada de `ItemFeedback`.
+/// divergir entre fases (RT-06). Só a política fica aqui; voz e som reais
+/// (`TtsSpeechPort`, `JustAudioSoundPort`) entram por override em
+/// `main.dart`, e os testes usam ports falsos — sem mudar nenhuma chamada.
 /// `pad0`–`pad3`: as 4 notas do Pátio (Anexo B).
 enum FeedbackSound { correct, wrong, pop, win, build, pad0, pad1, pad2, pad3 }
 
@@ -14,7 +13,11 @@ abstract class SpeechPort {
   /// num tom menos agudo que a fala narrativa — equivalente ao `speakName()`
   /// dos protótipos HTML. `clear: false` = fala narrativa normal (prompts,
   /// elogios, instruções).
-  void speak(String text, {bool clear = false});
+  ///
+  /// `queue: false` (padrão) = fala nova: interrompe o que estiver tocando.
+  /// `queue: true` = continuação: espera a fala anterior terminar (ex.: o
+  /// elogio depois do nome — o nome nunca pode ser cortado, RT-01).
+  void speak(String text, {bool clear = false, bool queue = false});
 }
 
 abstract class SoundPort {
@@ -24,7 +27,7 @@ abstract class SoundPort {
 class NoopSpeechPort implements SpeechPort {
   const NoopSpeechPort();
   @override
-  void speak(String text, {bool clear = false}) {}
+  void speak(String text, {bool clear = false, bool queue = false}) {}
 }
 
 class NoopSoundPort implements SoundPort {
@@ -45,7 +48,7 @@ class ItemFeedback {
   void correct(String name, String praise) {
     sound.play(FeedbackSound.correct);
     speech.speak(name, clear: true);
-    speech.speak(praise);
+    speech.speak(praise, queue: true);
   }
 
   /// RT-03 — toque fora do pedido: som de erro sutil, fala o nome do que foi
@@ -53,7 +56,7 @@ class ItemFeedback {
   void wrong(String tappedName, String repeatPrompt) {
     sound.play(FeedbackSound.wrong);
     speech.speak(tappedName, clear: true);
-    speech.speak(repeatPrompt);
+    speech.speak(repeatPrompt, queue: true);
   }
 
   /// RT-01 — qualquer figura tocada fora do fluxo de acerto/erro (ex.: toque
