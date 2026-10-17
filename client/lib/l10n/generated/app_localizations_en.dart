@@ -19,12 +19,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tapToStart => 'Tap to start';
 
   @override
-  String get languageCardPtLabel => 'Português';
-
-  @override
-  String get languageCardEnLabel => 'English';
-
-  @override
   String get welcomeFirst => 'Hi! I am Kiddo!';
 
   @override
@@ -252,7 +246,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get celebrationContinue => 'Continue';
 
   @override
-  String get breakMessage => 'Time to rest your eyes! Let\'s drink some water?';
+  String get breakMessage =>
+      'Time to rest your eyes! Shall we drink some water?';
 
   @override
   String get breakHoldHint => 'Ask a grown-up to hold here';
@@ -456,14 +451,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get schoolNeedStars => 'Do a lesson to earn stars!';
-
-  @override
-  String get schoolLessonDone => 'You earned stars!';
-
-  @override
-  String schoolKidsLabel(int count) {
-    return '$count kids at school';
-  }
 
   @override
   String get goalsButton => 'Goals';

@@ -32,7 +32,7 @@ const _activityIcons = <ActivityType, IconData>{
 };
 
 /// Trilha de atividades (seção 5): mapa de 8 etapas, libera por
-/// participação, rabisco livre sempre disponível.
+/// participação (o rabisco livre fica no menu inicial, sempre aberto).
 class TrailScreen extends ConsumerStatefulWidget {
   const TrailScreen({super.key});
 
@@ -307,7 +307,7 @@ class _TrailNodeState extends State<_TrailNode>
     final bg = switch (widget.status) {
       TrailNodeStatus.done => colors.green,
       TrailNodeStatus.current => colors.yellow,
-      TrailNodeStatus.locked => const Color(0xFFCFCBE6),
+      TrailNodeStatus.locked => AppColors.lockedNode,
     };
     final label = widget.status == TrailNodeStatus.locked ? '?' : widget.title;
     return Semantics(

@@ -7,22 +7,15 @@ import '../../core/language_controller.dart';
 import '../../core/supported_languages.dart';
 import '../home/home_screen.dart';
 
-/// Escolha de idioma (seção 4.5, só na 1ª vez pela rota normal — Splash
-/// decide se cai aqui ou direto na trilha). Um cartão grande por idioma de
+/// Escolha de idioma (seção 4.5, só na 1ª vez — a Splash decide se cai aqui
+/// ou direto no menu inicial). Um cartão grande por idioma de
 /// `supportedLanguages`, SEM bandeiras (evita associar idioma a país) —
 /// adicionar um idioma novo na lista central já aparece aqui sozinho, sem
 /// mudar esta tela.
 class LanguageScreen extends ConsumerWidget {
   const LanguageScreen({super.key});
 
-  // Ciclo de cores de marca pros cartões — se um dia houver mais idiomas
-  // que cores aqui, repete do início (nunca quebra, só repete tom).
-  static const _cardColors = [
-    Color(0xFF7C5CFF),
-    Color(0xFF2F86E6),
-    Color(0xFFFF9B3D),
-    Color(0xFF4FCB8D),
-  ];
+  static const _cardColors = AppColors.brandCycle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

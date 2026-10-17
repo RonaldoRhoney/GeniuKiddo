@@ -115,7 +115,8 @@ class _CelebrationContent extends StatelessWidget {
                       customBorder: const CircleBorder(),
                       onTap: () => Navigator.of(context).pop(),
                       child: Padding(
-                        padding: const EdgeInsets.all(18),
+                        // Anexo A: botão ▶ de 84 dp (21 + 42 + 21).
+                        padding: const EdgeInsets.all(21),
                         child: Icon(
                           Icons.play_arrow_rounded,
                           size: 42,
@@ -149,7 +150,7 @@ class _ConfettiLayerState extends State<_ConfettiLayer>
     duration: const Duration(milliseconds: 1800),
   )..forward();
   late final List<_Particle> _particles = List.generate(
-    18,
+    26, // Anexo A: ~26 confetes
     (i) => _Particle(Random(i * 97)),
   );
 

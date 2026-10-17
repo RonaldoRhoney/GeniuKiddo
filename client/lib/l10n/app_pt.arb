@@ -1,48 +1,59 @@
 {
   "@@locale": "pt",
-
   "appTitle": "Genius Kiddo",
   "@appTitle": {
     "description": "Nome do app, exibido na splash. Nome de marca, nunca traduzido (seção 1.1 item 2 da especificação)."
   },
-
   "appTagline": "aprender brincando",
   "@appTagline": {
     "description": "Subtítulo curto na tela de splash"
   },
-
   "tapToStart": "Toque para começar",
   "@tapToStart": {
     "description": "Convite de toque na splash"
   },
-
-  "languageCardPtLabel": "Português",
-  "@languageCardPtLabel": {
-    "description": "Rótulo pequeno do cartão de idioma português (seção 4.5: sem bandeiras)"
-  },
-
-  "languageCardEnLabel": "English",
-  "@languageCardEnLabel": {
-    "description": "Rótulo pequeno do cartão de idioma inglês"
-  },
-
   "welcomeFirst": "Oi! Eu sou o Kiddo!",
   "@welcomeFirst": {
     "description": "Fala do guia na primeira execução, logo após escolher o idioma (Anexo C, welcome.first)"
   },
-
   "welcomeBack": "Oi! Que bom te ver!",
   "@welcomeBack": {
     "description": "Fala do guia quando o app já tem idioma salvo (Anexo C, welcome.back)"
   },
-
-  "itemDog": "cachorro", "itemCat": "gato", "itemFish": "peixe", "itemBird": "passarinho",
-  "itemApple": "maçã", "itemBanana": "banana", "itemCar": "carro", "itemBall": "bola", "itemSun": "sol",
-  "itemFlower": "flor", "itemMoon": "lua", "itemHouse": "casa", "itemGrape": "uva", "itemFrog": "sapo", "itemDuck": "pato", "itemCow": "vaca", "itemLion": "leão", "itemEgg": "ovo", "itemBee": "abelha", "itemBear": "urso", "itemStrawberry": "morango", "itemOrange": "laranja", "itemWatermelon": "melancia", "itemCarrot": "cenoura", "itemBroccoli": "brócolis", "itemPotato": "batata", "itemLettuce": "alface", "itemOnion": "cebola",
-
-  "colorRed": "vermelho", "colorBlue": "azul", "colorYellow": "amarelo",
-  "colorGreen": "verde", "colorPurple": "roxo", "colorOrange": "laranja",
-
+  "itemDog": "cachorro",
+  "itemCat": "gato",
+  "itemFish": "peixe",
+  "itemBird": "passarinho",
+  "itemApple": "maçã",
+  "itemBanana": "banana",
+  "itemCar": "carro",
+  "itemBall": "bola",
+  "itemSun": "sol",
+  "itemFlower": "flor",
+  "itemMoon": "lua",
+  "itemHouse": "casa",
+  "itemGrape": "uva",
+  "itemFrog": "sapo",
+  "itemDuck": "pato",
+  "itemCow": "vaca",
+  "itemLion": "leão",
+  "itemEgg": "ovo",
+  "itemBee": "abelha",
+  "itemBear": "urso",
+  "itemStrawberry": "morango",
+  "itemOrange": "laranja",
+  "itemWatermelon": "melancia",
+  "itemCarrot": "cenoura",
+  "itemBroccoli": "brócolis",
+  "itemPotato": "batata",
+  "itemLettuce": "alface",
+  "itemOnion": "cebola",
+  "colorRed": "vermelho",
+  "colorBlue": "azul",
+  "colorYellow": "amarelo",
+  "colorGreen": "verde",
+  "colorPurple": "roxo",
+  "colorOrange": "laranja",
   "trailNodePaintGarden": "Pintar o jardim",
   "trailNodeListenAnimals": "Ouvir os bichinhos",
   "trailNodeMatchShadow": "Quem é a sombra?",
@@ -51,57 +62,88 @@
   "trailNodePaintHouse": "Pintar a casinha",
   "trailNodeListenFruits": "Ouvir: frutas e coisas",
   "trailNodeTraceO": "Traçar a letra O",
-
   "trailLocked": "Ainda não! Vamos fazer a estrela brilhante primeiro!",
-  "@trailLocked": {"description": "RT: fala ao tocar numa etapa ainda bloqueada"},
+  "@trailLocked": {
+    "description": "RT: fala ao tocar numa etapa ainda bloqueada"
+  },
   "trailFreeDraw": "Rabisco livre",
   "trailNewActivity": "Uma nova atividade apareceu! Toque na estrela!",
   "trailAllDone": "Você completou a trilha! Quer brincar de novo?",
   "trailPlayMore": "Vamos brincar mais?",
-
   "paintIntro": "Escolha uma cor e toque no desenho!",
   "paintDone": "Que lindo! Você pintou tudo!",
-
   "traceIntro": "Siga a trilha e desenhe {glyphName}!",
-  "@traceIntro": {"placeholders": {"glyphName": {"type": "String"}}},
+  "@traceIntro": {
+    "placeholders": {
+      "glyphName": {
+        "type": "String"
+      }
+    }
+  },
   "traceDone": "Muito bem! Você desenhou {glyphName}!",
-  "@traceDone": {"placeholders": {"glyphName": {"type": "String"}}},
+  "@traceDone": {
+    "placeholders": {
+      "glyphName": {
+        "type": "String"
+      }
+    }
+  },
   "glyphName1": "o número 1",
   "glyphNameO": "a letra O",
-
   "listenPrompt": "{gender, select, f{Toque na {name}!} other{Toque no {name}!}}",
-  "@listenPrompt": {"description": "gender = gênero do item no idioma (m/f/other, de items.json) — cada idioma escolhe o artigo", "placeholders": {"gender": {"type": "String"}, "name": {"type": "String"}}},
+  "@listenPrompt": {
+    "description": "gender = gênero do item no idioma (m/f/other, de items.json) — cada idioma escolhe o artigo",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "listenDone": "Você ouviu e acertou tudo!",
-
   "matchIntro": "Quem está escondido na sombra?",
   "matchDone": "Você descobriu todas as sombras!",
-
   "speakPrompt": "Diga: {name}! Agora é com você!",
-  "@speakPrompt": {"placeholders": {"name": {"type": "String"}}},
+  "@speakPrompt": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "speakDone": "Você repetiu todas as palavras!",
   "speakMicNote": "O app não grava a voz da criança",
   "speakGood": "Muito bem! Você falou ótimo!",
   "speakISaidIt": "Já falei",
-
   "freeDrawIntro": "Desenhe do seu jeito!",
   "freeDrawClear": "limpar",
   "freeDrawFirst": "Desenhe um pouquinho primeiro!",
-  "@freeDrawFirst": {"description": "RT-08 (Anexo C, free.first): fala ao tocar no botão ✓ com a tela ainda em branco"},
+  "@freeDrawFirst": {
+    "description": "RT-08 (Anexo C, free.first): fala ao tocar no botão ✓ com a tela ainda em branco"
+  },
   "freeDrawCelebrate": "Que desenho lindo!",
-  "@freeDrawCelebrate": {"description": "RT-08 (Anexo C, free.done): mensagem da celebração curta ao tocar no botão ✓ depois de desenhar"},
-
-  "praise1": "Muito bem!", "praise2": "Isso mesmo!", "praise3": "Uau, que demais!", "praise4": "Parabéns!",
-
+  "@freeDrawCelebrate": {
+    "description": "RT-08 (Anexo C, free.done): mensagem da celebração curta ao tocar no botão ✓ depois de desenhar"
+  },
+  "praise1": "Muito bem!",
+  "praise2": "Isso mesmo!",
+  "praise3": "Uau, que demais!",
+  "praise4": "Parabéns!",
   "celebrationContinue": "Continuar",
-
   "breakMessage": "Hora de descansar os olhinhos! Vamos beber água?",
-  "@breakMessage": {"description": "Seção 4.8: fala/texto da pausa sugerida"},
+  "@breakMessage": {
+    "description": "Seção 4.8: fala/texto da pausa sugerida"
+  },
   "breakHoldHint": "Peça pra um adulto segurar aqui",
-  "@breakHoldHint": {"description": "Dica sob o cadeado da sobreposição de pausa, pra um adulto saber como dispensar"},
-
+  "@breakHoldHint": {
+    "description": "Dica sob o cadeado da sobreposição de pausa, pra um adulto saber como dispensar"
+  },
   "parentGateLabel": "Área dos pais",
-  "@parentGateLabel": {"description": "Rótulo semântico (acessibilidade) do cadeado discreto — nunca exibido como texto visível na tela da criança"},
-
+  "@parentGateLabel": {
+    "description": "Rótulo semântico (acessibilidade) do cadeado discreto — nunca exibido como texto visível na tela da criança"
+  },
   "parentsAreaTitle": "Área dos pais",
   "parentsLanguageLabel": "Idioma",
   "parentsSoundLabel": "Som e voz",
@@ -114,29 +156,49 @@
   "parentsVoiceAuto": "Automática",
   "parentsTestVoice": "Testar a voz",
   "parentsVoiceTestPhrase": "Oi! Essa é a minha voz!",
-  "@parentsVoiceTestPhrase": {"description": "Frase falada pelo botão \"Testar a voz\" na área dos pais"},
-
+  "@parentsVoiceTestPhrase": {
+    "description": "Frase falada pelo botão \"Testar a voz\" na área dos pais"
+  },
   "parentsBreakLabel": "Pausa sugerida",
   "parentsBreakOff": "Desligada",
   "parentsBreakMinutes": "{minutes} minutos",
-  "@parentsBreakMinutes": {"placeholders": {"minutes": {"type": "int"}}},
-
+  "@parentsBreakMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "parentsProgressLabel": "Progresso",
   "parentsProgressSteps": "{done} de {total} etapas concluídas",
-  "@parentsProgressSteps": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@parentsProgressSteps": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "parentsProgressStars": "{stars} estrelas",
-  "@parentsProgressStars": {"placeholders": {"stars": {"type": "int"}}},
-
+  "@parentsProgressStars": {
+    "placeholders": {
+      "stars": {
+        "type": "int"
+      }
+    }
+  },
   "parentsAppearanceLabel": "Aparência",
   "parentsThemeAuto": "Automático",
   "parentsThemeLight": "Claro",
   "parentsThemeDark": "Escuro",
-
   "parentsPrivacyLabel": "Privacidade",
   "parentsPrivacySummary": "O Genius Kiddo não pede nome, data de nascimento nem e-mail da criança. Tudo fica guardado só neste aparelho, sem conexão com a internet, e a voz da criança nunca é gravada.",
   "parentsPrivacyPolicyPlaceholder": "A política de privacidade completa será publicada junto com o app na loja.",
-  "@parentsPrivacyPolicyPlaceholder": {"description": "Placeholder até o M8 publicar a política de privacidade de verdade e virar link"},
-
+  "@parentsPrivacyPolicyPlaceholder": {
+    "description": "Placeholder até o M8 publicar a política de privacidade de verdade e virar link"
+  },
   "trailSchool": "Escolinha",
   "gradeGateTitle": "Para os pais",
   "gradeGateHint": "Segure o cadeado para escolher a série da criança.",
@@ -146,7 +208,13 @@
   "gradeName1": "Pré I",
   "gradeName2": "Pré II",
   "gradeAge": "{age} anos",
-  "@gradeAge": {"placeholders": {"age": {"type": "int"}}},
+  "@gradeAge": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
   "spaceName_sala": "Sala de aula",
   "spaceDesc_sala": "Aqui aprendemos as formas e as cores!",
   "spaceName_horta": "Horta",
@@ -165,7 +233,13 @@
   "schoolHintStars": "Você tem estrelas! Toque no espaço brilhante!",
   "schoolHintLesson": "Toque num espaço para ter aula e ganhar estrelas!",
   "schoolGradeLocked": "Esse espaço chega no {grade}! Vamos passar de ano!",
-  "@schoolGradeLocked": {"placeholders": {"grade": {"type": "String"}}},
+  "@schoolGradeLocked": {
+    "placeholders": {
+      "grade": {
+        "type": "String"
+      }
+    }
+  },
   "schoolBuild": "Construir",
   "schoolUpgrade": "Melhorar",
   "schoolLesson": "Ter aula",
@@ -175,27 +249,60 @@
   "schoolBuilt": "Que lindo! Nossa escola cresceu!",
   "schoolUpgraded": "Uau! Ficou ainda melhor!",
   "schoolNeedStars": "Faça uma aula para ganhar estrelas!",
-  "schoolLessonDone": "Você ganhou estrelas!",
-  "schoolKidsLabel": "{count} alunos na escola",
-  "@schoolKidsLabel": {"placeholders": {"count": {"type": "int"}}},
   "goalsButton": "Objetivos",
   "goalsTitle": "Objetivos do {grade}",
-  "@goalsTitle": {"placeholders": {"grade": {"type": "String"}}},
+  "@goalsTitle": {
+    "placeholders": {
+      "grade": {
+        "type": "String"
+      }
+    }
+  },
   "missionBuild": "Construir {n} espaços",
-  "@missionBuild": {"placeholders": {"n": {"type": "int"}}},
+  "@missionBuild": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "missionLessons": "Fazer {n} aulas",
-  "@missionLessons": {"placeholders": {"n": {"type": "int"}}},
+  "@missionLessons": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "missionUpgrade": "{n, plural, =1{Melhorar um espaço} other{Melhorar {n} espaços}}",
-  "@missionUpgrade": {"placeholders": {"n": {"type": "int"}}},
+  "@missionUpgrade": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "missionMax": "{n, plural, =1{Deixar um espaço no máximo} other{Deixar {n} espaços no máximo}}",
-  "@missionMax": {"placeholders": {"n": {"type": "int"}}},
+  "@missionMax": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "goalClaim": "Pegar",
   "medalEarned": "Medalha conquistada! Parabéns!",
   "promoteButton": "Passar de ano",
   "graduateButton": "Formatura",
   "graduatedBadge": "Formatura!",
   "promoted": "Parabéns! Agora você está no {grade}! Chegaram espaços novos!",
-  "@promoted": {"placeholders": {"grade": {"type": "String"}}},
+  "@promoted": {
+    "placeholders": {
+      "grade": {
+        "type": "String"
+      }
+    }
+  },
   "graduated": "Formatura! Você completou a escolinha! Em breve: 1º ano!",
   "afterPromotion": "Toque no espaço novo que está brilhando!",
   "afterGraduation": "Vamos brincar mais na nossa escola?",
@@ -206,97 +313,254 @@
   "parentsGradeLabel": "Série da criança",
   "parentsGradeChangeNote": "Trocar a série não apaga o que foi construído; os objetivos do ano recomeçam.",
   "parentsSchoolProgress": "{stars} estrelas na escola · {medals} medalhas",
-  "@parentsSchoolProgress": {"placeholders": {"stars": {"type": "int"}, "medals": {"type": "int"}}},
-
+  "@parentsSchoolProgress": {
+    "placeholders": {
+      "stars": {
+        "type": "int"
+      },
+      "medals": {
+        "type": "int"
+      }
+    }
+  },
   "shapeCircle": "círculo",
   "shapeSquare": "quadrado",
   "shapeTriangle": "triângulo",
   "shapeStar": "estrela",
   "shapeHeart": "coração",
   "colorRedFor": "{gender, select, f{vermelha} other{vermelho}}",
-  "@colorRedFor": {"description": "Cor como adjetivo, concordando com o gênero do substantivo (\"a estrela vermelha\"); idioma sem gênero ignora", "placeholders": {"gender": {"type": "String"}}},
+  "@colorRedFor": {
+    "description": "Cor como adjetivo, concordando com o gênero do substantivo (\"a estrela vermelha\"); idioma sem gênero ignora",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
   "colorBlueFor": "{gender, select, other{azul}}",
-  "@colorBlueFor": {"placeholders": {"gender": {"type": "String"}}},
+  "@colorBlueFor": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
   "colorYellowFor": "{gender, select, f{amarela} other{amarelo}}",
-  "@colorYellowFor": {"placeholders": {"gender": {"type": "String"}}},
+  "@colorYellowFor": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
   "colorGreenFor": "{gender, select, other{verde}}",
-  "@colorGreenFor": {"placeholders": {"gender": {"type": "String"}}},
+  "@colorGreenFor": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
   "colorPurpleFor": "{gender, select, f{roxa} other{roxo}}",
-  "@colorPurpleFor": {"placeholders": {"gender": {"type": "String"}}},
+  "@colorPurpleFor": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
   "shapeWithColor": "{shape} {color}",
-  "@shapeWithColor": {"description": "Ordem forma+cor no idioma (pt: \"quadrado azul\"; en: \"blue square\")", "placeholders": {"shape": {"type": "String"}, "color": {"type": "String"}}},
+  "@shapeWithColor": {
+    "description": "Ordem forma+cor no idioma (pt: \"quadrado azul\"; en: \"blue square\")",
+    "placeholders": {
+      "shape": {
+        "type": "String"
+      },
+      "color": {
+        "type": "String"
+      }
+    }
+  },
   "shapesDone": "Você conhece as formas!",
   "countIntro": "Toque nas plantinhas e conte! Quantas são?",
   "countRetry": "Conte as plantinhas de novo!",
   "countNumbers": "zero,um,dois,três,quatro,cinco,seis,sete,oito,nove,dez",
-  "@countNumbers": {"description": "Números falados de 0 a 10, separados por vírgula (contagem da Horta)"},
+  "@countNumbers": {
+    "description": "Números falados de 0 a 10, separados por vírgula (contagem da Horta)"
+  },
   "countPlant": "plantinha",
   "countDone": "Você contou tudo!",
   "lettersPrompt": "{name}! Com qual letra começa?",
-  "@lettersPrompt": {"placeholders": {"name": {"type": "String"}}},
+  "@lettersPrompt": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "lettersCorrect": "{praise} Começa com {letter}!",
-  "@lettersCorrect": {"placeholders": {"praise": {"type": "String"}, "letter": {"type": "String"}}},
+  "@lettersCorrect": {
+    "placeholders": {
+      "praise": {
+        "type": "String"
+      },
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
   "lettersDone": "Você descobriu as letras!",
   "letterFold": "á=a,à=a,â=a,ã=a,é=e,ê=e,í=i,ó=o,ô=o,õ=o,ú=u,ç=c",
-  "@letterFold": {"description": "Biblioteca: letras com acento que contam como a letra base na inicial (pares letra=base, separados por vírgula). Cada idioma define a sua — ex.: em espanhol o ñ NÃO entra, porque é uma letra própria. Vazio = nenhuma troca."},
+  "@letterFold": {
+    "description": "Biblioteca: letras com acento que contam como a letra base na inicial (pares letra=base, separados por vírgula). Cada idioma define a sua — ex.: em espanhol o ñ NÃO entra, porque é uma letra própria. Vazio = nenhuma troca."
+  },
   "rhythmWatch": "Olhe e escute!",
   "rhythmTurn": "Sua vez!",
   "rhythmRetry": "Quase! Vamos ouvir de novo!",
   "rhythmNote": "Olhe, escute e repita a sequência!",
   "rhythmPad": "Botão {n}",
-  "@rhythmPad": {"placeholders": {"n": {"type": "int"}}},
+  "@rhythmPad": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "rhythmDone": "Que música bonita!",
   "sortPrompt": "{gender, select, f{Onde vai a {name}? Frutas ou legumes?} other{Onde vai o {name}? Frutas ou legumes?}}",
-  "@sortPrompt": {"placeholders": {"gender": {"type": "String"}, "name": {"type": "String"}}},
+  "@sortPrompt": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "sortRetry": "Frutas ou legumes?",
   "sortFruits": "Frutas",
   "sortVeggies": "Legumes",
   "sortDone": "Tudo separadinho!",
-
   "musicOn": "Música ligada",
   "musicOff": "Música desligada",
   "schoolLotLevel": "{name}, nível {level} de {max}",
-  "@schoolLotLevel": {"description": "Rótulo do leitor de tela de um espaço construído", "placeholders": {"name": {"type": "String"}, "level": {"type": "int"}, "max": {"type": "int"}}},
+  "@schoolLotLevel": {
+    "description": "Rótulo do leitor de tela de um espaço construído",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "level": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "schoolLotEmpty": "{name}, vazio, construir por {cost} estrelas",
-  "@schoolLotEmpty": {"placeholders": {"name": {"type": "String"}, "cost": {"type": "int"}}},
+  "@schoolLotEmpty": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "cost": {
+        "type": "int"
+      }
+    }
+  },
   "schoolLotLocked": "{name}, chega no {grade}",
-  "@schoolLotLocked": {"placeholders": {"name": {"type": "String"}, "grade": {"type": "String"}}},
-
+  "@schoolLotLocked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "grade": {
+        "type": "String"
+      }
+    }
+  },
   "schoolLockedPrev": "Ainda não! Primeiro: {name}.",
-  "@schoolLockedPrev": {"description": "Espaço trancado pela ordem: o anterior ainda não foi concluído (construído + 1 aula)", "placeholders": {"name": {"type": "String"}}},
+  "@schoolLockedPrev": {
+    "description": "Espaço trancado pela ordem: o anterior ainda não foi concluído (construído + 1 aula)",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "schoolNextLesson": "A próxima aula é: {name}!",
-  "@schoolNextLesson": {"description": "Aulas em ordem: só uma aula fica liberada por vez", "placeholders": {"name": {"type": "String"}}},
+  "@schoolNextLesson": {
+    "description": "Aulas em ordem: só uma aula fica liberada por vez",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "schoolLotSequenceLocked": "{name}, trancado",
-  "@schoolLotSequenceLocked": {"placeholders": {"name": {"type": "String"}}},
+  "@schoolLotSequenceLocked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "missionLocked": "Trancado — resgate o objetivo anterior primeiro",
-
   "homeTrail": "Trilha",
   "homeTrailProgress": "{done} de {total}",
-  "@homeTrailProgress": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@homeTrailProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "homeSchoolLocked": "A Escolinha abre quando você terminar a trilha!",
   "trailHint": "Toque na estrela brilhante!",
   "homeButton": "Início",
-  "@homeButton": {"description": "Rótulo (leitor de tela) do botão 🏠 que volta ao menu inicial"},
+  "@homeButton": {
+    "description": "Rótulo (leitor de tela) do botão 🏠 que volta ao menu inicial"
+  },
   "parentsExitLabel": "Sair do app",
   "parentsExitHint": "Fecha o Genius Kiddo. O progresso fica salvo neste aparelho.",
-
   "worldGoToGlow": "Ir ao espaço brilhante",
-  "@worldGoToGlow": {"description": "Rótulo (leitor de tela) do botão 🎯 e da seta de borda que levam a câmera ao espaço brilhante"},
+  "@worldGoToGlow": {
+    "description": "Rótulo (leitor de tela) do botão 🎯 e da seta de borda que levam a câmera ao espaço brilhante"
+  },
   "worldDragHint": "Arraste o dedo para ver a escola!",
-  "@worldDragHint": {"description": "Fala da 1ª vez no mapa, junto com a mãozinha animada (RM-02)"},
-
+  "@worldDragHint": {
+    "description": "Fala da 1ª vez no mapa, junto com a mãozinha animada (RM-02)"
+  },
   "worldKidHello": "Oi! Eu estudo aqui!",
-  "@worldKidHello": {"description": "Fala ao tocar num aluno que passeia no mapa (RM-07)"},
+  "@worldKidHello": {
+    "description": "Fala ao tocar num aluno que passeia no mapa (RM-07)"
+  },
   "worldKidLabel": "Aluno",
-
   "repeatButton": "Ouvir de novo",
-  "@repeatButton": {"description": "Rótulo (leitor de tela) do botão 🔊 que repete a fala do guia"},
-
+  "@repeatButton": {
+    "description": "Rótulo (leitor de tela) do botão 🔊 que repete a fala do guia"
+  },
   "spaceIntro": "{name}! {desc}",
-  "@spaceIntro": {"description": "Fala ao abrir um espaço da escola: nome + descrição", "placeholders": {"name": {"type": "String"}, "desc": {"type": "String"}}},
-
+  "@spaceIntro": {
+    "description": "Fala ao abrir um espaço da escola: nome + descrição",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "desc": {
+        "type": "String"
+      }
+    }
+  },
   "parentsVoiceOnLabel": "Voz do guia ligada",
   "parentsUnlockTrail": "Liberar todas as etapas da trilha",
-  "@parentsUnlockTrail": {"description": "RF-FASE-03 / 4.7: atalho de progresso dos pais"},
+  "@parentsUnlockTrail": {
+    "description": "RF-FASE-03 / 4.7: atalho de progresso dos pais"
+  },
   "parentsUnlockTrailHint": "Libera as etapas sem dar estrelas; a criança pode jogar em qualquer ordem."
 }

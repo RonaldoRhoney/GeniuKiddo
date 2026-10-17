@@ -146,8 +146,8 @@ class MusicToggleButton extends ConsumerWidget {
 }
 
 /// Os três controles juntos, na ordem usada em todas as telas pós-idioma
-/// (seção 4.5/4.7/4.4: idioma, aparência e música sempre alcançáveis,
-/// nunca só na área dos pais enquanto o portão — M4 — não existir).
+/// (seção 4.5/4.7/4.4: idioma, aparência e música sempre alcançáveis pela
+/// criança, além de também ficarem na área dos pais).
 class TopControls extends StatelessWidget {
   const TopControls({super.key});
 

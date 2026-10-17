@@ -1,21 +1,44 @@
 {
   "@@locale": "en",
-
   "appTitle": "Genius Kiddo",
   "appTagline": "learn by playing",
   "tapToStart": "Tap to start",
-  "languageCardPtLabel": "Português",
-  "languageCardEnLabel": "English",
   "welcomeFirst": "Hi! I am Kiddo!",
   "welcomeBack": "Hi! So good to see you!",
-
-  "itemDog": "dog", "itemCat": "cat", "itemFish": "fish", "itemBird": "bird",
-  "itemApple": "apple", "itemBanana": "banana", "itemCar": "car", "itemBall": "ball", "itemSun": "sun",
-  "itemFlower": "flower", "itemMoon": "moon", "itemHouse": "house", "itemGrape": "grape", "itemFrog": "frog", "itemDuck": "duck", "itemCow": "cow", "itemLion": "lion", "itemEgg": "egg", "itemBee": "bee", "itemBear": "bear", "itemStrawberry": "strawberry", "itemOrange": "orange", "itemWatermelon": "watermelon", "itemCarrot": "carrot", "itemBroccoli": "broccoli", "itemPotato": "potato", "itemLettuce": "lettuce", "itemOnion": "onion",
-
-  "colorRed": "red", "colorBlue": "blue", "colorYellow": "yellow",
-  "colorGreen": "green", "colorPurple": "purple", "colorOrange": "orange",
-
+  "itemDog": "dog",
+  "itemCat": "cat",
+  "itemFish": "fish",
+  "itemBird": "bird",
+  "itemApple": "apple",
+  "itemBanana": "banana",
+  "itemCar": "car",
+  "itemBall": "ball",
+  "itemSun": "sun",
+  "itemFlower": "flower",
+  "itemMoon": "moon",
+  "itemHouse": "house",
+  "itemGrape": "grape",
+  "itemFrog": "frog",
+  "itemDuck": "duck",
+  "itemCow": "cow",
+  "itemLion": "lion",
+  "itemEgg": "egg",
+  "itemBee": "bee",
+  "itemBear": "bear",
+  "itemStrawberry": "strawberry",
+  "itemOrange": "orange",
+  "itemWatermelon": "watermelon",
+  "itemCarrot": "carrot",
+  "itemBroccoli": "broccoli",
+  "itemPotato": "potato",
+  "itemLettuce": "lettuce",
+  "itemOnion": "onion",
+  "colorRed": "red",
+  "colorBlue": "blue",
+  "colorYellow": "yellow",
+  "colorGreen": "green",
+  "colorPurple": "purple",
+  "colorOrange": "orange",
   "trailNodePaintGarden": "Paint the garden",
   "trailNodeListenAnimals": "Listen: animals",
   "trailNodeMatchShadow": "Who is the shadow?",
@@ -24,47 +47,38 @@
   "trailNodePaintHouse": "Paint the house",
   "trailNodeListenFruits": "Listen: fruits & things",
   "trailNodeTraceO": "Trace the letter O",
-
   "trailLocked": "Not yet! Let us do the glowing star first!",
   "trailFreeDraw": "Free draw",
   "trailNewActivity": "A new activity appeared! Tap the star!",
   "trailAllDone": "You finished the trail! Want to play again?",
   "trailPlayMore": "Want to play more?",
-
   "paintIntro": "Pick a color and tap the picture!",
   "paintDone": "So pretty! You painted it all!",
-
   "traceIntro": "Follow the path and draw {glyphName}!",
   "traceDone": "Great! You drew {glyphName}!",
   "glyphName1": "the number 1",
   "glyphNameO": "the letter O",
-
   "listenPrompt": "Tap the {name}!",
   "listenDone": "You listened and got them all!",
-
   "matchIntro": "Who is hiding in the shadow?",
   "matchDone": "You found all the shadows!",
-
   "speakPrompt": "Say: {name}! Now it is your turn!",
   "speakDone": "You repeated all the words!",
   "speakMicNote": "The app never records the child's voice",
   "speakGood": "Very good! You said it great!",
   "speakISaidIt": "I said it",
-
   "freeDrawIntro": "Draw your own way!",
   "freeDrawClear": "clear",
   "freeDrawFirst": "Draw a little first!",
   "freeDrawCelebrate": "What a lovely drawing!",
-
-  "praise1": "Great job!", "praise2": "Yes! That is right!", "praise3": "Wow, well done!", "praise4": "Awesome!",
-
+  "praise1": "Great job!",
+  "praise2": "Yes! That is right!",
+  "praise3": "Wow, well done!",
+  "praise4": "Awesome!",
   "celebrationContinue": "Continue",
-
-  "breakMessage": "Time to rest your eyes! Let's drink some water?",
+  "breakMessage": "Time to rest your eyes! Shall we drink some water?",
   "breakHoldHint": "Ask a grown-up to hold here",
-
   "parentGateLabel": "Parents area",
-
   "parentsAreaTitle": "Parents area",
   "parentsLanguageLabel": "Language",
   "parentsSoundLabel": "Sound and voice",
@@ -77,27 +91,43 @@
   "parentsVoiceAuto": "Automatic",
   "parentsTestVoice": "Test the voice",
   "parentsVoiceTestPhrase": "Hi! This is my voice!",
-
   "parentsBreakLabel": "Suggested break",
   "parentsBreakOff": "Off",
   "parentsBreakMinutes": "{minutes} minutes",
-  "@parentsBreakMinutes": {"placeholders": {"minutes": {"type": "int"}}},
-
+  "@parentsBreakMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "parentsProgressLabel": "Progress",
   "parentsProgressSteps": "{done} of {total} steps completed",
-  "@parentsProgressSteps": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@parentsProgressSteps": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "parentsProgressStars": "{stars} stars",
-  "@parentsProgressStars": {"placeholders": {"stars": {"type": "int"}}},
-
+  "@parentsProgressStars": {
+    "placeholders": {
+      "stars": {
+        "type": "int"
+      }
+    }
+  },
   "parentsAppearanceLabel": "Appearance",
   "parentsThemeAuto": "Automatic",
   "parentsThemeLight": "Light",
   "parentsThemeDark": "Dark",
-
   "parentsPrivacyLabel": "Privacy",
   "parentsPrivacySummary": "Genius Kiddo never asks for the child's name, birth date or email. Everything is stored only on this device, with no internet connection, and the child's voice is never recorded.",
   "parentsPrivacyPolicyPlaceholder": "The full privacy policy will be published together with the app in the store.",
-
   "trailSchool": "School",
   "gradeGateTitle": "For parents",
   "gradeGateHint": "Hold the lock to choose the child's grade.",
@@ -134,8 +164,6 @@
   "schoolBuilt": "So pretty! Our school grew!",
   "schoolUpgraded": "Wow! It got even better!",
   "schoolNeedStars": "Do a lesson to earn stars!",
-  "schoolLessonDone": "You earned stars!",
-  "schoolKidsLabel": "{count} kids at school",
   "goalsButton": "Goals",
   "goalsTitle": "Goals for {grade}",
   "missionBuild": "Build {n} spaces",
@@ -158,7 +186,6 @@
   "parentsGradeLabel": "Child's grade",
   "parentsGradeChangeNote": "Changing the grade keeps everything built; the year's goals start over.",
   "parentsSchoolProgress": "{stars} stars at school · {medals} medals",
-
   "shapeCircle": "circle",
   "shapeSquare": "square",
   "shapeTriangle": "triangle",
@@ -191,18 +218,15 @@
   "sortFruits": "Fruits",
   "sortVeggies": "Veggies",
   "sortDone": "All sorted!",
-
   "musicOn": "Music on",
   "musicOff": "Music off",
   "schoolLotLevel": "{name}, level {level} of {max}",
   "schoolLotEmpty": "{name}, empty, build for {cost} stars",
   "schoolLotLocked": "{name}, arrives in {grade}",
-
   "schoolLockedPrev": "Not yet! First: {name}.",
   "schoolNextLesson": "The next lesson is: {name}!",
   "schoolLotSequenceLocked": "{name}, locked",
   "missionLocked": "Locked — claim the previous goal first",
-
   "homeTrail": "Trail",
   "homeTrailProgress": "{done} of {total}",
   "homeSchoolLocked": "The School opens when you finish the trail!",
@@ -210,17 +234,12 @@
   "homeButton": "Home",
   "parentsExitLabel": "Exit the app",
   "parentsExitHint": "Closes Genius Kiddo. Progress stays saved on this device.",
-
   "worldGoToGlow": "Go to the glowing space",
   "worldDragHint": "Drag your finger to see the school!",
-
   "worldKidHello": "Hi! I study here!",
   "worldKidLabel": "Student",
-
   "repeatButton": "Hear it again",
-
   "spaceIntro": "{name}! {desc}",
-
   "parentsVoiceOnLabel": "Guide voice on",
   "parentsUnlockTrail": "Unlock all trail steps",
   "parentsUnlockTrailHint": "Unlocks the steps without giving stars; the child can play in any order."

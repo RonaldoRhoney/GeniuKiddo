@@ -19,12 +19,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tapToStart => 'Toque para começar';
 
   @override
-  String get languageCardPtLabel => 'Português';
-
-  @override
-  String get languageCardEnLabel => 'English';
-
-  @override
   String get welcomeFirst => 'Oi! Eu sou o Kiddo!';
 
   @override
@@ -465,14 +459,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get schoolNeedStars => 'Faça uma aula para ganhar estrelas!';
-
-  @override
-  String get schoolLessonDone => 'Você ganhou estrelas!';
-
-  @override
-  String schoolKidsLabel(int count) {
-    return '$count alunos na escola';
-  }
 
   @override
   String get goalsButton => 'Objetivos';

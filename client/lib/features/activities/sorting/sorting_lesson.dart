@@ -167,7 +167,7 @@ class _SortingLessonState extends ConsumerState<SortingLesson>
                     child: _Basket(
                       key: ValueKey(fruit ? 'basketFruits' : 'basketVeggies'),
                       label: fruit ? l10n.sortFruits : l10n.sortVeggies,
-                      color: fruit ? colors.coral : const Color(0xFF2FAE72),
+                      color: fruit ? colors.coral : AppColors.basketGreen,
                       highlighted: _hint == fruit,
                       correct: _correct == fruit,
                       onTap: () => _onBasket(fruit),

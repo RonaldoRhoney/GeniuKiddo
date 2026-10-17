@@ -238,7 +238,7 @@ class _MissionRow extends StatelessWidget {
                   semanticsLabel: '$claimLabel ⭐ +$bonus',
                   style: const TextStyle(
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF2B2D42),
+                    color: AppColors.inkOnBright,
                   ),
                 ),
               ),

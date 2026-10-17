@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme.dart';
 
-/// Indicador de progresso "N de T rodadas" (compartilhado por Ouvir,
-/// Associar, Falar) — equivalente ao `.dots` dos protótipos.
+/// Indicador de progresso "N de T rodadas", compartilhado pelas atividades
+/// da trilha e pelas aulas da escola — equivalente ao `.dots` dos
+/// protótipos.
 class RoundDots extends StatelessWidget {
   const RoundDots({super.key, required this.total, required this.current});
 

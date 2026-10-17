@@ -147,7 +147,8 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen>
               customBorder: const CircleBorder(),
               onTap: _onConfirm,
               child: Padding(
-                padding: const EdgeInsets.all(26),
+                // Anexo A: botão ✓ de 104 dp (29 + 46 + 29).
+                padding: const EdgeInsets.all(29),
                 child: Icon(
                   Icons.check_rounded,
                   size: 46,

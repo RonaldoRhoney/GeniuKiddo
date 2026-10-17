@@ -139,6 +139,7 @@ class _TraceScreenState extends ConsumerState<TraceScreen>
                       _advance(_toViewBox(d.localPosition, side)),
                   child: CustomPaint(
                     painter: _TracePainter(
+                      dark: Theme.of(context).brightness == Brightness.dark,
                       path: _path,
                       points: _points,
                       idx: _idx,
@@ -156,7 +157,15 @@ class _TraceScreenState extends ConsumerState<TraceScreen>
 }
 
 class _TracePainter extends CustomPainter {
-  _TracePainter({required this.path, required this.points, required this.idx});
+  _TracePainter({
+    required this.path,
+    required this.points,
+    required this.idx,
+    required this.dark,
+  });
+
+  /// No tema escuro a faixa-guia precisa de mais opacidade pra aparecer.
+  final bool dark;
 
   final Path path;
   final List<Offset> points;
@@ -171,8 +180,7 @@ class _TracePainter extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = const Color(0xFF7C5CFF)
-            .withValues(alpha: .14) // marca, fixa nos dois temas (seção 9.2)
+        ..color = const Color(0xFF7C5CFF).withValues(alpha: dark ? .32 : .14)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 46
         ..strokeCap = StrokeCap.round
@@ -245,5 +253,5 @@ class _TracePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _TracePainter oldDelegate) =>
-      oldDelegate.idx != idx;
+      oldDelegate.idx != idx || oldDelegate.dark != dark;
 }

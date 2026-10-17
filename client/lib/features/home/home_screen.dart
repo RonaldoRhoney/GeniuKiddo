@@ -198,7 +198,7 @@ class _HomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = darkText ? const Color(0xFF2B2D42) : Colors.white;
+    final textColor = darkText ? AppColors.inkOnBright : Colors.white;
     return Shake(
       trigger: shakes,
       child: Opacity(

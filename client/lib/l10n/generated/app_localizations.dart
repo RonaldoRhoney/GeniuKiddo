@@ -116,18 +116,6 @@ abstract class AppLocalizations {
   /// **'Toque para começar'**
   String get tapToStart;
 
-  /// Rótulo pequeno do cartão de idioma português (seção 4.5: sem bandeiras)
-  ///
-  /// In pt, this message translates to:
-  /// **'Português'**
-  String get languageCardPtLabel;
-
-  /// Rótulo pequeno do cartão de idioma inglês
-  ///
-  /// In pt, this message translates to:
-  /// **'English'**
-  String get languageCardEnLabel;
-
   /// Fala do guia na primeira execução, logo após escolher o idioma (Anexo C, welcome.first)
   ///
   /// In pt, this message translates to:
@@ -949,18 +937,6 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Faça uma aula para ganhar estrelas!'**
   String get schoolNeedStars;
-
-  /// No description provided for @schoolLessonDone.
-  ///
-  /// In pt, this message translates to:
-  /// **'Você ganhou estrelas!'**
-  String get schoolLessonDone;
-
-  /// No description provided for @schoolKidsLabel.
-  ///
-  /// In pt, this message translates to:
-  /// **'{count} alunos na escola'**
-  String schoolKidsLabel(int count);
 
   /// No description provided for @goalsButton.
   ///

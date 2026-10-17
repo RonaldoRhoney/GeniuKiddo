@@ -27,6 +27,26 @@ class AppColors {
 
   /// Resolve pelo brilho ATUAL do tema (seção 4.7: automático/claro/escuro)
   /// — usar isto em vez de `AppColors.light` direto em qualquer tela.
+  /// Texto escuro sobre fundo vivo (amarelo, verde): o mesmo nos dois
+  /// temas, porque o fundo também não muda.
+  static const inkOnBright = Color(0xFF2B2D42);
+
+  /// Etapa da trilha ainda trancada (lilás claro, nos dois temas).
+  static const lockedNode = Color(0xFFCFCBE6);
+
+  /// Cesta de legumes do Refeitório (verde mais escuro que `green`, pra o
+  /// texto branco ter contraste).
+  static const basketGreen = Color(0xFF2FAE72);
+
+  /// Ciclo de cores de marca dos cartões de idioma — com mais idiomas que
+  /// cores, repete do início.
+  static const brandCycle = [
+    Color(0xFF7C5CFF),
+    Color(0xFF2F86E6),
+    Color(0xFFFF9B3D),
+    Color(0xFF4FCB8D),
+  ];
+
   static AppColors of(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark ? dark : light;
 

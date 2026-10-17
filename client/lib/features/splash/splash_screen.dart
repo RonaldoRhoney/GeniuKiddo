@@ -10,7 +10,7 @@ import '../language/language_screen.dart';
 import '../home/home_screen.dart';
 
 /// Mapa de telas (seção 5.1): Splash ("Toque para começar") é a primeira
-/// tela, sempre — nunca pula direto pra trilha, mesmo com idioma salvo
+/// tela, sempre — nunca pula direto pro menu inicial, mesmo com idioma salvo
 /// (mesmo comportamento dos dois protótipos HTML).
 class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});

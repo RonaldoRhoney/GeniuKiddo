@@ -153,8 +153,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen>
                           style: const TextStyle(fontSize: 120),
                         )
                       : ColorFiltered(
-                          colorFilter: const ColorFilter.mode(
-                            Colors.black,
+                          // Silhueta na cor do texto: escura no tema claro,
+                          // clara no escuro — sempre visível no cartão.
+                          colorFilter: ColorFilter.mode(
+                            AppColors.of(context).ink,
                             BlendMode.srcIn,
                           ),
                           child: Text(

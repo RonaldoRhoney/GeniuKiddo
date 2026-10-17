@@ -39,8 +39,9 @@ class PersistenceService {
   Future<void> setStars(int value) => _prefs.setInt(_kStarsKey, value);
 
   /// Seção 4.7 (área dos pais): "aparência (automático, claro, escuro)".
-  /// Guarda 'auto'|'light'|'dark' — string, não enum, pra nunca quebrar ao
-  /// ler um valor salvo por uma versão antiga do app.
+  /// Guarda o `ThemeMode.name` ('system'|'light'|'dark') como string, não
+  /// enum, pra nunca quebrar ao ler um valor salvo por versão antiga (o
+  /// 'auto' antigo, ou qualquer valor desconhecido, cai em automático).
   String get themeModeName => _prefs.getString(_kThemeModeKey) ?? 'auto';
 
   Future<void> setThemeModeName(String value) =>

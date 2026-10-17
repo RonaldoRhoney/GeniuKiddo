@@ -326,7 +326,7 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                             '${l10n.gradeAge(def.grades[grade].age)}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w800,
-                              color: Color(0xFF2B2D42),
+                              color: AppColors.inkOnBright,
                             ),
                           ),
                         ),

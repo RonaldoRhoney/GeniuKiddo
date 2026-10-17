@@ -98,8 +98,7 @@ class _GradeChoiceScreenState extends ConsumerState<GradeChoiceScreen> {
   }
 }
 
-/// Cartão grande de série (ícone, nome, idade) — também usado na área dos
-/// pais pra trocar a série.
+/// Cartão grande de série (ícone, nome, idade).
 class GradeCard extends StatelessWidget {
   const GradeCard({
     super.key,
@@ -107,20 +106,18 @@ class GradeCard extends StatelessWidget {
     required this.name,
     required this.age,
     required this.onTap,
-    this.selected = false,
   });
 
   final String icon;
   final String name;
   final String age;
   final VoidCallback onTap;
-  final bool selected;
 
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
     return Material(
-      color: selected ? colors.purple : colors.card,
+      color: colors.card,
       borderRadius: BorderRadius.circular(24),
       child: InkWell(
         borderRadius: BorderRadius.circular(24),
@@ -139,16 +136,12 @@ class GradeCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
-                      color: selected ? Colors.white : colors.ink,
+                      color: colors.ink,
                     ),
                   ),
                   Text(
                     age,
-                    style: TextStyle(
-                      color: selected
-                          ? Colors.white
-                          : colors.ink.withValues(alpha: .7),
-                    ),
+                    style: TextStyle(color: colors.ink.withValues(alpha: .7)),
                   ),
                 ],
               ),

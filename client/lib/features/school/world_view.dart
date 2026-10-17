@@ -74,9 +74,6 @@ class WorldViewState extends ConsumerState<WorldView>
 
   WorldDef get _world => ref.read(contentRepositoryProvider).school.world;
 
-  /// Tamanho visível do mapa (pra camadas que acompanham a câmera).
-  Size get viewport => _viewport;
-
   /// Canto superior esquerdo da câmera, em coordenadas do mundo.
   Offset get camera {
     final t = transformation.value.getTranslation();
@@ -321,7 +318,7 @@ class WorldViewState extends ConsumerState<WorldView>
           child: const Icon(
             Icons.arrow_forward_rounded,
             size: 34,
-            color: Color(0xFF2B2D42),
+            color: AppColors.inkOnBright,
           ),
         ),
       ),
