@@ -1,4 +1,9 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Seção 12.5 / R3: o app não usa rede. O player de áudio (media3/ExoPlayer, via just_audio)
+         declara ACCESS_NETWORK_STATE para streaming, que não usamos (só
+         sons do próprio pacote) — removido do manifesto final. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
     <application
         android:label="Genius Kiddo"
         android:name="${applicationName}"

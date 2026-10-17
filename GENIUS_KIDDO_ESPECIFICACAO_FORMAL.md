@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Versão** | 1.6 (atualizada por solicitação do Rhoney) |
+| **Versão** | 1.7 (atualizada por solicitação do Rhoney) |
 | **Data** | 16/10/2026 |
 | **Responsável** | Rhoney (Ronaldo Martins), RhoneyInc |
 | **Destinatário** | Claude Code (implementação) |
@@ -22,6 +22,7 @@
 | 1.2 | 16/10/2026 | **Liberação em ordem** dentro de cada fase (RT-09, seção 4.12): na escola, espaços, aulas e objetivos abrem um de cada vez (seções 6.6 e 6.7, Anexo B). **RF-FASE-02** definido para a Fase 2 (libera ao concluir as 8 etapas). Decisões do M5: estrelas da escola separadas das da trilha, escolha da série atrás do portão, entrada 🏫 na trilha. **Voz** em pt-BR só com voz da região exata e sem internet (seção 4.3). **Estrutura para novos idiomas** (seções 4.5 e 10). Frases novas no Anexo C. ADR 016 e 017 |
 | 1.3 | 16/10/2026 | **Menu inicial** (seção 5.1): nova raiz da navegação, com Trilha, Escolinha e Rabisco livre; trilha e escola ganham 🏠 para voltar a ele. **Sair do app** na área dos pais, atrás do portão (seção 4.7). Botão voltar do Android detalhado (seção 4.10). Entrada da Escolinha passa da trilha para o menu (RF-FASE-02) |
 | 1.4 | 16/10/2026 | **Mundo explorável decidido: mapa livre** (seção 7, ADR 012). Detalhamento implementado no M6: mapa como dado, caminho na ordem de liberação, regiões por série cobertas por nuvens, seta de borda e botão 🎯, mãozinha de arrastar, vida no cenário |
+| 1.7 | 17/10/2026 | **Controle dos pais mais intuitivo** (seção 4.7): botão "🔒 Pais" no topo, menu em cartões com resumo e a tela **Como usar** |
 | 1.6 | 16/10/2026 | **Idiomas representados por bandeira** (seção 4.5), em botões redondos de 64 dp, proporcionais aos demais botões do topo |
 | 1.5 | 16/10/2026 | **Auditoria de consistência do app** (34 achados corrigidos): fila de falas, para o nome nunca ser cortado (seção 4.1); linha do guia igual em todas as telas, com 🔊 (4.2); balanço no item trancado; "reduzir movimento" em todas as animações (4.10); liga/desliga da voz e "liberar todas as etapas" na área dos pais (4.7); voltar travado durante a pausa (4.8); parâmetros das aulas como dado no `school.json` (seção 10). Anexo C atualizado com as falas reais |
 
@@ -176,7 +177,9 @@ Um gênio simpático e amigável (turbante amarelo com joia coral, corpo roxo, c
 - R14: sem decaimento, sem perda por ausência, sem contagem regressiva.
 
 ### 4.7 Área dos pais e portão
-- **Portão:** botão que exige **segurar por 2 segundos** (a criança pequena não consegue). Cadeado pequeno no canto da tela, de propósito.
+- **Portão:** botão que exige **segurar por 2 segundos** (a criança pequena não consegue). No alto do menu, da trilha e da escola, a entrada é o botão **"🔒 Pais"** (pílula de 64 dp que vai se enchendo enquanto o adulto segura; um toque rápido só mostra "Segure para abrir"). Decisão do Rhoney em 17/10/2026, para a entrada ficar mais intuitiva para o adulto. Os 2 segundos valem mesmo com "remover animações" ligado no aparelho.
+- **Controle dos pais em cartões:** um resumo no topo (série, trilha, pausa, voz desligada) e um cartão por assunto, cada um abrindo a sua tela: **Idioma e voz**, **Pausa sugerida**, **Escolinha**, **Progresso**, **Aparência** e **Privacidade**, além de **❓ Como usar** em destaque e **Sair do app** no fim.
+- **Como usar:** guia curto para o adulto, com tópicos que abrem e fecham (menu, trilha, escolinha, mapa, o guia e o 🔊, controle dos pais, pausa, e o que fazer se a criança ficar travada). Textos nas traduções.
 - Conteúdo comum a todas as fases: idioma; música e voz; **tom e escolha da voz** com botão de teste; **pausa para descansar**; progresso; aparência (automático, claro, escuro); resumo de privacidade em linguagem simples; link para política de privacidade e termos (abre fora do app, só após o portão); **Sair do app** (fecha o app; o progresso fica salvo). É o único jeito de fechar o app por dentro, para a criança não sair sem querer (seção 4.10).
 - Fase 2 acrescenta: **série da criança** (com troca posterior), **liberar a Escolinha** antes de a trilha terminar (RF-FASE-03) e atalhos de progresso.
 

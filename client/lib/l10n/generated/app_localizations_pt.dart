@@ -258,10 +258,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get breakHoldHint => 'Peça pra um adulto segurar aqui';
 
   @override
-  String get parentGateLabel => 'Área dos pais';
+  String get parentGateLabel => 'Controle dos pais';
 
   @override
-  String get parentsAreaTitle => 'Área dos pais';
+  String get parentsAreaTitle => 'Controle dos pais';
 
   @override
   String get parentsLanguageLabel => 'Idioma';
@@ -783,4 +783,92 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get parentsUnlockTrailHint =>
       'Libera as etapas sem dar estrelas; a criança pode jogar em qualquer ordem.';
+
+  @override
+  String get parentsEntry => 'Pais';
+
+  @override
+  String get parentsHoldHint => 'Segure para abrir';
+
+  @override
+  String get parentsCardVoice => 'Idioma e voz';
+
+  @override
+  String get parentsCardHelp => 'Como usar';
+
+  @override
+  String parentsSummaryTrail(int done, int total) {
+    return 'Trilha $done/$total';
+  }
+
+  @override
+  String parentsSummaryBreak(int minutes) {
+    return 'Pausa $minutes min';
+  }
+
+  @override
+  String get parentsSummaryBreakOff => 'Pausa desligada';
+
+  @override
+  String get parentsSummaryVoiceOff => 'Voz desligada';
+
+  @override
+  String get helpIntro =>
+      'O Genius Kiddo é para crianças de 3 a 5 anos, de preferência com um adulto por perto. Tudo funciona sem internet e nada sai do aparelho.';
+
+  @override
+  String get helpMenuTitle => 'Menu inicial';
+
+  @override
+  String get helpMenuBody =>
+      'É a primeira tela depois da abertura. Tem três cartões grandes: Trilha, Escolinha e Rabisco livre. Os botões de bandeira trocam o idioma, a nota liga ou desliga a música e a lua troca a aparência.';
+
+  @override
+  String get helpTrailTitle => 'Trilha';
+
+  @override
+  String get helpTrailBody =>
+      'São 8 atividades em ordem (pintar, ouvir, sombra, traçar, falar). A próxima só abre quando a anterior termina, e a etapa atual pulsa com a mãozinha 👆. Cada etapa concluída pela primeira vez dá 1 estrela. Não há erro que tire estrela: a criança pode tentar quantas vezes quiser.';
+
+  @override
+  String get helpSchoolTitle => 'Escolinha';
+
+  @override
+  String get helpSchoolBody =>
+      'Abre quando a trilha termina (ou antes, se você liberar aqui). Na primeira entrada, você escolhe a série da criança segurando o cadeado. Cada aula dá 3 estrelas, e as estrelas constroem e melhoram os espaços. Os espaços abrem um de cada vez, e só uma aula fica liberada por vez: o Kiddo sempre diz qual é a próxima.';
+
+  @override
+  String get helpMapTitle => 'Mapa da escola';
+
+  @override
+  String get helpMapBody =>
+      'A escola é um mapa maior que a tela: arraste o dedo em qualquer direção. Se a criança se perder, a seta amarela na borda ou o botão 🎯 levam até o espaço que está brilhando. As nuvens cobrem as áreas das próximas séries e se abrem ao passar de ano.';
+
+  @override
+  String get helpGuideTitle => 'O Kiddo e o 🔊';
+
+  @override
+  String get helpGuideBody =>
+      'O Kiddo fala cada instrução e mostra o mesmo texto no balão, para você acompanhar. O botão 🔊 repete a última fala. Tocar numa figura faz o Kiddo dizer o nome dela.';
+
+  @override
+  String get helpParentsTitle => 'Controle dos pais';
+
+  @override
+  String get helpParentsBody =>
+      'Fica no botão 🔒 Pais, no alto de cada tela: segure por 2 segundos para abrir. A criança pequena não consegue, então não muda nada sem querer. Aqui você ajusta idioma, voz, pausa, série, aparência e pode sair do app.';
+
+  @override
+  String get helpBreakTitle => 'Pausa para descansar';
+
+  @override
+  String get helpBreakBody =>
+      'Depois do tempo escolhido de uso contínuo (15 minutos, se você não mudar), aparece a pausa \"Hora de descansar os olhinhos\". Só um adulto fecha, segurando o cadeado dela.';
+
+  @override
+  String get helpStuckTitle => 'Se a criança ficar travada';
+
+  @override
+  String get helpStuckBody =>
+      'Toque no 🔊 para ouvir de novo. Nas atividades, depois de um toque fora, a resposta certa ganha um contorno amarelo. Item trancado treme e o Kiddo explica o que vem antes. O botão 🏠 sempre volta para o menu.';
 }

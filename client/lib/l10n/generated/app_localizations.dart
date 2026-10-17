@@ -569,13 +569,13 @@ abstract class AppLocalizations {
   /// Rótulo semântico (acessibilidade) do cadeado discreto — nunca exibido como texto visível na tela da criança
   ///
   /// In pt, this message translates to:
-  /// **'Área dos pais'**
+  /// **'Controle dos pais'**
   String get parentGateLabel;
 
   /// No description provided for @parentsAreaTitle.
   ///
   /// In pt, this message translates to:
-  /// **'Área dos pais'**
+  /// **'Controle dos pais'**
   String get parentsAreaTitle;
 
   /// No description provided for @parentsLanguageLabel.
@@ -1411,6 +1411,156 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Libera as etapas sem dar estrelas; a criança pode jogar em qualquer ordem.'**
   String get parentsUnlockTrailHint;
+
+  /// Botão do topo que abre o Controle dos pais (segurar 2 s)
+  ///
+  /// In pt, this message translates to:
+  /// **'Pais'**
+  String get parentsEntry;
+
+  /// No description provided for @parentsHoldHint.
+  ///
+  /// In pt, this message translates to:
+  /// **'Segure para abrir'**
+  String get parentsHoldHint;
+
+  /// No description provided for @parentsCardVoice.
+  ///
+  /// In pt, this message translates to:
+  /// **'Idioma e voz'**
+  String get parentsCardVoice;
+
+  /// No description provided for @parentsCardHelp.
+  ///
+  /// In pt, this message translates to:
+  /// **'Como usar'**
+  String get parentsCardHelp;
+
+  /// No description provided for @parentsSummaryTrail.
+  ///
+  /// In pt, this message translates to:
+  /// **'Trilha {done}/{total}'**
+  String parentsSummaryTrail(int done, int total);
+
+  /// No description provided for @parentsSummaryBreak.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pausa {minutes} min'**
+  String parentsSummaryBreak(int minutes);
+
+  /// No description provided for @parentsSummaryBreakOff.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pausa desligada'**
+  String get parentsSummaryBreakOff;
+
+  /// No description provided for @parentsSummaryVoiceOff.
+  ///
+  /// In pt, this message translates to:
+  /// **'Voz desligada'**
+  String get parentsSummaryVoiceOff;
+
+  /// Tela "Como usar" do Controle dos pais (guia para o adulto)
+  ///
+  /// In pt, this message translates to:
+  /// **'O Genius Kiddo é para crianças de 3 a 5 anos, de preferência com um adulto por perto. Tudo funciona sem internet e nada sai do aparelho.'**
+  String get helpIntro;
+
+  /// No description provided for @helpMenuTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Menu inicial'**
+  String get helpMenuTitle;
+
+  /// No description provided for @helpMenuBody.
+  ///
+  /// In pt, this message translates to:
+  /// **'É a primeira tela depois da abertura. Tem três cartões grandes: Trilha, Escolinha e Rabisco livre. Os botões de bandeira trocam o idioma, a nota liga ou desliga a música e a lua troca a aparência.'**
+  String get helpMenuBody;
+
+  /// No description provided for @helpTrailTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Trilha'**
+  String get helpTrailTitle;
+
+  /// No description provided for @helpTrailBody.
+  ///
+  /// In pt, this message translates to:
+  /// **'São 8 atividades em ordem (pintar, ouvir, sombra, traçar, falar). A próxima só abre quando a anterior termina, e a etapa atual pulsa com a mãozinha 👆. Cada etapa concluída pela primeira vez dá 1 estrela. Não há erro que tire estrela: a criança pode tentar quantas vezes quiser.'**
+  String get helpTrailBody;
+
+  /// No description provided for @helpSchoolTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Escolinha'**
+  String get helpSchoolTitle;
+
+  /// No description provided for @helpSchoolBody.
+  ///
+  /// In pt, this message translates to:
+  /// **'Abre quando a trilha termina (ou antes, se você liberar aqui). Na primeira entrada, você escolhe a série da criança segurando o cadeado. Cada aula dá 3 estrelas, e as estrelas constroem e melhoram os espaços. Os espaços abrem um de cada vez, e só uma aula fica liberada por vez: o Kiddo sempre diz qual é a próxima.'**
+  String get helpSchoolBody;
+
+  /// No description provided for @helpMapTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Mapa da escola'**
+  String get helpMapTitle;
+
+  /// No description provided for @helpMapBody.
+  ///
+  /// In pt, this message translates to:
+  /// **'A escola é um mapa maior que a tela: arraste o dedo em qualquer direção. Se a criança se perder, a seta amarela na borda ou o botão 🎯 levam até o espaço que está brilhando. As nuvens cobrem as áreas das próximas séries e se abrem ao passar de ano.'**
+  String get helpMapBody;
+
+  /// No description provided for @helpGuideTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'O Kiddo e o 🔊'**
+  String get helpGuideTitle;
+
+  /// No description provided for @helpGuideBody.
+  ///
+  /// In pt, this message translates to:
+  /// **'O Kiddo fala cada instrução e mostra o mesmo texto no balão, para você acompanhar. O botão 🔊 repete a última fala. Tocar numa figura faz o Kiddo dizer o nome dela.'**
+  String get helpGuideBody;
+
+  /// No description provided for @helpParentsTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Controle dos pais'**
+  String get helpParentsTitle;
+
+  /// No description provided for @helpParentsBody.
+  ///
+  /// In pt, this message translates to:
+  /// **'Fica no botão 🔒 Pais, no alto de cada tela: segure por 2 segundos para abrir. A criança pequena não consegue, então não muda nada sem querer. Aqui você ajusta idioma, voz, pausa, série, aparência e pode sair do app.'**
+  String get helpParentsBody;
+
+  /// No description provided for @helpBreakTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pausa para descansar'**
+  String get helpBreakTitle;
+
+  /// No description provided for @helpBreakBody.
+  ///
+  /// In pt, this message translates to:
+  /// **'Depois do tempo escolhido de uso contínuo (15 minutos, se você não mudar), aparece a pausa \"Hora de descansar os olhinhos\". Só um adulto fecha, segurando o cadeado dela.'**
+  String get helpBreakBody;
+
+  /// No description provided for @helpStuckTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Se a criança ficar travada'**
+  String get helpStuckTitle;
+
+  /// No description provided for @helpStuckBody.
+  ///
+  /// In pt, this message translates to:
+  /// **'Toque no 🔊 para ouvir de novo. Nas atividades, depois de um toque fora, a resposta certa ganha um contorno amarelo. Item trancado treme e o Kiddo explica o que vem antes. O botão 🏠 sempre volta para o menu.'**
+  String get helpStuckBody;
 }
 
 class _AppLocalizationsDelegate

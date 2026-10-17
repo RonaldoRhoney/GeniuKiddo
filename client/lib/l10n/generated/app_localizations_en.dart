@@ -253,10 +253,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get breakHoldHint => 'Ask a grown-up to hold here';
 
   @override
-  String get parentGateLabel => 'Parents area';
+  String get parentGateLabel => 'Parental controls';
 
   @override
-  String get parentsAreaTitle => 'Parents area';
+  String get parentsAreaTitle => 'Parental controls';
 
   @override
   String get parentsLanguageLabel => 'Language';
@@ -757,4 +757,92 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get parentsUnlockTrailHint =>
       'Unlocks the steps without giving stars; the child can play in any order.';
+
+  @override
+  String get parentsEntry => 'Parents';
+
+  @override
+  String get parentsHoldHint => 'Hold to open';
+
+  @override
+  String get parentsCardVoice => 'Language and voice';
+
+  @override
+  String get parentsCardHelp => 'How to use';
+
+  @override
+  String parentsSummaryTrail(int done, int total) {
+    return 'Trail $done/$total';
+  }
+
+  @override
+  String parentsSummaryBreak(int minutes) {
+    return 'Break $minutes min';
+  }
+
+  @override
+  String get parentsSummaryBreakOff => 'Break off';
+
+  @override
+  String get parentsSummaryVoiceOff => 'Voice off';
+
+  @override
+  String get helpIntro =>
+      'Genius Kiddo is for children aged 3 to 5, ideally with an adult nearby. Everything works offline and nothing leaves the device.';
+
+  @override
+  String get helpMenuTitle => 'Home menu';
+
+  @override
+  String get helpMenuBody =>
+      'It is the first screen after the opening. It has three big cards: Trail, School and Free draw. The flag buttons change the language, the note turns music on or off and the moon changes the appearance.';
+
+  @override
+  String get helpTrailTitle => 'Trail';
+
+  @override
+  String get helpTrailBody =>
+      'There are 8 activities in order (paint, listen, shadow, trace, speak). The next one opens only when the previous one is done, and the current step pulses with the little hand 👆. Each step finished for the first time gives 1 star. No mistake takes a star away: the child can try as many times as they like.';
+
+  @override
+  String get helpSchoolTitle => 'School';
+
+  @override
+  String get helpSchoolBody =>
+      'It opens when the trail is finished (or earlier, if you unlock it here). On the first visit, you choose the child\'s grade by holding the lock. Each lesson gives 3 stars, and stars build and upgrade the spaces. Spaces open one at a time, and only one lesson is open at a time: Kiddo always says which one is next.';
+
+  @override
+  String get helpMapTitle => 'School map';
+
+  @override
+  String get helpMapBody =>
+      'The school is a map bigger than the screen: drag your finger in any direction. If the child gets lost, the yellow arrow on the edge or the 🎯 button takes you to the glowing space. Clouds cover the areas of the next grades and open when moving up a grade.';
+
+  @override
+  String get helpGuideTitle => 'Kiddo and 🔊';
+
+  @override
+  String get helpGuideBody =>
+      'Kiddo says every instruction and shows the same text in the bubble, so you can follow along. The 🔊 button repeats the last line. Tapping a picture makes Kiddo say its name.';
+
+  @override
+  String get helpParentsTitle => 'Parental controls';
+
+  @override
+  String get helpParentsBody =>
+      'It is the 🔒 Parents button at the top of each screen: hold it for 2 seconds to open. A small child can\'t do it, so nothing changes by accident. Here you set language, voice, break, grade and appearance, and you can exit the app.';
+
+  @override
+  String get helpBreakTitle => 'Rest break';
+
+  @override
+  String get helpBreakBody =>
+      'After the chosen time of continuous use (15 minutes unless you change it), the \"Time to rest your eyes\" break appears. Only an adult can close it, by holding its lock.';
+
+  @override
+  String get helpStuckTitle => 'If the child gets stuck';
+
+  @override
+  String get helpStuckBody =>
+      'Tap 🔊 to hear it again. In activities, after a wrong tap, the right answer gets a yellow outline. A locked item shakes and Kiddo explains what comes first. The 🏠 button always goes back to the menu.';
 }

@@ -136,15 +136,15 @@ void main() {
     'RF-FASE-03: os pais liberam a Escolinha antes da trilha acabar',
     (tester) async {
       await pumpAppAtHome(tester, trailDone: 2);
-      await _hold(tester, find.byType(HoldToUnlock));
-      await tester.scrollUntilVisible(
-        find.byKey(const ValueKey('unlockSchool')),
-        200,
-      );
+      await _hold(tester, find.byKey(const ValueKey('parentsEntry')));
+      await tester.tap(find.byKey(const ValueKey('parentsCard_school')));
+      await _settle(tester);
       await tester.tap(find.byKey(const ValueKey('unlockSchool')));
       await _settle(tester);
       expect(find.text('Série da criança'), findsOneWidget);
-      await tester.binding.handlePopRoute();
+      await tester.binding.handlePopRoute(); // sai da seção
+      await _settle(tester);
+      await tester.binding.handlePopRoute(); // sai do Controle dos pais
       await _settle(tester);
       expect(find.text('🏫'), findsOneWidget); // cartão destrancado no menu
     },

@@ -197,7 +197,10 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
                   ),
                   const SizedBox(width: 8),
                   HoldToUnlock(
+                    key: const ValueKey('parentsEntry'),
                     semanticLabel: l10n.parentGateLabel,
+                    label: l10n.parentsEntry,
+                    hint: l10n.parentsHoldHint,
                     onUnlock: () => Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => const ParentsAreaScreen(),
