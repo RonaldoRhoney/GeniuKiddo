@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Versão** | 1.4 (atualizada por solicitação do Rhoney) |
+| **Versão** | 1.5 (atualizada por solicitação do Rhoney) |
 | **Data** | 16/10/2026 |
 | **Responsável** | Rhoney (Ronaldo Martins), RhoneyInc |
 | **Destinatário** | Claude Code (implementação) |
@@ -22,6 +22,7 @@
 | 1.2 | 16/10/2026 | **Liberação em ordem** dentro de cada fase (RT-09, seção 4.12): na escola, espaços, aulas e objetivos abrem um de cada vez (seções 6.6 e 6.7, Anexo B). **RF-FASE-02** definido para a Fase 2 (libera ao concluir as 8 etapas). Decisões do M5: estrelas da escola separadas das da trilha, escolha da série atrás do portão, entrada 🏫 na trilha. **Voz** em pt-BR só com voz da região exata e sem internet (seção 4.3). **Estrutura para novos idiomas** (seções 4.5 e 10). Frases novas no Anexo C. ADR 016 e 017 |
 | 1.3 | 16/10/2026 | **Menu inicial** (seção 5.1): nova raiz da navegação, com Trilha, Escolinha e Rabisco livre; trilha e escola ganham 🏠 para voltar a ele. **Sair do app** na área dos pais, atrás do portão (seção 4.7). Botão voltar do Android detalhado (seção 4.10). Entrada da Escolinha passa da trilha para o menu (RF-FASE-02) |
 | 1.4 | 16/10/2026 | **Mundo explorável decidido: mapa livre** (seção 7, ADR 012). Detalhamento implementado no M6: mapa como dado, caminho na ordem de liberação, regiões por série cobertas por nuvens, seta de borda e botão 🎯, mãozinha de arrastar, vida no cenário |
+| 1.5 | 16/10/2026 | **Auditoria de consistência do app** (34 achados corrigidos): fila de falas, para o nome nunca ser cortado (RT-08 da voz, seção 4.1); linha do guia igual em todas as telas, com 🔊 (4.2); balanço no item trancado; "reduzir movimento" em todas as animações (4.10); liga/desliga da voz e "liberar todas as etapas" na área dos pais (4.7); voltar travado durante a pausa (4.8); parâmetros das aulas como dado no `school.json` (seção 10). Anexo C atualizado com as falas reais |
 
 ---
 
@@ -128,9 +129,10 @@
 - **RT-05 — Exceção:** figuras escondidas (a silhueta de "quem é a sombra?") só falam o nome depois de reveladas.
 - **RT-06 — Centralização:** implementar em um único serviço (ex.: `ItemFeedback.correct(item)` e `ItemFeedback.wrong(tapped, requested)`) usado por todas as atividades, para a regra não divergir entre fases.
 - **RT-07 — Aceite:** cada atividade que exibe figuras entra num checklist com os casos "toque no pedido", "toque fora do pedido" e "toque na figura de exibição", nos dois idiomas.
+- **Fila de falas (o nome nunca é cortado).** Uma fala nova interrompe a que estiver tocando, mas a **continuação** (o elogio depois do nome no acerto, o pedido depois do nome no toque fora, a mensagem da celebração depois do elogio) espera a anterior terminar. Sem isso, o nome da figura era interrompido pela frase seguinte.
 
 ### 4.2 Personagem-guia
-Um gênio simpático e amigável (turbante amarelo com joia coral, corpo roxo, cauda de fumaça azul), sempre visível no topo das telas de trilha, escola e atividade, com balão de fala e botão 🔊 para repetir a última instrução. **Toda instrução é falada** e também exibida no balão (para os pais).
+Um gênio simpático e amigável (turbante amarelo com joia coral, corpo roxo, cauda de fumaça azul), sempre visível no topo das telas de menu, trilha, escola e atividade, com balão de fala e botão 🔊 para repetir a última instrução. **Toda instrução é falada** e também exibida no balão (para os pais): o balão mostra sempre **a mesma frase que está sendo falada**, inclusive quando o guia muda de assunto (trancado, fim de aula, objetivo cumprido) e quando o idioma é trocado (o balão se traduz e o guia repete a frase). A linha do guia é um componente único, igual em todas as telas.
 
 ### 4.3 Voz do guia (infantil e amigável)
 - **Objetivo:** voz calorosa, aguda e animada, ritmo um pouco lento, frases curtas.
@@ -186,6 +188,8 @@ Salvar localmente, sem dado pessoal: idioma, música, voz, tom, vozes escolhidas
 ### 4.10 Acessibilidade e segurança da criança
 - Alvos de toque grandes (≥ 64 dp na área da criança; ≥ 44 dp nos pais).
 - Contraste AA nos textos dos pais; **nunca informar só por cor** (nomes das cores falados e escritos); rótulos semânticos; respeitar "reduzir movimento".
+- **Todo item trancado** (etapa da trilha, espaço da escola, cartão da Escolinha no menu) responde ao toque com balanço leve, som sutil (RT-04) e a fala do guia dizendo o que vem primeiro. Com "reduzir movimento", não balança.
+- **"Reduzir movimento"** vale para todas as animações: pulsos, balanço, voo da câmera do mapa, mãozinha de arrastar, nuvens, crescimento de espaços e plantas, botões do Pátio, confete e bichinhos. A informação continua presente, só sem animação.
 - Tratar o botão voltar do Android: volta para a tela anterior (de uma atividade para a trilha ou a escola; da trilha ou da escola para o menu inicial). **No menu inicial, o voltar não fecha o app.** Sair do app só pela área dos pais, atrás do portão (seção 4.7). Links externos só após o portão.
 
 ### 4.11 Atividades livres: conclusão explícita (RT-08)
@@ -324,7 +328,7 @@ No app final, os emojis são **substituídos por ilustrações originais** (seç
 ### 6.9 Pontos de atenção
 - Construção por **toque em lotes prontos**, não arrastar livremente, para funcionar aos 3 anos.
 - **Sem notificações** e **sem mecânica de volta diária** (R14).
-- O protótipo da Fase 2 ainda é uma grade linear; a experiência de mundo explorável está na seção 7.
+- O protótipo da Fase 2 é uma grade linear; o app já usa o mundo explorável em mapa livre (seção 7.1).
 
 ### 6.10 Rabisco livre na escola [PLANEJADO]
 O protótipo da Fase 2 não inclui desenho livre. Se for incluído (por exemplo, no Ateliê de arte ou como atividade sempre liberada), **herda o RF-06 e o RT-08**: botão ✓ de conclusão, celebração sem estrela e nenhuma interferência na economia da escola.
@@ -493,6 +497,7 @@ Regras:
 - **Regras de escrita por idioma também ficam nas traduções.** Exemplo: na Biblioteca, a letra inicial sai do nome **no idioma ativo** (🍇 é U de uva em pt e G de grape em en), e cada idioma define quais letras com acento contam como a letra base (em pt, "á" conta como "A"; em espanhol, o "ñ" é uma letra própria). As opções erradas vêm só das iniciais do mesmo idioma.
 - Teste automatizado garante que todo item tem nome em todos os idiomas suportados.
 - Cada item tem registro de **licença e origem** (`assets/LICENSES.md`).
+- **Parâmetros das aulas também são dado.** O `school.json` traz, em `lessons`, as rodadas, as figuras da Biblioteca, as frutas e legumes do Refeitório (e quantos de cada) e a arte do Ateliê por série; cada região do mapa lista os seus bichinhos (`animals`). O `trail.json` aceita `rounds` por etapa (padrão 3). As artes de pintura e os glifos de traçado ainda estão no código e passam para SVG com regiões nomeadas junto com as artes finais (M8).
 
 ### 10.1 Catálogo de itens (protótipos)
 Animais: cachorro (o), gato (o), peixe (o), passarinho (o), sapo (o), pato (o), vaca (a), leão (o), abelha (a), urso (o). Objetos e natureza: carro (o), bola (a), sol (o), flor (a), lua (a), casa (a), ovo (o). Frutas: maçã (a), banana (a), uva (a), morango (o), laranja (a), melancia (a). Legumes: cenoura (a), brócolis (o), batata (a), alface (a), cebola (a). Formas: círculo, quadrado, triângulo (o), estrela (a), coração (o). Cores: vermelho/a, azul, amarelo/a, verde, roxo/a, laranja.
@@ -742,9 +747,15 @@ Quebra-cabeças e sequências adicionais; álbum de figurinhas; mais glifos de t
 
 | Chave | pt-BR | en-US |
 |---|---|---|
-| `welcome.first` | Oi! Eu sou o Kiddo! Toque na estrela brilhante! | Hi! I am Kiddo! Tap the glowing star! |
-| `welcome.back` | Oi! Que bom te ver! Vamos cuidar da nossa escola? | Hi! So good to see you! Shall we take care of our school? |
-| `home.hint` | Toque na estrela brilhante! | Tap the glowing star! |
+| `welcome.first` (menu inicial, 1ª vez) | Oi! Eu sou o Kiddo! | Hi! I am Kiddo! |
+| `welcome.back` (menu inicial) | Oi! Que bom te ver! | Hi! So good to see you! |
+| `trail.hint` (trilha) | Toque na estrela brilhante! | Tap the glowing star! |
+| `trail.allDone` | Você completou a trilha! Quer brincar de novo? | You finished the trail! Want to play again? |
+| `home.schoolLocked` | A Escolinha abre quando você terminar a trilha! | The School opens when you finish the trail! |
+| `school.welcome.first` | Bem-vindo à nossa escolinha! Toque na sala de aula! | Welcome to our school! Tap the classroom! |
+| `school.welcome.back` | Oi! Que bom te ver! Vamos cuidar da nossa escola? | Hi! So good to see you! Shall we take care of our school? |
+| `world.dragHint` | Arraste o dedo para ver a escola! | Drag your finger to see the school! |
+| `world.kidHello` | Oi! Eu estudo aqui! | Hi! I study here! |
 | `locked` | Ainda não! Vamos fazer a estrela brilhante primeiro! | Not yet! Let us do the glowing star first! |
 | `grade.locked` | Esse espaço chega no {série}! Vamos passar de ano! | This space arrives in {grade}! Let us move up a grade! |
 | `school.lockedPrev` | Ainda não! Primeiro: {espaço}. | Not yet! First: {space}. |
@@ -773,12 +784,14 @@ Quebra-cabeças e sequências adicionais; álbum de figurinhas; mais glifos de t
 | `praise.*` | Muito bem! · Isso mesmo! · Uau, que demais! · Parabéns! | Great job! · Yes! That is right! · Wow, well done! · Awesome! |
 | `retry.*` | Tente de novo! · Quase! Vamos de novo! · Olha com calma e tente outra vez! | Try again! · Almost! Once more! · Look closely and try again! |
 
+Nota: no toque fora do pedido, o app segue a RT-03 (fala o nome do que foi tocado e repete o pedido) em vez de uma frase `retry.*` genérica; o Pátio usa "Quase! Vamos ouvir de novo!". As frases `retry.*` ficam como reserva para atividades sem pedido falado.
+
 ## Anexo D — Referências dos protótipos
 
 | Protótipo | Arquivo sugerido no repositório | Observação |
 |---|---|---|
 | Fase 1 — Trilha | `docs/prototype/genius-kiddo-prototipo.html` | Já com a regra de áudio (RT), a voz "Fofa" e o botão ✓ do rabisco livre. **Substituir o arquivo antigo pelo atualizado** |
-| Fase 2 — Escolinha | `docs/prototype/genius-kiddo-fase2-escolinha.html` | Grade linear; mundo arrastável ainda não implementado (seção 7) |
+| Fase 2 — Escolinha | `docs/prototype/genius-kiddo-fase2-escolinha.html` | Grade linear; o app usa o mapa livre (seção 7.1) |
 
 Os protótipos foram publicados como páginas privadas do Rhoney. Salvar os arquivos HTML no repositório antes de iniciar.
 
