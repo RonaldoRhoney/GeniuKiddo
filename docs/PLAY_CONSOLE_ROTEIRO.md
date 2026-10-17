@@ -6,8 +6,8 @@ Checklist para subir o app (conta pessoal), com as respostas baseadas no comport
 
 - [ ] **Verificação de desenvolvedor (Brasil, desde 30/09/2026):** conferir no Play Console (Home) se não há pendência.
 - [ ] **Nome "Genius Kiddo":** conferir disponibilidade na Play, no INPI e no Registro.br (pendente na especificação).
-- [ ] **E-mail de suporte dedicado ao app** (a conta pessoal expõe o contato na ficha).
-- [ ] **Política de privacidade publicada numa URL pública:** o texto está em `docs/legal/politica-de-privacidade.md`. Falta escolher onde hospedar e preencher o e-mail de contato.
+- [x] **E-mail de suporte:** rhoneyinc@gmail.com (o contato aparece na ficha da loja).
+- [x] **Política de privacidade publicada:** https://ronaldorhoney.github.io/GeniuKiddo/ (GitHub Pages, branch `gh-pages` do repositório público; a fonte é `docs/legal/politica-de-privacidade.md`). Ao mudar a política, atualizar o `.md` e republicar o `index.html` da `gh-pages`.
 
 ## 1. Arquivo para enviar
 
@@ -21,7 +21,7 @@ Checklist para subir o app (conta pessoal), com as respostas baseadas no comport
 
 | Formulário | Resposta |
 |---|---|
-| **Política de privacidade** | URL pública da política (seção 0). |
+| **Política de privacidade** | https://ronaldorhoney.github.io/GeniuKiddo/ |
 | **Anúncios** | O app **não contém anúncios**. |
 | **Acesso ao app** | **Todo o app está disponível sem restrições** (não há login). A área dos pais abre segurando o botão "🔒 Pais" por 2 segundos — vale explicar isso no campo de instruções, para o revisor. |
 | **Classificação de conteúdo** | Categoria **Educação / Referência**. Sem violência, sem conteúdo sexual, sem linguagem imprópria, sem drogas, sem apostas, **sem interação entre usuários**, **sem compartilhamento de localização**, **sem compras digitais**. Resultado esperado: Livre (L) / PEGI 3 / Everyone. |
@@ -39,7 +39,7 @@ Checklist para subir o app (conta pessoal), com as respostas baseadas no comport
 - [ ] **Imagem de destaque 1024 × 500.**
 - [ ] **Capturas de tela do celular** (mínimo 2): menu inicial, trilha, mapa da escola, uma aula, controle dos pais.
 - [ ] **Categoria:** Educação. **Tags:** educação infantil.
-- [ ] **E-mail de contato:** o e-mail de suporte dedicado.
+- [ ] **E-mail de contato:** rhoneyinc@gmail.com
 
 ## 4. Teste fechado (obrigatório para conta pessoal)
 

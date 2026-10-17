@@ -2,7 +2,7 @@
 
 **Última atualização:** 17 de outubro de 2026
 **Responsável:** Ronaldo Martins (RhoneyInc), desenvolvedor do aplicativo
-**Contato:** [PENDENTE: e-mail de suporte dedicado ao app]
+**Contato:** rhoneyinc@gmail.com
 
 O Genius Kiddo é um aplicativo educativo para crianças de 3 a 5 anos, usado com o acompanhamento de um adulto. Esta política explica, em linguagem simples, o que acontece com as informações quando a criança usa o app.
 
