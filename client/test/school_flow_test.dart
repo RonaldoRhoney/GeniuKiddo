@@ -165,7 +165,7 @@ void main() {
         findsOneWidget,
       );
 
-      await tester.tap(find.text('Hi!'));
+      await tester.tap(find.byKey(const ValueKey('lang_en')));
       await _settle(tester);
       expect(
         find.text('Hi! So good to see you! Shall we take care of our school?'),

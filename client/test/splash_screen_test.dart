@@ -41,8 +41,9 @@ void main() {
       await tester.tap(find.text('Toque para começar'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Oi!'), findsOneWidget);
-      expect(find.text('Hi!'), findsOneWidget);
+      // Cartões de idioma com bandeira (seção 4.5).
+      expect(find.text('🇧🇷'), findsOneWidget);
+      expect(find.text('🇺🇸'), findsOneWidget);
     },
   );
 }

@@ -9,7 +9,7 @@ import '../home/home_screen.dart';
 
 /// Escolha de idioma (seção 4.5, só na 1ª vez — a Splash decide se cai aqui
 /// ou direto no menu inicial). Um cartão grande por idioma de
-/// `supportedLanguages`, SEM bandeiras (evita associar idioma a país) —
+/// `supportedLanguages`, com a bandeira e o nome do idioma —
 /// adicionar um idioma novo na lista central já aparece aqui sozinho, sem
 /// mudar esta tela.
 class LanguageScreen extends ConsumerWidget {
@@ -37,6 +37,9 @@ class LanguageScreen extends ConsumerWidget {
                       if (i > 0) const SizedBox(width: 16),
                       Expanded(
                         child: _LanguageCard(
+                          key: ValueKey(
+                            'langCard_${supportedLanguages[i].code}',
+                          ),
                           lang: supportedLanguages[i],
                           color: _cardColors[i % _cardColors.length],
                         ),
@@ -54,7 +57,7 @@ class LanguageScreen extends ConsumerWidget {
 }
 
 class _LanguageCard extends ConsumerWidget {
-  const _LanguageCard({required this.lang, required this.color});
+  const _LanguageCard({super.key, required this.lang, required this.color});
 
   final SupportedLanguage lang;
   final Color color;
@@ -76,27 +79,25 @@ class _LanguageCard extends ConsumerWidget {
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                lang.greeting,
-                style: const TextStyle(
-                  fontSize: 46,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
+          child: Semantics(
+            button: true,
+            label: lang.nativeName,
+            excludeSemantics: true,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(lang.flag, style: const TextStyle(fontSize: 56)),
+                const SizedBox(height: 4),
+                Text(
+                  lang.nativeName,
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                lang.nativeName,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

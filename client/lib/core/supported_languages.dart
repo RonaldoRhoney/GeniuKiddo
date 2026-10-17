@@ -11,14 +11,19 @@ class SupportedLanguage {
     required this.greeting,
     required this.nativeName,
     required this.ttsLocale,
+    required this.flag,
     this.preferredVoices = const [],
   });
+
+  /// Bandeira que representa o idioma nos botões (pedido do Rhoney,
+  /// 16/10/2026) — a do país da variante usada (voz pt-BR → 🇧🇷).
+  final String flag;
 
   /// Código do idioma, igual ao `@@locale` do ARB (`pt`, `en`...).
   final String code;
 
   /// Saudação curta mostrada no lugar de nome de idioma/bandeira (seção
-  /// 4.5: "sem bandeiras, evita associar idioma a país") — "Oi!", "Hi!".
+  /// 4.5) — "Oi!", "Hi!". Os botões mostram a bandeira (`flag`).
   final String greeting;
 
   /// Nome do idioma na própria língua, rótulo pequeno nos cartões.
@@ -39,6 +44,7 @@ const List<SupportedLanguage> supportedLanguages = [
     greeting: 'Oi!',
     nativeName: 'Português',
     ttsLocale: 'pt-BR',
+    flag: '🇧🇷',
     preferredVoices: [
       'pt-br-x-afs-local',
       'Luciana',
@@ -55,6 +61,7 @@ const List<SupportedLanguage> supportedLanguages = [
     greeting: 'Hi!',
     nativeName: 'English',
     ttsLocale: 'en-US',
+    flag: '🇺🇸',
     preferredVoices: [
       'en-us-x-sfg-local',
       'Samantha',

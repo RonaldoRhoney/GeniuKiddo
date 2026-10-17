@@ -8,75 +8,65 @@ import '../core/theme_controller.dart';
 import '../l10n/generated/app_localizations.dart';
 import 'theme.dart';
 
-/// Pílula de idioma (seção 4.5: "troca a qualquer momento... no topo"),
-/// gerada a partir de `supportedLanguages` — um idioma novo na lista
-/// aparece aqui sozinho, sem editar este arquivo.
+/// Botões de idioma (seção 4.5: "troca a qualquer momento... no topo"),
+/// gerados a partir de `supportedLanguages` — um idioma novo na lista
+/// aparece aqui sozinho. Cada idioma é um botão redondo de 64 dp com a
+/// bandeira, do mesmo tamanho da música e do tema; o ativo fica roxo.
 class LanguagePill extends ConsumerWidget {
   const LanguagePill({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = AppColors.of(context);
     final current = ref.watch(languageControllerProvider).code;
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: colors.card,
-        borderRadius: BorderRadius.circular(34),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (var i = 0; i < supportedLanguages.length; i++) ...[
-            if (i > 0) const SizedBox(width: 5),
-            _PillButton(
-              label: supportedLanguages[i].greeting,
-              selected: supportedLanguages[i].code == current,
-              onTap: () => ref
-                  .read(languageControllerProvider.notifier)
-                  .choose(supportedLanguages[i].code),
-            ),
-          ],
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var i = 0; i < supportedLanguages.length; i++) ...[
+          if (i > 0) const SizedBox(width: 8),
+          _FlagButton(
+            key: ValueKey('lang_${supportedLanguages[i].code}'),
+            lang: supportedLanguages[i],
+            selected: supportedLanguages[i].code == current,
+            onTap: () => ref
+                .read(languageControllerProvider.notifier)
+                .choose(supportedLanguages[i].code),
+          ),
         ],
-      ),
+      ],
     );
   }
 }
 
-/// Alvo de toque ≥ 64dp (seção 4.10: "área da criança"), texto grande e
-/// contraste forte no estado selecionado — pedido direto do Rhoney
-/// (14/10/2026) pra melhorar a usabilidade da pílula, que estava pequena
-/// demais pra tocar com precisão.
-class _PillButton extends StatelessWidget {
-  const _PillButton({
-    required this.label,
+class _FlagButton extends StatelessWidget {
+  const _FlagButton({
+    super.key,
+    required this.lang,
     required this.selected,
     required this.onTap,
   });
 
-  final String label;
+  final SupportedLanguage lang;
   final bool selected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
-    return Material(
-      color: selected ? colors.purple : Colors.transparent,
-      borderRadius: BorderRadius.circular(28),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(28),
-        onTap: selected ? null : onTap,
-        child: Container(
-          constraints: const BoxConstraints(minWidth: 64, minHeight: 64),
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: 20,
-              color: selected ? Colors.white : colors.ink,
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: lang.nativeName,
+      excludeSemantics: true,
+      child: Material(
+        color: selected ? colors.purple : colors.card,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: selected ? null : onTap,
+          child: SizedBox.square(
+            dimension: 64,
+            child: Center(
+              child: Text(lang.flag, style: const TextStyle(fontSize: 30)),
             ),
           ),
         ),

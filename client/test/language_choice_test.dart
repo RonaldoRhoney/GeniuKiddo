@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +33,7 @@ void main() {
       await tester.tap(find.text('Toque para começar'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Oi!'));
+      await tester.tap(find.byKey(const ValueKey('langCard_pt')));
       await tester.pumpAndSettle();
 
       expect(find.text('Oi! Eu sou o Kiddo!'), findsOneWidget);

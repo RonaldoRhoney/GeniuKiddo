@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Versão** | 1.5 (atualizada por solicitação do Rhoney) |
+| **Versão** | 1.6 (atualizada por solicitação do Rhoney) |
 | **Data** | 16/10/2026 |
 | **Responsável** | Rhoney (Ronaldo Martins), RhoneyInc |
 | **Destinatário** | Claude Code (implementação) |
@@ -22,6 +22,7 @@
 | 1.2 | 16/10/2026 | **Liberação em ordem** dentro de cada fase (RT-09, seção 4.12): na escola, espaços, aulas e objetivos abrem um de cada vez (seções 6.6 e 6.7, Anexo B). **RF-FASE-02** definido para a Fase 2 (libera ao concluir as 8 etapas). Decisões do M5: estrelas da escola separadas das da trilha, escolha da série atrás do portão, entrada 🏫 na trilha. **Voz** em pt-BR só com voz da região exata e sem internet (seção 4.3). **Estrutura para novos idiomas** (seções 4.5 e 10). Frases novas no Anexo C. ADR 016 e 017 |
 | 1.3 | 16/10/2026 | **Menu inicial** (seção 5.1): nova raiz da navegação, com Trilha, Escolinha e Rabisco livre; trilha e escola ganham 🏠 para voltar a ele. **Sair do app** na área dos pais, atrás do portão (seção 4.7). Botão voltar do Android detalhado (seção 4.10). Entrada da Escolinha passa da trilha para o menu (RF-FASE-02) |
 | 1.4 | 16/10/2026 | **Mundo explorável decidido: mapa livre** (seção 7, ADR 012). Detalhamento implementado no M6: mapa como dado, caminho na ordem de liberação, regiões por série cobertas por nuvens, seta de borda e botão 🎯, mãozinha de arrastar, vida no cenário |
+| 1.6 | 16/10/2026 | **Idiomas representados por bandeira** (seção 4.5), em botões redondos de 64 dp, proporcionais aos demais botões do topo |
 | 1.5 | 16/10/2026 | **Auditoria de consistência do app** (34 achados corrigidos): fila de falas, para o nome nunca ser cortado (seção 4.1); linha do guia igual em todas as telas, com 🔊 (4.2); balanço no item trancado; "reduzir movimento" em todas as animações (4.10); liga/desliga da voz e "liberar todas as etapas" na área dos pais (4.7); voltar travado durante a pausa (4.8); parâmetros das aulas como dado no `school.json` (seção 10). Anexo C atualizado com as falas reais |
 
 ---
@@ -162,8 +163,8 @@ Um gênio simpático e amigável (turbante amarelo com joia coral, corpo roxo, c
 - Nos protótipos a música é gerada por código (escala pentatônica). No app final, usar **trilhas originais gravadas**, com a mesma sensação calma e alegre.
 
 ### 4.5 Idioma
-- pt-BR e en-US, **um idioma por vez**. Primeira execução: dois cartões grandes ("Oi!" e "Hi!"), **sem bandeiras** (evita associar idioma a país).
-- Troca a qualquer momento pela pílula **Oi! | Hi!** no topo e na área dos pais. Trocar durante uma atividade reinicia essa atividade no novo idioma.
+- pt-BR e en-US, **um idioma por vez**. Primeira execução: um cartão grande por idioma, com a **bandeira** e o nome do idioma (🇧🇷 Português, 🇺🇸 English). Decisão do Rhoney em 16/10/2026, substituindo a regra anterior "sem bandeiras": a bandeira é a do país da variante usada na voz (pt-BR, en-US).
+- Troca a qualquer momento pelos **botões de bandeira** no topo e na área dos pais: um botão redondo de 64 dp por idioma, do mesmo tamanho dos botões de música e de aparência; o idioma ativo fica destacado em roxo. Trocar durante uma atividade reinicia essa atividade no novo idioma.
 - Mudam: voz, palavras, instruções, nomes das cores e rótulos. **Imagens e animações não contêm texto embutido.**
 - **O progresso é compartilhado entre os idiomas** (ADR-003).
 - **Novos idiomas virão (ADR-017).** Acrescentar um idioma deve exigir só dados: um arquivo de tradução novo, uma linha na lista central de idiomas (código, saudação, nome nativo e locale da voz) e o gênero dos itens no conteúdo. **Nenhuma tela pode ter regra fixa de idioma** (como "se for inglês, use 'the'"): artigos, concordância e regras de escrita ficam nas traduções (seção 10). Trocar de idioma traduz na hora tudo o que está na tela, inclusive o balão do guia.
