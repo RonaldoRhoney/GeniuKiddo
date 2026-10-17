@@ -117,9 +117,10 @@ class _HoldToUnlockState extends State<HoldToUnlock>
   }
 
   Widget _pill(AppColors colors) {
+    // Largura fixa: mostrar a dica não pode empurrar os outros botões.
     return Container(
       height: 64,
-      constraints: const BoxConstraints(minWidth: 64),
+      width: 108,
       decoration: BoxDecoration(
         color: colors.card,
         borderRadius: BorderRadius.circular(32),
@@ -132,6 +133,7 @@ class _HoldToUnlockState extends State<HoldToUnlock>
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) => Stack(
+          alignment: Alignment.center,
           children: [
             // Enche da esquerda pra direita enquanto o adulto segura.
             Positioned.fill(
@@ -145,18 +147,24 @@ class _HoldToUnlockState extends State<HoldToUnlock>
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(widget.icon, size: 24, color: colors.ink),
+              Icon(widget.icon, size: 22, color: colors.ink),
               const SizedBox(width: 6),
-              Text(
-                _showHint ? widget.hint! : widget.label!,
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: _showHint ? 13 : 17,
-                  color: colors.ink,
+              Flexible(
+                child: Text(
+                  _showHint ? widget.hint! : widget.label!,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: _showHint ? 12 : 17,
+                    height: 1.1,
+                    color: colors.ink,
+                  ),
                 ),
               ),
             ],
