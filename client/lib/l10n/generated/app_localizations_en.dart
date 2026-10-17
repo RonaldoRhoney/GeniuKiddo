@@ -746,4 +746,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get worldDragHint => 'Drag your finger to see the school!';
+
+  @override
+  String get worldKidHello => 'Hi! I study here!';
+
+  @override
+  String get worldKidLabel => 'Student';
 }

@@ -1393,6 +1393,18 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Arraste o dedo para ver a escola!'**
   String get worldDragHint;
+
+  /// Fala ao tocar num aluno que passeia no mapa (RM-07)
+  ///
+  /// In pt, this message translates to:
+  /// **'Oi! Eu estudo aqui!'**
+  String get worldKidHello;
+
+  /// No description provided for @worldKidLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aluno'**
+  String get worldKidLabel;
 }
 
 class _AppLocalizationsDelegate

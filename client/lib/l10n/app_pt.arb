@@ -283,5 +283,9 @@
   "worldGoToGlow": "Ir ao espaço brilhante",
   "@worldGoToGlow": {"description": "Rótulo (leitor de tela) do botão 🎯 e da seta de borda que levam a câmera ao espaço brilhante"},
   "worldDragHint": "Arraste o dedo para ver a escola!",
-  "@worldDragHint": {"description": "Fala da 1ª vez no mapa, junto com a mãozinha animada (RM-02)"}
+  "@worldDragHint": {"description": "Fala da 1ª vez no mapa, junto com a mãozinha animada (RM-02)"},
+
+  "worldKidHello": "Oi! Eu estudo aqui!",
+  "@worldKidHello": {"description": "Fala ao tocar num aluno que passeia no mapa (RM-07)"},
+  "worldKidLabel": "Aluno"
 }

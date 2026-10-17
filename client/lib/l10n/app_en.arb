@@ -212,5 +212,8 @@
   "parentsExitHint": "Closes Genius Kiddo. Progress stays saved on this device.",
 
   "worldGoToGlow": "Go to the glowing space",
-  "worldDragHint": "Drag your finger to see the school!"
+  "worldDragHint": "Drag your finger to see the school!",
+
+  "worldKidHello": "Hi! I study here!",
+  "worldKidLabel": "Student"
 }

@@ -20,6 +20,7 @@ import 'school_lessons.dart';
 import 'school_lot.dart';
 import 'school_texts.dart';
 import 'space_sheet.dart';
+import 'world_life.dart';
 import 'world_view.dart';
 
 /// Escolinha do Kiddo (seção 6) no mapa livre (M6, seção 7): a criança
@@ -318,17 +319,8 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                         grown: space.id == _justChanged,
                         onTap: () => _tapSpace(space),
                       ),
-                      worldChildren: [
-                        // Alunos perto da Sala (vão passear no M6d).
-                        Positioned(
-                          left: def.spaces.first.x - 150,
-                          top: def.spaces.first.y + def.world.lotSize / 2 + 6,
-                          width: 300,
-                          child: _Kids(
-                            count: school.kids,
-                            label: l10n.schoolKidsLabel(school.kids),
-                          ),
-                        ),
+                      worldChildren: const [
+                        Positioned.fill(child: WorldLife()),
                       ],
                     ),
                   ),
@@ -502,42 +494,6 @@ class _DockButton extends StatelessWidget {
             ),
           ),
       ],
-    );
-  }
-}
-
-/// População de alunos (Anexo B: `min(14, 2 + soma dos níveis)`).
-class _Kids extends StatelessWidget {
-  const _Kids({required this.count, required this.label});
-
-  final int count;
-  final String label;
-
-  static const _pool = [
-    '🧒',
-    '👧',
-    '👦',
-    '🧒🏽',
-    '👧🏾',
-    '👦🏻',
-    '🧒🏿',
-    '👧🏼',
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      label: label,
-      excludeSemantics: true,
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        spacing: 4,
-        runSpacing: 4,
-        children: [
-          for (var i = 0; i < count; i++)
-            Text(_pool[i % _pool.length], style: const TextStyle(fontSize: 26)),
-        ],
-      ),
     );
   }
 }

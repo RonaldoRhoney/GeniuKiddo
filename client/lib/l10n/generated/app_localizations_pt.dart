@@ -773,4 +773,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get worldDragHint => 'Arraste o dedo para ver a escola!';
+
+  @override
+  String get worldKidHello => 'Oi! Eu estudo aqui!';
+
+  @override
+  String get worldKidLabel => 'Aluno';
 }
