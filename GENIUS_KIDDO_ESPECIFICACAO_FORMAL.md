@@ -677,9 +677,9 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 3. Disponibilidade do nome Genius Kiddo (Play, INPI, Registro.br).
 4. Biblioteca de estado e pacotes de áudio/voz definitivos (decidir no M0).
 5. Lançar 100% gratuito ou já com pacote pago.
-7. Critério de liberação da Fase 3 (RF-FASE-02; o da Fase 2 já está definido).
-8. Todos os pontos da seção 8.8 (Fase 3).
-9. Futura conta dos pais para backup e método de login.
+6. Critério de liberação da Fase 3 (RF-FASE-02; o da Fase 2 já está definido).
+7. Todos os pontos da seção 8.8 (Fase 3).
+8. Futura conta dos pais para backup e método de login.
 
 ---
 
