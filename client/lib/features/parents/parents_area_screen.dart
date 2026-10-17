@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme.dart';
@@ -238,6 +239,27 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
                     fontSize: 12,
                     color: colors.ink.withValues(alpha: .6),
                     fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          _Section(
+            title: l10n.parentsExitLabel,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.parentsExitHint),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 48,
+                  child: OutlinedButton.icon(
+                    key: const ValueKey('exitApp'),
+                    // Só aqui, atrás do portão (4.10): a criança não fecha
+                    // o app sem querer.
+                    onPressed: () => SystemNavigator.pop(),
+                    icon: const Icon(Icons.exit_to_app_rounded),
+                    label: Text(l10n.parentsExitLabel),
                   ),
                 ),
               ],

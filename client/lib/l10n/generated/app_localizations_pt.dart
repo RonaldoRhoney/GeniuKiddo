@@ -742,4 +742,29 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get missionLocked => 'Trancado — resgate o objetivo anterior primeiro';
+
+  @override
+  String get homeTrail => 'Trilha';
+
+  @override
+  String homeTrailProgress(int done, int total) {
+    return '$done de $total';
+  }
+
+  @override
+  String get homeSchoolLocked =>
+      'A Escolinha abre quando você terminar a trilha!';
+
+  @override
+  String get trailHint => 'Toque na estrela brilhante!';
+
+  @override
+  String get homeButton => 'Início';
+
+  @override
+  String get parentsExitLabel => 'Sair do app';
+
+  @override
+  String get parentsExitHint =>
+      'Fecha o Genius Kiddo. O progresso fica salvo neste aparelho.';
 }

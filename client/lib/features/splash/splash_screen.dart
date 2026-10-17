@@ -7,7 +7,7 @@ import '../../core/audio_services.dart';
 import '../../core/language_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../language/language_screen.dart';
-import '../trail/trail_screen.dart';
+import '../home/home_screen.dart';
 
 /// Mapa de telas (seção 5.1): Splash ("Toque para começar") é a primeira
 /// tela, sempre — nunca pula direto pra trilha, mesmo com idioma salvo
@@ -110,7 +110,7 @@ class SplashScreen extends ConsumerWidget {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) =>
-            hasLanguage ? const TrailScreen() : const LanguageScreen(),
+            hasLanguage ? const HomeScreen() : const LanguageScreen(),
       ),
     );
   }

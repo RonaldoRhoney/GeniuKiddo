@@ -268,5 +268,15 @@
   "@schoolNextLesson": {"description": "Aulas em ordem: só uma aula fica liberada por vez", "placeholders": {"name": {"type": "String"}}},
   "schoolLotSequenceLocked": "{name}, trancado",
   "@schoolLotSequenceLocked": {"placeholders": {"name": {"type": "String"}}},
-  "missionLocked": "Trancado — resgate o objetivo anterior primeiro"
+  "missionLocked": "Trancado — resgate o objetivo anterior primeiro",
+
+  "homeTrail": "Trilha",
+  "homeTrailProgress": "{done} de {total}",
+  "@homeTrailProgress": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "homeSchoolLocked": "A Escolinha abre quando você terminar a trilha!",
+  "trailHint": "Toque na estrela brilhante!",
+  "homeButton": "Início",
+  "@homeButton": {"description": "Rótulo (leitor de tela) do botão 🏠 que volta ao menu inicial"},
+  "parentsExitLabel": "Sair do app",
+  "parentsExitHint": "Fecha o Genius Kiddo. O progresso fica salvo neste aparelho."
 }

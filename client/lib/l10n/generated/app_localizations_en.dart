@@ -716,4 +716,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get missionLocked => 'Locked — claim the previous goal first';
+
+  @override
+  String get homeTrail => 'Trail';
+
+  @override
+  String homeTrailProgress(int done, int total) {
+    return '$done of $total';
+  }
+
+  @override
+  String get homeSchoolLocked => 'The School opens when you finish the trail!';
+
+  @override
+  String get trailHint => 'Tap the glowing star!';
+
+  @override
+  String get homeButton => 'Home';
+
+  @override
+  String get parentsExitLabel => 'Exit the app';
+
+  @override
+  String get parentsExitHint =>
+      'Closes Genius Kiddo. Progress stays saved on this device.';
 }

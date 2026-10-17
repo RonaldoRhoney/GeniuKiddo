@@ -201,5 +201,13 @@
   "schoolLockedPrev": "Not yet! First: {name}.",
   "schoolNextLesson": "The next lesson is: {name}!",
   "schoolLotSequenceLocked": "{name}, locked",
-  "missionLocked": "Locked — claim the previous goal first"
+  "missionLocked": "Locked — claim the previous goal first",
+
+  "homeTrail": "Trail",
+  "homeTrailProgress": "{done} of {total}",
+  "homeSchoolLocked": "The School opens when you finish the trail!",
+  "trailHint": "Tap the glowing star!",
+  "homeButton": "Home",
+  "parentsExitLabel": "Exit the app",
+  "parentsExitHint": "Closes Genius Kiddo. Progress stays saved on this device."
 }

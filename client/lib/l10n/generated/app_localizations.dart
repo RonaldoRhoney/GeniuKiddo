@@ -1339,6 +1339,48 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Trancado — resgate o objetivo anterior primeiro'**
   String get missionLocked;
+
+  /// No description provided for @homeTrail.
+  ///
+  /// In pt, this message translates to:
+  /// **'Trilha'**
+  String get homeTrail;
+
+  /// No description provided for @homeTrailProgress.
+  ///
+  /// In pt, this message translates to:
+  /// **'{done} de {total}'**
+  String homeTrailProgress(int done, int total);
+
+  /// No description provided for @homeSchoolLocked.
+  ///
+  /// In pt, this message translates to:
+  /// **'A Escolinha abre quando você terminar a trilha!'**
+  String get homeSchoolLocked;
+
+  /// No description provided for @trailHint.
+  ///
+  /// In pt, this message translates to:
+  /// **'Toque na estrela brilhante!'**
+  String get trailHint;
+
+  /// Rótulo (leitor de tela) do botão 🏠 que volta ao menu inicial
+  ///
+  /// In pt, this message translates to:
+  /// **'Início'**
+  String get homeButton;
+
+  /// No description provided for @parentsExitLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Sair do app'**
+  String get parentsExitLabel;
+
+  /// No description provided for @parentsExitHint.
+  ///
+  /// In pt, this message translates to:
+  /// **'Fecha o Genius Kiddo. O progresso fica salvo neste aparelho.'**
+  String get parentsExitHint;
 }
 
 class _AppLocalizationsDelegate

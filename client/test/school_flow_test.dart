@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:genius_kiddo/app/hold_to_unlock.dart';
 import 'package:genius_kiddo/features/activities/count/count_lesson.dart';
 import 'package:genius_kiddo/features/school/school_controller.dart';
+import 'package:genius_kiddo/features/school/grade_choice_screen.dart';
 import 'package:genius_kiddo/features/school/school_screen.dart';
 
 import 'test_harness.dart';
@@ -29,17 +30,21 @@ Future<void> _hold(WidgetTester tester, Finder finder) async {
 
 void main() {
   testWidgets(
-    'RF-FASE-01: sem concluir a trilha, o botão da Escolinha não aparece',
+    'RF-FASE-01: sem concluir a trilha, a Escolinha fica trancada no menu',
     (tester) async {
-      await pumpAppAtTrail(tester, trailDone: 3);
-      expect(find.byKey(const ValueKey('btnSchool')), findsNothing);
+      await pumpAppAtHome(tester, trailDone: 3);
+      // O cartão aparece trancado: tocar não abre, o guia explica.
+      await tester.tap(find.byKey(const ValueKey('btnSchool')));
+      await _settle(tester);
+      expect(find.byType(SchoolScreen), findsNothing);
+      expect(find.byType(GradeChoiceScreen), findsNothing);
     },
   );
 
   testWidgets(
     'seção 6: trilha concluída → portão → série → escola; Horta trancada até a 1ª aula na Sala',
     (tester) async {
-      await pumpAppAtTrail(tester, trailDone: 8);
+      await pumpAppAtHome(tester, trailDone: 8);
       await tester.tap(find.byKey(const ValueKey('btnSchool')));
       await _settle(tester);
 
@@ -84,7 +89,7 @@ void main() {
   testWidgets(
     'seção 6.5: aula da Horta concluída rende +3 ⭐ e conta no objetivo do ano',
     (tester) async {
-      await pumpAppAtTrail(
+      await pumpAppAtHome(
         tester,
         trailDone: 8,
         extraPrefs: const {
@@ -128,7 +133,7 @@ void main() {
   testWidgets(
     'RF-FASE-03: os pais liberam a Escolinha antes da trilha acabar',
     (tester) async {
-      await pumpAppAtTrail(tester, trailDone: 2);
+      await pumpAppAtHome(tester, trailDone: 2);
       await _hold(tester, find.byType(HoldToUnlock));
       await tester.scrollUntilVisible(
         find.byKey(const ValueKey('unlockSchool')),
@@ -139,14 +144,14 @@ void main() {
       expect(find.text('Série da criança'), findsOneWidget);
       await tester.binding.handlePopRoute();
       await _settle(tester);
-      expect(find.byKey(const ValueKey('btnSchool')), findsOneWidget);
+      expect(find.text('🏫'), findsOneWidget); // cartão destrancado no menu
     },
   );
 
   testWidgets(
     'seção 4.5: trocar o idioma na escola traduz o balão do guia na hora',
     (tester) async {
-      await pumpAppAtTrail(
+      await pumpAppAtHome(
         tester,
         trailDone: 8,
         extraPrefs: const {'genius_kiddo_school_v1': '{"grade":0}'},
@@ -174,7 +179,7 @@ void main() {
   testWidgets(
     'aulas em ordem: fora da aula da vez, ▶ Ter aula não abre e o guia diz onde é',
     (tester) async {
-      await pumpAppAtTrail(
+      await pumpAppAtHome(
         tester,
         trailDone: 8,
         extraPrefs: const {

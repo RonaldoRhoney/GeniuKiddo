@@ -5,7 +5,7 @@ import '../../app/guide_avatar.dart';
 import '../../app/theme.dart';
 import '../../core/language_controller.dart';
 import '../../core/supported_languages.dart';
-import '../trail/trail_screen.dart';
+import '../home/home_screen.dart';
 
 /// Escolha de idioma (seção 4.5, só na 1ª vez pela rota normal — Splash
 /// decide se cai aqui ou direto na trilha). Um cartão grande por idioma de
@@ -77,7 +77,7 @@ class _LanguageCard extends ConsumerWidget {
           await ref.read(languageControllerProvider.notifier).choose(lang.code);
           if (context.mounted) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const TrailScreen()),
+              MaterialPageRoute(builder: (_) => const HomeScreen()),
             );
           }
         },

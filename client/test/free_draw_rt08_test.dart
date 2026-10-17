@@ -11,7 +11,7 @@ void main() {
   testWidgets(
     'RT-08: botão ✓ fica desabilitado em branco e celebra sem estrela ao desenhar',
     (tester) async {
-      final (speech, sound) = await pumpAppAtTrail(tester);
+      final (speech, sound) = await pumpAppAtHome(tester);
 
       await tester.tap(find.text('Rabisco livre'));
       await tester.pumpAndSettle();

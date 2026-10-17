@@ -33,7 +33,7 @@ void setPhoneSize(WidgetTester tester) {
 /// usa, lendo os JSON reais de `assets/content/`) direto na Trilha, com
 /// idioma já escolhido — pula Splash/Idioma pra ir direto ao que cada teste
 /// de atividade precisa exercitar.
-Future<(FakeSpeechPort, FakeSoundPort)> pumpAppAtTrail(
+Future<(FakeSpeechPort, FakeSoundPort)> pumpAppAtHome(
   WidgetTester tester, {
   String languageCode = 'pt',
   int trailDone = 0,
@@ -73,4 +73,26 @@ Future<(FakeSpeechPort, FakeSoundPort)> pumpAppAtTrail(
   );
   await tester.pumpAndSettle();
   return (speech, sound);
+}
+
+/// Igual a `pumpAppAtHome`, mas já entra na Trilha pelo cartão do menu.
+Future<(FakeSpeechPort, FakeSoundPort)> pumpAppAtTrail(
+  WidgetTester tester, {
+  String languageCode = 'pt',
+  int trailDone = 0,
+  int stars = 0,
+  Map<String, Object> extraPrefs = const {},
+  List<Override> overrides = const [],
+}) async {
+  final ports = await pumpAppAtHome(
+    tester,
+    languageCode: languageCode,
+    trailDone: trailDone,
+    stars: stars,
+    extraPrefs: extraPrefs,
+    overrides: overrides,
+  );
+  await tester.tap(find.byKey(const ValueKey('homeTrail')));
+  await tester.pumpAndSettle();
+  return ports;
 }

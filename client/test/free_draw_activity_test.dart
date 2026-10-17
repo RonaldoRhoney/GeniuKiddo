@@ -10,7 +10,7 @@ void main() {
   testWidgets(
     'RF-06: rabisco livre não mexe no progresso da trilha e é sempre acessível',
     (tester) async {
-      await pumpAppAtTrail(tester);
+      await pumpAppAtHome(tester);
 
       // Sempre liberado mesmo com a trilha inteira travada (nenhuma etapa
       // concluída ainda, trailDone=0 no estado padrão do harness).
