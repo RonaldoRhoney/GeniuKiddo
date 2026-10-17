@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Admin — Genius Kiddo</title>
+<style>
+  :root { --bg:#FFF8E7; --card:#fff; --ink:#2B2D42; --muted:#6B6E86; --line:#E7E1D2; --purple:#7C5CFF; --yellow:#FFC93C; --red:#E5484D; --green:#2FAE72; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1D1A3A; --card:#2F2A5C; --ink:#F4F1FF; --muted:#BDB7E6; --line:#433C78; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  header { position:sticky; top:0; z-index:5; background:var(--purple); color:#fff; padding:10px 16px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  header h1 { font-size:18px; margin:0 12px 0 0; }
+  header h1 span { color:var(--yellow); }
+  button { font:inherit; border:0; border-radius:10px; padding:7px 12px; cursor:pointer; background:var(--card); color:var(--ink); }
+  header button { background:rgba(255,255,255,.18); color:#fff; }
+  header button.prim { background:var(--yellow); color:#2B2D42; font-weight:700; }
+  button.small { padding:3px 8px; font-size:13px; }
+  button.del { background:transparent; color:var(--red); }
+  nav { display:flex; gap:6px; padding:10px 16px 0; flex-wrap:wrap; }
+  nav button.on { background:var(--purple); color:#fff; }
+  main { padding:12px 16px 60px; max-width:1200px; }
+  .card { background:var(--card); border-radius:14px; padding:12px 14px; margin:10px 0; }
+  .card h3 { margin:0 0 8px; font-size:15px; color:var(--purple); }
+  @media (prefers-color-scheme: dark) { .card h3 { color:var(--yellow); } }
+  table { border-collapse:collapse; width:100%; }
+  th, td { border-bottom:1px solid var(--line); padding:4px 6px; text-align:left; vertical-align:top; }
+  th { font-size:12px; color:var(--muted); font-weight:600; }
+  input, select, textarea { font:inherit; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:4px 6px; width:100%; }
+  input.num { width:80px; }
+  input.emoji { width:64px; font-size:20px; text-align:center; }
+  textarea { min-height:34px; resize:vertical; }
+  .falta { outline:2px solid var(--red); }
+  .row { display:flex; flex-wrap:wrap; gap:10px; align-items:end; }
+  .row label { display:flex; flex-direction:column; font-size:12px; color:var(--muted); gap:2px; }
+  #status { padding:0 16px; }
+  #status .ok { color:var(--green); font-weight:700; }
+  #status ul { color:var(--red); margin:6px 0; }
+  pre { white-space:pre-wrap; font-size:12px; background:var(--card); padding:8px; border-radius:8px; }
+  .hint { color:var(--muted); font-size:12px; }
+  svg { background:#A8E6A1; border-radius:12px; touch-action:none; max-width:100%; height:auto; }
+  @media (prefers-color-scheme: dark) { svg { background:#24402F; } }
+  .lot { cursor:grab; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Genius <span>Kiddo</span> · Painel Admin</h1>
+  <button id="bValidar">✔ Validar</button>
+  <button id="bSalvar" class="prim">💾 Salvar</button>
+  <button id="bTestes">🧪 Rodar testes do app</button>
+  <button id="bRecarregar">↻ Recarregar dos arquivos</button>
+</header>
+<div id="status"></div>
+<nav id="abas"></nav>
+<main id="tela"><p>Carregando…</p></main>
+
+<script>
+"use strict";
+let C = null, sujo = false;
+let aba = ["itens", "trilha", "escola", "mapa", "textos"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "itens";
+const FORMAS = ["circle","square","triangle","star","heart"];
+
+// ---------- utilidades (sempre textContent: nada de HTML vindo dos dados)
+function el(tag, attrs = {}, ...filhos) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "on") for (const [ev, fn] of Object.entries(v)) e.addEventListener(ev, fn);
+    else if (k === "class") e.className = v;
+    else if (v !== undefined && v !== null) e.setAttribute(k, v);
+  }
+  for (const f of filhos.flat()) if (f !== null && f !== undefined) e.append(f instanceof Node ? f : document.createTextNode(String(f)));
+  return e;
+}
+const pascal = id => id.split(/[_-]/).map(p => p ? p[0].toUpperCase() + p.slice(1) : "").join("");
+const chaveNome = id => (FORMAS.includes(id) ? "shape" : "item") + pascal(id);
+const lista = s => s.split(",").map(x => x.trim()).filter(Boolean);
+const marcar = () => { sujo = true; };
+function campo(valor, aoMudar, attrs = {}) {
+  return el("input", { ...attrs, value: valor ?? "", on: { input: e => { aoMudar(e.target.value); marcar(); } } });
+}
+function numero(valor, aoMudar) {
+  return campo(valor, v => aoMudar(Number(v)), { type: "number", class: "num" });
+}
+function escolha(opcoes, valor, aoMudar) {
+  const s = el("select", { on: { change: e => { aoMudar(e.target.value); marcar(); } } },
+    opcoes.map(o => el("option", { value: o[0] }, o[1])));
+  s.value = valor ?? "";
+  return s;
+}
+function texto(lang, chave, attrs = {}, umaLinha = false) {
+  const v = C.arb[lang][chave] ?? "";
+  const t = el(umaLinha ? "input" : "textarea", { ...attrs, class: v ? "" : "falta", on: { input: e => {
+    C.arb[lang][chave] = e.target.value; e.target.className = e.target.value ? "" : "falta"; marcar(); } } });
+  t.value = v;
+  return t;
+}
+async function api(caminho, corpo) {
+  const r = await fetch(caminho, corpo === undefined ? {} : {
+    method: "POST", headers: { "Content-Type": "application/json", "X-Painel": "1" }, body: JSON.stringify(corpo) });
+  return r.json();
+}
+function status(...filhos) { const s = document.getElementById("status"); s.replaceChildren(...filhos); }
+function mostrarErros(erros) {
+  if (!erros.length) return status(el("p", { class: "ok" }, "✔ Conteúdo válido."));
+  status(el("p", {}, `${erros.length} problema(s) — nada foi salvo:`), el("ul", {}, erros.map(e => el("li", {}, e))));
+}
+
+// ---------- abas
+const ABAS = { itens: "Itens", trilha: "Trilha", escola: "Escola", mapa: "Mapa", textos: "Textos" };
+function desenharAbas() {
+  document.getElementById("abas").replaceChildren(...Object.entries(ABAS).map(([k, nome]) =>
+    el("button", { class: k === aba ? "on" : "", on: { click: () => { aba = k; location.hash = k; render(); } } }, nome)));
+}
+function render() {
+  desenharAbas();
+  const tela = document.getElementById("tela");
+  tela.replaceChildren(...({ itens: telaItens, trilha: telaTrilha, escola: telaEscola, mapa: telaMapa, textos: telaTextos }[aba])());
+}
+
+// ---------- Itens
+function telaItens() {
+  const L = C.idiomas;
+  const cab = el("tr", {}, el("th", {}, "id"), el("th", {}, "emoji"),
+    L.map(l => el("th", {}, `nome (${l})`)), L.map(l => el("th", {}, `gênero (${l})`)), el("th"));
+  const linhas = Object.entries(C.items).map(([id, it]) => el("tr", {},
+    el("td", {}, id),
+    el("td", {}, campo(it.emoji, v => it.emoji = v, { class: "emoji" })),
+    L.map(l => el("td", {}, texto(l, chaveNome(id), {}, true))),
+    L.map(l => el("td", {}, escolha([["", "—"], ["m", "m"], ["f", "f"]], (it.gender || {})[l], v => {
+      it.gender = it.gender || {}; if (v) it.gender[l] = v; else delete it.gender[l]; }))),
+    el("td", {}, el("button", { class: "del small", title: "Apagar item", on: { click: () => {
+      if (!confirm(`Apagar o item "${id}"? Se ele for usado em algum lugar, a validação vai avisar.`)) return;
+      delete C.items[id]; for (const l of L) delete C.arb[l][chaveNome(id)]; marcar(); render(); } } }, "✕"))));
+  const novoId = el("input", { placeholder: "id (ex.: rabbit)" }), novoEmoji = el("input", { placeholder: "🐰", class: "emoji" });
+  const novo = el("div", { class: "row" }, el("label", {}, "novo item", novoId), el("label", {}, "emoji", novoEmoji),
+    el("button", { on: { click: () => {
+      const id = novoId.value.trim();
+      if (!/^[a-z][a-z0-9_]*$/.test(id)) return alert("Use só letras minúsculas, números e _ (ex.: rabbit).");
+      if (C.items[id]) return alert("Esse id já existe.");
+      C.items[id] = { emoji: novoEmoji.value.trim(), gender: {} };
+      for (const l of L) C.arb[l][chaveNome(id)] = "";
+      marcar(); render(); } } }, "+ Adicionar"));
+  return [el("div", { class: "card" }, el("h3", {}, "Figuras (items.json)"),
+    el("p", { class: "hint" }, "Nome em cada idioma e gênero gramatical por idioma (deixe — no idioma sem gênero, como o inglês). Item novo: preencha os nomes e salve — o painel liga o nome no código e gera as traduções."),
+    el("table", {}, cab, linhas)), el("div", { class: "card" }, novo)];
+}
+
+// ---------- Trilha
+function telaTrilha() {
+  const L = C.idiomas, T = C.trail;
+  const mover = (i, d) => { const j = i + d; if (j < 0 || j >= T.length) return; [T[i], T[j]] = [T[j], T[i]]; marcar(); render(); };
+  const cards = T.map((no, i) => {
+    const chave = "trailNode" + pascal(no.id);
+    const extra = [];
+    if (no.type === "paint") extra.push(el("label", {}, "arte", escolha(C.artes.map(a => [a, a]), no.art, v => no.art = v)));
+    if (no.type === "trace") extra.push(el("label", {}, "glifo", escolha(C.glifos.map(g => [g, g]), no.glyph, v => no.glyph = v)));
+    if (["listen", "match", "speak"].includes(no.type)) extra.push(el("label", { style: "flex:1" }, "itens (separados por vírgula)",
+      campo((no.items || []).join(", "), v => no.items = lista(v))));
+    if (["listen", "match"].includes(no.type)) extra.push(el("label", {}, "rodadas", numero(no.rounds ?? 3, v => no.rounds = v)));
+    return el("div", { class: "card" },
+      el("div", { class: "row" },
+        el("strong", {}, `${i + 1}.`), el("label", {}, "id", campo(no.id, v => {
+          for (const l of L) { C.arb[l]["trailNode" + pascal(v)] = C.arb[l][chave] ?? ""; delete C.arb[l][chave]; }
+          no.id = v; }, { style: "width:160px" })),
+        el("label", {}, "tipo", escolha(C.tiposTrilha.map(t => [t, t]), no.type, v => { no.type = v; render(); })),
+        ...extra,
+        el("button", { class: "small", on: { click: () => mover(i, -1) } }, "↑"),
+        el("button", { class: "small", on: { click: () => mover(i, 1) } }, "↓"),
+        el("button", { class: "del small", on: { click: () => { if (confirm("Apagar esta etapa?")) {
+          T.splice(i, 1); for (const l of L) delete C.arb[l][chave]; marcar(); render(); } } } }, "✕")),
+      el("div", { class: "row" }, L.map(l => el("label", { style: "flex:1" }, `título (${l})`, texto(l, chave)))));
+  });
+  const add = el("button", { on: { click: () => {
+    const id = "etapa_" + (T.length + 1);
+    T.push({ id, type: "listen", items: [] }); for (const l of L) C.arb[l]["trailNode" + pascal(id)] = ""; marcar(); render(); } } }, "+ Nova etapa");
+  return [el("p", { class: "hint" }, "A ordem da lista é a ordem da trilha (a próxima só abre quando a anterior termina). Artes e glifos novos precisam de código no app; aqui só dá para escolher os que existem."), ...cards, add];
+}
+
+// ---------- Escola
+function telaEscola() {
+  const S = C.school, L = C.idiomas, G = S.grades.length;
+  const nomeSerie = g => `${S.grades[g].icon} ${C.arb[L[0]]["gradeName" + g] ?? g}`;
+  const numeros = el("div", { class: "card" }, el("h3", {}, "Economia (Anexo B)"), el("div", { class: "row" },
+    el("label", {}, "estrelas iniciais", numero(S.startStars, v => S.startStars = v)),
+    el("label", {}, "por aula", numero(S.reward, v => S.reward = v)),
+    el("label", {}, "por objetivo", numero(S.bonus, v => S.bonus = v)),
+    el("label", {}, "construir", numero(S.costs.build, v => S.costs.build = v)),
+    el("label", {}, "melhorar (níveis 2, 3…)", campo(S.costs.upgrade.join(", "), v => S.costs.upgrade = lista(v).map(Number))),
+    el("label", {}, "máx. alunos", numero(S.maxKids, v => S.maxKids = v))));
+  const espacos = el("div", { class: "card" }, el("h3", {}, "Espaços (na ordem de liberação)"), el("table", {},
+    el("tr", {}, ["id", "série", "ícone", "aula", "visual por nível (separe níveis com |)"].map(h => el("th", {}, h)), L.map(l => el("th", {}, `nome / descrição (${l})`))),
+    S.spaces.map(s => el("tr", {},
+      el("td", {}, s.id),
+      el("td", {}, escolha([...Array(G).keys()].map(g => [String(g), nomeSerie(g)]), String(s.grade), v => s.grade = Number(v))),
+      el("td", {}, campo(s.icon, v => s.icon = v, { class: "emoji" })),
+      el("td", {}, s.lesson),
+      el("td", {}, campo(s.levels.map(n => n.join(" ")).join(" | "), v => s.levels = v.split("|").map(n => n.trim().split(/\s+/).filter(Boolean)))),
+      L.map(l => el("td", {}, texto(l, "spaceName_" + s.id), texto(l, "spaceDesc_" + s.id)))))),
+    el("p", { class: "hint" }, "Posição no mapa: aba Mapa. Espaço novo precisa de uma aula nova no app, então fica fora do painel."));
+  const objetivos = el("div", { class: "card" }, el("h3", {}, "Objetivos do ano (em ordem: o 2º só abre depois do 1º)"),
+    S.missions.map((ms, g) => el("div", {}, el("strong", {}, nomeSerie(g)), el("table", {},
+      ms.map(m => el("tr", {},
+        el("td", {}, campo(m.icon, v => m.icon = v, { class: "emoji" })),
+        el("td", {}, escolha([["build", "construir N espaços"], ["lessons", "fazer N aulas (no ano)"], ["level", "N espaços com nível ≥"]], m.type, v => { m.type = v; if (v === "level") m.level = m.level || 2; else delete m.level; render(); })),
+        el("td", {}, "N ", numero(m.n, v => m.n = v)),
+        el("td", {}, m.type === "level" ? ["nível ", numero(m.level, v => m.level = v)] : "")))))));
+  const A = S.lessons;
+  const aulas = el("div", { class: "card" }, el("h3", {}, "Aulas"), el("div", { class: "row" },
+    el("label", {}, "rodadas Formas", numero(A.shapes.rounds, v => A.shapes.rounds = v)),
+    el("label", {}, "rodadas Contar", numero(A.count.rounds, v => A.count.rounds = v)),
+    el("label", {}, "rodadas Letras", numero(A.letters.rounds, v => A.letters.rounds = v)),
+    ...[...Array(G).keys()].map(g => el("label", {}, `arte do Ateliê — ${nomeSerie(g)}`,
+      escolha(C.artes.map(a => [a, a]), A.paint.artByGrade[g], v => A.paint.artByGrade[g] = v)))),
+    el("label", {}, "Biblioteca: figuras (a letra certa sai do nome em cada idioma)", campo(A.letters.items.join(", "), v => A.letters.items = lista(v))),
+    el("div", { class: "row" },
+      el("label", { style: "flex:1" }, "Refeitório: frutas", campo(A.sorting.fruits.join(", "), v => A.sorting.fruits = lista(v))),
+      el("label", {}, "quantas por aula", numero(A.sorting.fruitCount, v => A.sorting.fruitCount = v)),
+      el("label", { style: "flex:1" }, "legumes", campo(A.sorting.veggies.join(", "), v => A.sorting.veggies = lista(v))),
+      el("label", {}, "quantos por aula", numero(A.sorting.veggieCount, v => A.sorting.veggieCount = v))));
+  const regioes = el("div", { class: "card" }, el("h3", {}, "Bichinhos por região"),
+    S.regions.map(r => el("label", {}, nomeSerie(r.grade), campo((r.animals || []).join(", "), v => r.animals = lista(v)))));
+  return [numeros, espacos, objetivos, aulas, regioes];
+}
+
+// ---------- Mapa (arrastar terrenos)
+function telaMapa() {
+  const S = C.school, W = S.world, NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W.width} ${W.height}`);
+  svg.setAttribute("width", "520");
+  const add = (tag, attrs, texto) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); if (texto) e.textContent = texto; svg.append(e); return e; };
+  const cores = ["#BDF0B5", "#F9E3A6", "#C9D7FF"];
+  S.regions.forEach(r => add("rect", { x: r.x, y: r.y, width: r.width, height: r.height, rx: 60, fill: cores[r.grade % 3], opacity: .8 }));
+  const caminho = add("path", { fill: "none", stroke: "#D4B074", "stroke-width": 44, "stroke-linecap": "round", "stroke-linejoin": "round" });
+  const desenharCaminho = () => caminho.setAttribute("d", S.spaces.map((s, i) => `${i ? "L" : "M"}${s.x} ${s.y}`).join(" "));
+  desenharCaminho();
+  const info = el("p", { class: "hint" }, "Arraste um terreno para mudar a posição. Cores = regiões das séries. A linha marrom é o caminho na ordem de liberação.");
+  S.spaces.forEach(s => {
+    const g = document.createElementNS(NS, "g"); g.setAttribute("class", "lot"); svg.append(g);
+    const ret = document.createElementNS(NS, "rect"); const ico = document.createElementNS(NS, "text"); const nome = document.createElementNS(NS, "text");
+    Object.entries({ width: W.lotSize, height: W.lotSize, rx: 24, fill: "#2F2A5C", opacity: .92 }).forEach(([k, v]) => ret.setAttribute(k, v));
+    Object.entries({ "font-size": 64, "text-anchor": "middle" }).forEach(([k, v]) => ico.setAttribute(k, v));
+    Object.entries({ "font-size": 28, "text-anchor": "middle", fill: "#fff" }).forEach(([k, v]) => nome.setAttribute(k, v));
+    ico.textContent = s.icon; nome.textContent = s.id;
+    g.append(ret, ico, nome);
+    const posicionar = () => {
+      ret.setAttribute("x", s.x - W.lotSize / 2); ret.setAttribute("y", s.y - W.lotSize / 2);
+      ico.setAttribute("x", s.x); ico.setAttribute("y", s.y + 10); nome.setAttribute("x", s.x); nome.setAttribute("y", s.y + W.lotSize / 2 - 14);
+    };
+    posicionar();
+    g.addEventListener("pointerdown", ev => {
+      g.setPointerCapture(ev.pointerId);
+      const pt = svg.createSVGPoint();
+      const mover = e => {
+        pt.x = e.clientX; pt.y = e.clientY;
+        const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+        s.x = Math.round(p.x / 10) * 10; s.y = Math.round(p.y / 10) * 10;
+        posicionar(); desenharCaminho(); info.textContent = `${s.id}: x=${s.x}, y=${s.y}`; marcar();
+      };
+      const soltar = () => { g.removeEventListener("pointermove", mover); g.removeEventListener("pointerup", soltar); };
+      g.addEventListener("pointermove", mover); g.addEventListener("pointerup", soltar);
+    });
+  });
+  const mundo = el("div", { class: "row" },
+    el("label", {}, "largura do mundo", numero(W.width, v => { W.width = v; render(); })),
+    el("label", {}, "altura do mundo", numero(W.height, v => { W.height = v; render(); })),
+    el("label", {}, "lado do terreno", numero(W.lotSize, v => { W.lotSize = v; render(); })));
+  const regioes = el("table", {}, el("tr", {}, ["série", "x", "y", "largura", "altura"].map(h => el("th", {}, h))),
+    S.regions.map(r => el("tr", {}, el("td", {}, S.grades[r.grade].icon),
+      ["x", "y", "width", "height"].map(k => el("td", {}, numero(r[k], v => { r[k] = v; render(); }))))));
+  return [el("div", { class: "card" }, el("h3", {}, "Mapa da escola"), info, svg), el("div", { class: "card" }, el("h3", {}, "Mundo e regiões"), mundo, regioes)];
+}
+
+// ---------- Textos
+let filtro = "";
+function telaTextos() {
+  const L = C.idiomas, base = C.arb[L[0]];
+  const chaves = Object.keys(base).filter(k => !k.startsWith("@"));
+  const busca = el("input", { placeholder: "procurar chave ou texto…", value: filtro, on: { input: e => { filtro = e.target.value; desenhar(); } } });
+  const tabela = el("table");
+  function desenhar() {
+    const f = filtro.toLowerCase();
+    const visiveis = chaves.filter(k => !f || k.toLowerCase().includes(f) || L.some(l => String(C.arb[l][k] ?? "").toLowerCase().includes(f)));
+    tabela.replaceChildren(el("tr", {}, el("th", {}, "chave"), L.map(l => el("th", {}, l))),
+      ...visiveis.slice(0, 300).map(k => el("tr", {},
+        el("td", { title: (base["@" + k] || {}).description || "" }, k),
+        L.map(l => el("td", {}, texto(l, k))))));
+  }
+  desenhar();
+  return [el("div", { class: "card" }, el("h3", {}, "Textos do app (pt é o modelo)"),
+    el("p", { class: "hint" }, "Marcadores como {name} ou {gender, select, …} precisam continuar iguais ao modelo. Em vermelho: tradução vazia."), busca, tabela)];
+}
+
+// ---------- ações
+async function carregar() { C = await api("/api/conteudo"); sujo = false; render(); status(); }
+document.getElementById("bValidar").onclick = async () => mostrarErros((await api("/api/validar", C)).erros);
+document.getElementById("bSalvar").onclick = async () => {
+  status(el("p", {}, "Salvando…"));
+  const r = await api("/api/salvar", C);
+  if (r.erros.length) return mostrarErros(r.erros);
+  sujo = false;
+  status(el("p", { class: r.traducoesOk ? "ok" : "" }, r.traducoesOk ? "✔ Salvo e traduções geradas." : "Salvo, mas o gerador de traduções falhou:"),
+    r.traducoesOk ? "" : el("pre", {}, r.log),
+    el("p", { class: "hint" }, "Arquivos mudados (o commit fica com você):"), el("pre", {}, r.mudancas || "(nenhum)"));
+};
+document.getElementById("bTestes").onclick = async () => {
+  status(el("p", {}, "Rodando os testes do app… (pode levar 1 a 2 minutos)"));
+  const r = await api("/api/testes", {});
+  status(el("p", { class: r.ok ? "ok" : "" }, r.ok ? "✔ Todos os testes do app passaram." : "Algum teste falhou:"), el("pre", {}, r.resumo));
+};
+document.getElementById("bRecarregar").onclick = () => { if (!sujo || confirm("Descartar as mudanças não salvas?")) carregar(); };
+window.addEventListener("beforeunload", e => { if (sujo) { e.preventDefault(); e.returnValue = ""; } });
+carregar();
+</script>
+</body>
+</html>

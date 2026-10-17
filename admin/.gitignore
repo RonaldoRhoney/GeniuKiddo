@@ -1,0 +1,5 @@
+# Credenciais da conta de serviço do Google (Parte B) e cache dos números
+# do Google Play — nunca no git.
+secrets/
+cache/
+__pycache__/

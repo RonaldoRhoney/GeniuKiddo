@@ -8,6 +8,9 @@ import '../l10n/generated/app_localizations.dart';
 /// 10 "chaves de texto iguais nos dois idiomas").
 String itemName(AppLocalizations l10n, String itemId) {
   return switch (itemId) {
+    // <painel:itens> — trecho gerado pelo painel admin (admin/), que o
+    // reescreve ao criar um item novo. Pode editar à mão, mantendo uma
+    // linha por item.
     'dog' => l10n.itemDog,
     'cat' => l10n.itemCat,
     'fish' => l10n.itemFish,
@@ -41,6 +44,7 @@ String itemName(AppLocalizations l10n, String itemId) {
     'potato' => l10n.itemPotato,
     'lettuce' => l10n.itemLettuce,
     'onion' => l10n.itemOnion,
+    // </painel:itens>
     _ => throw StateError('item sem tradução: $itemId'),
   };
 }
