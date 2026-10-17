@@ -2,8 +2,8 @@
 
 | Campo | Valor |
 |---|---|
-| **Versão** | 1.1 (formalizada por solicitação do Rhoney) |
-| **Data** | 14/10/2026 |
+| **Versão** | 1.2 (atualizada por solicitação do Rhoney) |
+| **Data** | 16/10/2026 |
 | **Responsável** | Rhoney (Ronaldo Martins), RhoneyInc |
 | **Destinatário** | Claude Code (implementação) |
 | **Substitui** | A versão 1.0 deste documento, o rascunho `GENIUS_KIDDO_SPEC.md` e as anotações de conversa. Este é o único documento válido |
@@ -19,6 +19,7 @@
 |---|---|---|
 | 1.0 | 13/10/2026 | Primeira versão formal consolidada (histórico, restrições, Fases 1 a 3, regras transversais, arquitetura, conformidade, roadmap) |
 | 1.1 | 14/10/2026 | **Rabisco livre** ganha botão ✓ de conclusão (RF-06, RT-08, seção 6.10). **Fase 3 detalhada** (seção 8): subfases 3A e 3B, identidade e consentimento, tarefas do professor, ajuda entre alunos, custo, dados e retenção. Roadmap com M10 e M11. ADR 014 e 015 |
+| 1.2 | 16/10/2026 | **Liberação em ordem** dentro de cada fase (RT-09, seção 4.12): na escola, espaços, aulas e objetivos abrem um de cada vez (seções 6.6 e 6.7, Anexo B). **RF-FASE-02** definido para a Fase 2 (libera ao concluir as 8 etapas). Decisões do M5: estrelas da escola separadas das da trilha, escolha da série atrás do portão, entrada 🏫 na trilha. **Voz** em pt-BR só com voz da região exata e sem internet (seção 4.3). **Estrutura para novos idiomas** (seções 4.5 e 10). Frases novas no Anexo C. ADR 016 e 017 |
 
 ---
 
@@ -106,7 +107,9 @@
 
 ### 3.1 Liberação sequencial (RF-FASE)
 - **RF-FASE-01 — A Fase N+1 só é liberada depois que a criança passa pela Fase N.** A regra vale para as fases atuais e futuras ("e assim sucessivamente").
-- **RF-FASE-02 — Critério de liberação [PENDENTE].** Proposta de partida, sujeita à confirmação: a Fase 2 libera ao concluir as 8 etapas da Fase 1; a Fase 3 libera ao concluir a Fase 2 até o primeiro "passar de ano" (Maternal). O critério deve ser por **participação**, não por desempenho.
+- **RF-FASE-02 — Critério de liberação.** O critério é por **participação**, não por desempenho.
+  - **Fase 2 [DEFINIDO]:** libera ao concluir as 8 etapas da Fase 1. A partir daí, a trilha mostra o botão **🏫 Escolinha** ao lado do Rabisco livre; as duas fases continuam acessíveis (a escola tem 🏠 para voltar à trilha).
+  - **Fase 3 [PENDENTE]:** proposta de partida, sujeita à confirmação: libera ao concluir a Fase 2 até o primeiro "passar de ano" (Maternal).
 - **RF-FASE-03 — Os pais podem liberar manualmente** uma fase na área dos pais (atrás do portão), como já ocorre com "liberar todas as etapas".
 - **RF-FASE-04 — A Fase 3 exige, em qualquer caso, o consentimento dos pais** (seção 8), independentemente de a criança já ter passado pela Fase 2.
 - **RF-FASE-05 — Padronização de evolução.** Qualquer conteúdo vindo de fora da progressão normal (por exemplo, tarefas do professor ou ajuda de colegas) **deve respeitar a mesma evolução**: só aulas e espaços que a série da criança já liberou, com os mesmos custos e regras.
@@ -140,6 +143,8 @@ Um gênio simpático e amigável (turbante amarelo com joia coral, corpo roxo, c
 
   - Falar por **frases** (uma utterance por frase), com +0,10 de pitch em frases exclamativas e +0,05 em perguntas.
   - **Seleção automática** da melhor voz do aparelho (preferência por vozes femininas, claras e jovens) e **escolha manual** na área dos pais, com botão "Testar a voz". Preferência salva por idioma.
+  - **Região exata da voz:** só usar vozes do idioma **e da região** do idioma ativo (pt-BR nunca cai numa voz pt-PT; en-US nunca numa en-GB). Vozes só do idioma, sem a região exata, ficam como último recurso, quando o aparelho não tiver nenhuma da região. A lista de vozes da área dos pais segue a mesma regra.
+  - **Voz sem internet:** preferir vozes do aparelho que funcionam offline (no motor do Google, as de sufixo `-local`; nunca as `-network`), para cumprir R3. No Android, a preferência automática é a voz padrão do motor, versão offline: `pt-br-x-afs-local` (pt-BR) e `en-us-x-sfg-local` (en-US).
   - Algumas vozes do sistema ignoram o pitch. É esperado.
 - **Fase de conteúdo (voz gravada):** se existir clipe gravado para `chave + idioma`, tocar o clipe; senão, usar a síntese com o tom escolhido (fallback).
 - **Diretrizes de gravação:** tom sorridente, energia alta e gentil, até ~6 palavras por frase, duas tomadas, 44,1 kHz mono, volume normalizado, OGG/Opus no Android. Inglês americano consistente.
@@ -157,6 +162,7 @@ Um gênio simpático e amigável (turbante amarelo com joia coral, corpo roxo, c
 - Troca a qualquer momento pela pílula **Oi! | Hi!** no topo e na área dos pais. Trocar durante uma atividade reinicia essa atividade no novo idioma.
 - Mudam: voz, palavras, instruções, nomes das cores e rótulos. **Imagens e animações não contêm texto embutido.**
 - **O progresso é compartilhado entre os idiomas** (ADR-003).
+- **Novos idiomas virão (ADR-017).** Acrescentar um idioma deve exigir só dados: um arquivo de tradução novo, uma linha na lista central de idiomas (código, saudação, nome nativo e locale da voz) e o gênero dos itens no conteúdo. **Nenhuma tela pode ter regra fixa de idioma** (como "se for inglês, use 'the'"): artigos, concordância e regras de escrita ficam nas traduções (seção 10). Trocar de idioma traduz na hora tudo o que está na tela, inclusive o balão do guia.
 
 ### 4.6 Feedback, erro e progressão sem pressão
 - Todo toque gera som, movimento ou brilho em até 100 ms.
@@ -185,6 +191,14 @@ Salvar localmente, sem dado pessoal: idioma, música, voz, tom, vozes escolhidas
 - O botão fica **apagado enquanto não houver ação da criança** (ex.: tela em branco) e acende no primeiro uso; se tocado apagado, o guia incentiva ("Desenhe um pouquinho primeiro!") com o som sutil de erro (RT-04).
 - A conclusão gera uma **celebração curta com ícone próprio da atividade**, sem estrela e sem recompensa, para a atividade continuar livre.
 - O botão 🏠 continua como saída rápida.
+
+### 4.12 Liberação em ordem (RT-09)
+- **RT-09 — Dentro de cada fase, uma etapa, missão ou aula só desbloqueia quando a anterior for concluída.** Vale para as fases atuais e futuras (inclusive o Mundo explorável e a Fase 3).
+- **Fase 1:** a trilha já segue a regra (seção 5.2).
+- **Fase 2:** espaços, aulas e objetivos seguem a regra (seções 6.6 e 6.7).
+- O item trancado aparece com 🔒; tocar nele gera o som sutil (RT-04) e a fala do guia dizendo o que vem primeiro. Nunca é punição: a sugestão 👆 sempre aponta o próximo passo permitido.
+- **Atividades livres** (rabisco livre, RT-08) ficam fora da regra e continuam sempre abertas.
+- **Progresso já salvo é respeitado:** o que já foi conquistado ou construído nunca volta a trancar; a regra vale para os próximos passos.
 
 ---
 
@@ -243,7 +257,7 @@ Fazer uma aula (cada espaço hospeda uma) → ganhar estrelas → construir ou m
 | Pré I 🎒 | 4 anos | + Biblioteca, Pátio | Intermediária |
 | Pré II 🎓 | 5 anos | + Refeitório | Mais difícil |
 
-- **Escolha da série:** tela exclusiva para os pais, na primeira execução (três cartões grandes com ícone, nome e idade). Mudança posterior na área dos pais, **sem apagar o que já foi construído**. A série é só uma configuração local; **não se coleta data de nascimento**.
+- **Escolha da série:** tela exclusiva para os pais, na primeira entrada na escola, **atrás do portão de segurar 2 segundos** (seção 4.7), para a criança não escolher sozinha (três cartões grandes com ícone, nome e idade). Mudança posterior na área dos pais, **sem apagar o que já foi construído**. A série é só uma configuração local; **não se coleta data de nascimento**.
 - **[PLANEJADO]** Os espaços e as aulas podem se inspirar nos campos de experiência da BNCC para a educação infantil.
 
 ### 6.4 Espaços, aulas e níveis
@@ -263,12 +277,15 @@ No app final, os emojis são **substituídos por ilustrações originais** (seç
 - **Aula concluída: +3 ⭐.** Objetivo cumprido: **+2 ⭐** e uma medalha 🏅.
 - **Construir** um espaço: 3 ⭐. **Melhorar:** nível 2 custa 6 ⭐; nível 3 custa 10 ⭐.
 - Estrelas só vêm de aulas e objetivos, **nunca de tempo real**.
+- **As estrelas da escola são um contador próprio**, separado das estrelas da trilha (Fase 1). As estrelas da trilha ficam só na trilha, para a escola começar sempre com as mesmas 3 ⭐.
 
 ### 6.6 Interações na escola
-- **Tocar num espaço construído** abre uma folha inferior com dois botões grandes: **▶ Ter aula** e **⬆️ Melhorar ⭐N** (apagado se faltar estrela).
-- **Tocar num espaço vazio** oferece **🔨 Construir ⭐N**. Sem estrelas suficientes, oferece **▶ Ganhar estrelas** (aula rápida).
+- **Espaços em ordem (RT-09):** os espaços abrem na ordem Sala → Horta → Ateliê → Biblioteca → Pátio → Refeitório (ordem do `school.json`). O próximo só abre quando o anterior está **construído e já teve pelo menos 1 aula**. Antes disso aparece apagado com 🔒; tocar gera o som sutil e a fala "Ainda não! Primeiro: {espaço}." No início do jogo, portanto, a criança faz uma aula na Sala antes de construir a Horta.
+- **Aulas em ordem (RT-09):** só uma aula fica liberada por vez, a **aula da vez**: primeiro um espaço construído que ainda não teve aula (na ordem); se todos já tiveram, rodízio na ordem dos espaços a partir da última aula feita. Nos outros espaços, **▶ Ter aula** fica apagado e o guia diz "A próxima aula é: {espaço}!".
+- **Tocar num espaço construído** abre uma folha inferior com dois botões grandes: **▶ Ter aula** (aceso só na aula da vez) e **⬆️ Melhorar ⭐N** (apagado se faltar estrela). Melhorar um espaço já construído não segue ordem.
+- **Tocar num espaço vazio liberado** oferece **🔨 Construir ⭐N**. Sem estrelas suficientes, oferece **▶ Ganhar estrelas**, que leva direto à aula da vez.
 - **Espaço de série futura** aparece apagado com o ícone da série; tocar gera balanço leve e fala encorajadora ("Esse espaço chega no Pré I!").
-- **Sugestão visível:** o próximo espaço recomendado pulsa com a mão 👆 (novo espaço da série, depois construção ou melhoria possível, senão a Sala).
+- **Sugestão visível:** o próximo passo permitido pulsa com a mão 👆 (espaço novo da série já liberado, depois construção possível, depois melhoria possível, senão o espaço da aula da vez).
 - **Crescimento visível:** animação e faíscas ao construir ou melhorar; a **população de alunos 🧒** cresce com o nível total da escola (máx. 14).
 - O botão de melhoria (⬆️) aparece no espaço quando há estrelas suficientes.
 
@@ -281,6 +298,7 @@ No app final, os emojis são **substituídos por ilustrações originais** (seç
 | Pré I | Construir 5 espaços | Fazer 12 aulas | Deixar um espaço no máximo |
 | Pré II | Construir 6 espaços | Fazer 18 aulas | Deixar 2 espaços no máximo |
 
+- **Objetivos em ordem (RT-09):** o objetivo 2 só fica disponível depois que o objetivo 1 for resgatado, e o 3 depois do 2. Os trancados aparecem com 🔒, sem barra e sem botão de resgatar.
 - Contagem de aulas é **por ano** (reinicia ao passar de série). Contagem de espaços e níveis é absoluta.
 - Com os 3 objetivos resgatados, aparece **🎓 Passar de ano**: cerimônia com confete, nova série, **objetivos reiniciados** e novos espaços brilhando como "novos". No Pré II, o mesmo botão vira **Formatura** (mensagem de conclusão; o 1º ano fica como "em breve").
 - Após a formatura, tudo continua jogável.
@@ -429,7 +447,8 @@ O conteúdo é **orientado a dados** (adicionar etapa, item ou espaço sem mudar
 
 ```jsonc
 // content/items.json
-{ "dog": { "emoji": "🐶", "image": "items/dog.svg", "gender": { "pt": "o", "en": "the" } } }
+{ "dog": { "emoji": "🐶", "image": "items/dog.svg", "gender": { "pt": "m" } } }
+// gender: gênero gramatical POR IDIOMA ("m"/"f"); idioma sem gênero (inglês) fica de fora
 
 // content/trail.json  (Fase 1)
 [ { "id": "paint_garden", "type": "paint", "art": "garden" },
@@ -441,14 +460,18 @@ O conteúdo é **orientado a dados** (adicionar etapa, item ou espaço sem mudar
   "missions": { "0": [ { "type": "build", "n": 3 } ] } }
 
 // l10n/pt-BR.json e l10n/en-US.json  (chaves iguais nos dois arquivos)
-{ "item.dog": "cachorro", "prompt.tap": "Toque n{article} {name}!", "praise.1": "Muito bem!" }
+{ "item.dog": "cachorro",
+  "prompt.tap": "{gender, select, f{Toque na {name}!} other{Toque no {name}!}}",
+  "praise.1": "Muito bem!" }
 ```
 
 Regras:
 - **Chaves de texto iguais nos dois idiomas**; teste automatizado falha se faltar tradução.
 - Áudio gravado em `voice/{locale}/{chave}.ogg`; música em `music/`.
 - Artes de pintura em SVG com regiões nomeadas.
-- Artigos em português dependem do gênero do item ("no gato", "na bola"); modelar `gender`. Cores concordam com o gênero ("a estrela amarela").
+- **Artigos e concordância ficam nas traduções**, nunca no código: cada item tem `gender` por idioma, e as frases usam mensagens `select` para escolher o artigo ("no gato", "na bola") e a concordância das cores ("a estrela amarela"). Um idioma sem gênero ignora o parâmetro. As formas geométricas também são itens do conteúdo, com nome e gênero por idioma.
+- **Regras de escrita por idioma também ficam nas traduções.** Exemplo: na Biblioteca, a letra inicial sai do nome **no idioma ativo** (🍇 é U de uva em pt e G de grape em en), e cada idioma define quais letras com acento contam como a letra base (em pt, "á" conta como "A"; em espanhol, o "ñ" é uma letra própria). As opções erradas vêm só das iniciais do mesmo idioma.
+- Teste automatizado garante que todo item tem nome em todos os idiomas suportados.
 - Cada item tem registro de **licença e origem** (`assets/LICENSES.md`).
 
 ### 10.1 Catálogo de itens (protótipos)
@@ -600,6 +623,8 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 - **Usabilidade (obrigatória antes do teste fechado):** observar 3 a 5 crianças de 3 a 5 anos com os pais. Medir: concluem a 1ª etapa sozinhas? Entendem o que tocar? Frustração? Tempo de atenção? A voz é agradável? **Construir e melhorar a escola motiva a fazer mais aulas?** Arrastar o mundo é natural?
 - **Acessibilidade:** leitor de tela nos controles dos pais; daltonismo na pintura (nomes das cores falados).
 - **Pausa e portão:** adulto consegue, criança de 3 anos não.
+- **Liberação em ordem (RT-09):** espaço trancado até o anterior estar construído + 1 aula; só a aula da vez abre; objetivo seguinte só depois do anterior resgatado; progresso salvo fora de ordem não volta a trancar.
+- **Idiomas:** todo item com nome em todos os idiomas suportados; trocar de idioma traduz o balão do guia na hora; a voz usa a região exata do idioma.
 - **Rabisco livre (RT-08):** ✓ apagado com a tela em branco, acende no primeiro traço, apaga ao limpar; tocar apagado gera o som sutil e a fala de incentivo; a celebração não dá estrela.
 
 ---
@@ -623,6 +648,8 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 | 013 | Fase 3 como Modo Turma opcional, atrás do consentimento dos pais | Aprovado em conceito |
 | 014 | Fase 3 dividida em 3A (turma e tarefas do professor) e 3B (ajuda entre alunos) | Proposto; confirmação pendente |
 | 015 | Atividades livres têm botão de conclusão ✓, sem estrela (RT-08) | Aprovado |
+| 016 | Liberação em ordem dentro de cada fase: etapa, missão ou aula só abre quando a anterior for concluída (RT-09) | Aprovado |
+| 017 | Estrutura pronta para novos idiomas: idioma é dado (traduções e conteúdo), nunca regra fixa no código das telas | Aprovado |
 
 **Pontos em aberto [PENDENTE]:**
 1. Quem grava as vozes e em qual inglês (americano é a premissa).
@@ -631,7 +658,7 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 4. Biblioteca de estado e pacotes de áudio/voz definitivos (decidir no M0).
 5. Lançar 100% gratuito ou já com pacote pago.
 6. Mundo: faixa horizontal ou mapa livre.
-7. Critério de liberação das fases (RF-FASE-02).
+7. Critério de liberação da Fase 3 (RF-FASE-02; o da Fase 2 já está definido).
 8. Todos os pontos da seção 8.8 (Fase 3).
 9. Futura conta dos pais para backup e método de login.
 
@@ -686,8 +713,11 @@ Quebra-cabeças e sequências adicionais; álbum de figurinhas; mais glifos de t
 | Biblioteca | 3 rodadas · 3 opções (Pré I) ou 4 (Pré II) · letra inicial no idioma ativo |
 | Pátio | 4 botões (vermelho ●, azul ▲, amarelo ■, verde ★; notas 262, 330, 392, 523 Hz) · sequências [2, 3] (Pré I) e [3, 4] (Pré II) · intervalo de 750 ms · erro repete a sequência |
 | Refeitório | 5 itens (3 frutas, 2 legumes) · 2 cestas |
-| Escolha da série | Tela dos pais na 1ª execução · muda depois na área dos pais, reiniciando objetivos e aulas do ano |
-| Sugestão | Prioriza espaço novo da série, depois construção/melhoria possível, senão a Sala |
+| Escolha da série | Tela dos pais na 1ª entrada na escola, atrás do portão · muda depois na área dos pais, reiniciando objetivos e aulas do ano, sem apagar o construído |
+| Ordem dos espaços (RT-09) | Sala → Horta → Ateliê → Biblioteca → Pátio → Refeitório · o próximo abre com o anterior construído + 1 aula |
+| Aula da vez (RT-09) | Espaço construído sem aula primeiro; depois rodízio na ordem dos espaços |
+| Objetivos (RT-09) | Em ordem: o próximo só depois do anterior resgatado |
+| Sugestão | Prioriza espaço novo da série já liberado, depois construção possível, depois melhoria possível, senão a aula da vez |
 
 ## Anexo C — Catálogo de frases do guia (pt-BR / en-US)
 
@@ -698,6 +728,8 @@ Quebra-cabeças e sequências adicionais; álbum de figurinhas; mais glifos de t
 | `home.hint` | Toque na estrela brilhante! | Tap the glowing star! |
 | `locked` | Ainda não! Vamos fazer a estrela brilhante primeiro! | Not yet! Let us do the glowing star first! |
 | `grade.locked` | Esse espaço chega no {série}! Vamos passar de ano! | This space arrives in {grade}! Let us move up a grade! |
+| `school.lockedPrev` | Ainda não! Primeiro: {espaço}. | Not yet! First: {space}. |
+| `school.nextLesson` | A próxima aula é: {espaço}! | The next lesson is: {space}! |
 | `paint.intro` | Escolha uma cor e toque no desenho! | Pick a color and tap the picture! |
 | `paint.done` | Que lindo! Você pintou tudo! | So pretty! You painted it all! |
 | `trace.intro` | Siga a trilha e desenhe {glifo}! | Follow the path and draw {glyph}! |
