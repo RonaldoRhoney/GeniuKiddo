@@ -17,11 +17,15 @@ import '../parents/parents_area_screen.dart';
 import 'goals_sheet.dart';
 import 'school_controller.dart';
 import 'school_lessons.dart';
+import 'school_lot.dart';
 import 'school_texts.dart';
+import 'space_sheet.dart';
+import 'world_view.dart';
 
-/// Escolinha do Kiddo (seção 6): grade de espaços em lotes prontos — só
-/// toque, nunca arrastar (6.9), pra funcionar aos 3 anos. O mundo
-/// explorável por arrasto é o M6.
+/// Escolinha do Kiddo (seção 6) no mapa livre (M6, seção 7): a criança
+/// arrasta pra explorar, mas construir e ter aula continuam sendo só
+/// toque em terrenos fixos (6.9) — e a câmera sempre ajuda a achar o
+/// espaço brilhante.
 class SchoolScreen extends ConsumerStatefulWidget {
   const SchoolScreen({super.key, this.firstVisit = false});
 
@@ -36,6 +40,8 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
   /// idioma", não como texto pronto, pra trocar de idioma traduzir o balão
   /// na hora (e o guia repetir a frase no idioma novo).
   String Function(AppLocalizations l10n) _bubble = (_) => '';
+
+  final _worldKey = GlobalKey<WorldViewState>();
 
   /// Espaço que acabou de ser construído/melhorado (animação de crescer).
   String? _justChanged;
@@ -100,7 +106,7 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
       ),
-      builder: (_) => _SpaceSheet(
+      builder: (_) => SpaceSheet(
         space: space,
         onBuild: () => _buildOrUpgrade(space),
         onLesson: () => _startLesson(space),
@@ -278,53 +284,60 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
               ),
             ),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: Stack(
                 children: [
-                  Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 6,
+                  Positioned.fill(
+                    child: WorldView(
+                      key: _worldKey,
+                      initialFocus: suggestion,
+                      lotBuilder: (space) => SchoolLot(
+                        key: ValueKey('lot_${space.id}'),
+                        space: space,
+                        gradeIcon: def.grades[space.grade].icon,
+                        suggested: space.id == suggestion,
+                        grown: space.id == _justChanged,
+                        onTap: () => _tapSpace(space),
                       ),
-                      decoration: BoxDecoration(
-                        color: colors.yellow,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Text(
-                        '${def.grades[grade].icon} ${l10n.gradeName(grade)} · '
-                        '${l10n.gradeAge(def.grades[grade].age)}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF2B2D42),
+                      worldChildren: [
+                        // Alunos perto da Sala (vão passear no M6d).
+                        Positioned(
+                          left: def.spaces.first.x - 150,
+                          top: def.spaces.first.y + def.world.lotSize / 2 + 6,
+                          width: 300,
+                          child: _Kids(
+                            count: school.kids,
+                            label: l10n.schoolKidsLabel(school.kids),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    left: 0,
+                    right: 0,
+                    child: IgnorePointer(
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: colors.yellow,
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Text(
+                            '${def.grades[grade].icon} ${l10n.gradeName(grade)} · '
+                            '${l10n.gradeAge(def.grades[grade].age)}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF2B2D42),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  GridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 0.95,
-                    children: [
-                      for (final space in def.spaces)
-                        _Lot(
-                          key: ValueKey('lot_${space.id}'),
-                          space: space,
-                          gradeIcon: def.grades[space.grade].icon,
-                          suggested: space.id == suggestion,
-                          grown: space.id == _justChanged,
-                          onTap: () => _tapSpace(space),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 14),
-                  _Kids(
-                    count: school.kids,
-                    label: l10n.schoolKidsLabel(school.kids),
                   ),
                 ],
               ),
@@ -394,382 +407,6 @@ class _StarsPill extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// Um lote da escola: fechado (série futura), vazio (🔨) ou construído
-/// (visual do nível + ⭐ do nível, ⬆️ quando dá pra melhorar). O sugerido
-/// pulsa com a mão 👆 (seção 6.6).
-class _Lot extends ConsumerStatefulWidget {
-  const _Lot({
-    super.key,
-    required this.space,
-    required this.gradeIcon,
-    required this.suggested,
-    required this.grown,
-    required this.onTap,
-  });
-
-  final SpaceDef space;
-  final String gradeIcon;
-  final bool suggested;
-  final bool grown;
-  final VoidCallback onTap;
-
-  @override
-  ConsumerState<_Lot> createState() => _LotState();
-}
-
-class _LotState extends ConsumerState<_Lot>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _pulse = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 900),
-  );
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _syncPulse();
-  }
-
-  @override
-  void didUpdateWidget(covariant _Lot oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _syncPulse();
-  }
-
-  void _syncPulse() {
-    final reduce = MediaQuery.of(context).disableAnimations;
-    if (widget.suggested && !reduce) {
-      if (!_pulse.isAnimating) _pulse.repeat(reverse: true);
-    } else {
-      _pulse
-        ..stop()
-        ..value = 0;
-    }
-  }
-
-  @override
-  void dispose() {
-    _pulse.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final colors = AppColors.of(context);
-    final school = ref.read(schoolControllerProvider.notifier);
-    final level = ref.watch(schoolControllerProvider).levelOf(widget.space.id);
-    final open = school.isOpen(widget.space);
-    final blocked = open && school.blockedBy(widget.space) != null;
-    final canAfford = school.canAfford(widget.space.id);
-    final name = l10n.spaceName(widget.space.id);
-
-    final Widget scene;
-    final Widget foot;
-    if (!open) {
-      scene = Opacity(
-        opacity: .35,
-        child: Text(widget.space.icon, style: const TextStyle(fontSize: 46)),
-      );
-      foot = Text(widget.gradeIcon, style: const TextStyle(fontSize: 20));
-    } else if (blocked) {
-      scene = Opacity(
-        opacity: .35,
-        child: Text(widget.space.icon, style: const TextStyle(fontSize: 46)),
-      );
-      foot = const Text('🔒', style: TextStyle(fontSize: 20));
-    } else if (level == 0) {
-      scene = const Text('🔨', style: TextStyle(fontSize: 46));
-      foot = Text(
-        '⭐ ${school.costFor(widget.space.id)}',
-        style: const TextStyle(fontWeight: FontWeight.w800),
-      );
-    } else {
-      scene = FittedBox(
-        child: Text(
-          widget.space.levels[level - 1].join(),
-          style: const TextStyle(fontSize: 40),
-        ),
-      );
-      foot = Text(
-        '${'⭐' * level}${'☆' * (widget.space.maxLevel - level)}',
-        style: const TextStyle(fontSize: 16),
-      );
-    }
-
-    final semanticLabel = !open
-        ? l10n.schoolLotLocked(name, l10n.gradeName(widget.space.grade))
-        : blocked
-        ? l10n.schoolLotSequenceLocked(name)
-        : level == 0
-        ? l10n.schoolLotEmpty(name, school.costFor(widget.space.id) ?? 0)
-        : l10n.schoolLotLevel(name, level, widget.space.maxLevel);
-    return Semantics(
-      button: true,
-      label: semanticLabel,
-      excludeSemantics: true,
-      child: AnimatedScale(
-        scale: widget.grown ? 1.08 : 1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOutBack,
-        child: AnimatedBuilder(
-          animation: _pulse,
-          builder: (context, child) =>
-              Transform.scale(scale: 1 + _pulse.value * .04, child: child),
-          child: Material(
-            color: open ? colors.card : colors.card.withValues(alpha: .5),
-            borderRadius: BorderRadius.circular(26),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(26),
-              onTap: widget.onTap,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(26),
-                  border: widget.suggested && open
-                      ? Border.all(color: colors.yellow, width: 4)
-                      : null,
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Stack(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(child: Center(child: scene)),
-                        Text(
-                          name,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        foot,
-                      ],
-                    ),
-                    if (open && level > 0 && canAfford)
-                      const Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Text('⬆️', style: TextStyle(fontSize: 22)),
-                      ),
-                    if (widget.suggested && open)
-                      const Positioned(
-                        bottom: 30,
-                        right: 0,
-                        child: Text('👆', style: TextStyle(fontSize: 28)),
-                      ),
-                    if (widget.grown)
-                      const Positioned.fill(
-                        child: IgnorePointer(
-                          child: Align(
-                            alignment: Alignment(0, -.7),
-                            child: Text('✨⭐✨', style: TextStyle(fontSize: 24)),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Folha inferior do espaço (seção 6.6): ▶ Ter aula / ⬆️ Melhorar ⭐N /
-/// 🔨 Construir ⭐N; sem estrelas, o botão fica apagado e aparece
-/// ▶ Ganhar estrelas.
-class _SpaceSheet extends ConsumerWidget {
-  const _SpaceSheet({
-    required this.space,
-    required this.onBuild,
-    required this.onLesson,
-    required this.onQuickLesson,
-    required this.onNeedStars,
-    required this.onLessonElsewhere,
-  });
-
-  final SpaceDef space;
-  final VoidCallback onBuild;
-  final VoidCallback onLesson;
-  final VoidCallback onQuickLesson;
-  final VoidCallback onNeedStars;
-
-  /// Aulas em ordem: tocou "Ter aula" fora da aula da vez — recebe o id do
-  /// espaço da aula da vez pra o guia dizer onde é.
-  final void Function(String nextSpaceId) onLessonElsewhere;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
-    final colors = AppColors.of(context);
-    final school = ref.read(schoolControllerProvider.notifier);
-    final level = ref.watch(schoolControllerProvider).levelOf(space.id);
-    final cost = school.costFor(space.id);
-    final can = school.canAfford(space.id);
-    final preview = space.levels[level == 0 ? 0 : level - 1].join(' ');
-    final nextLesson = school.currentLessonSpace();
-    final isLessonTurn = nextLesson == space.id;
-
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.close_rounded),
-                tooltip: l10n.schoolClose,
-              ),
-            ),
-            Opacity(
-              opacity: level == 0 ? .55 : 1,
-              child: Text(
-                preview,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 52),
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              l10n.spaceName(space.id),
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-            ),
-            Text(l10n.spaceDesc(space.id), textAlign: TextAlign.center),
-            const SizedBox(height: 18),
-            if (level == 0) ...[
-              _SheetButton(
-                key: const ValueKey('sheetBuild'),
-                icon: '🔨',
-                label: l10n.schoolBuild,
-                cost: cost,
-                color: colors.green,
-                dim: !can,
-                onTap: can ? onBuild : onNeedStars,
-              ),
-              if (!can) ...[
-                const SizedBox(height: 10),
-                _SheetButton(
-                  key: const ValueKey('sheetQuick'),
-                  icon: '▶',
-                  label: l10n.schoolEarnStars,
-                  color: colors.purple,
-                  onTap: onQuickLesson,
-                ),
-              ],
-            ] else ...[
-              _SheetButton(
-                key: const ValueKey('sheetLesson'),
-                icon: '▶',
-                label: l10n.schoolLesson,
-                color: colors.purple,
-                dim: !isLessonTurn,
-                onTap: isLessonTurn || nextLesson == null
-                    ? onLesson
-                    : () => onLessonElsewhere(nextLesson),
-              ),
-              const SizedBox(height: 10),
-              if (cost == null)
-                Text(
-                  l10n.schoolMaxed,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.w800),
-                )
-              else
-                _SheetButton(
-                  key: const ValueKey('sheetUpgrade'),
-                  icon: '⬆️',
-                  label: l10n.schoolUpgrade,
-                  cost: cost,
-                  color: colors.green,
-                  dim: !can,
-                  onTap: can ? onBuild : onNeedStars,
-                ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SheetButton extends StatelessWidget {
-  const _SheetButton({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.color,
-    required this.onTap,
-    this.cost,
-    this.dim = false,
-  });
-
-  final String icon;
-  final String label;
-  final Color color;
-  final VoidCallback onTap;
-  final int? cost;
-
-  /// Apagado = faltam estrelas; o toque ainda responde (som + fala), pra a
-  /// criança entender o porquê (seção 4.6).
-  final bool dim;
-
-  @override
-  Widget build(BuildContext context) {
-    return Opacity(
-      opacity: dim ? .45 : 1,
-      child: Material(
-        color: color,
-        shape: const StadiumBorder(),
-        child: InkWell(
-          customBorder: const StadiumBorder(),
-          onTap: onTap,
-          child: SizedBox(
-            height: 64,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(icon, style: const TextStyle(fontSize: 24)),
-                const SizedBox(width: 10),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20,
-                  ),
-                ),
-                if (cost != null) ...[
-                  const SizedBox(width: 10),
-                  Text(
-                    '⭐ $cost',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 18,
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

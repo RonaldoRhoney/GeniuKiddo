@@ -23,7 +23,7 @@
     [{"type": "build", "n": 5, "icon": "🏗️"}, {"type": "lessons", "n": 12, "icon": "📘"}, {"type": "level", "level": 3, "n": 1, "icon": "🌟"}],
     [{"type": "build", "n": 6, "icon": "🏗️"}, {"type": "lessons", "n": 18, "icon": "📘"}, {"type": "level", "level": 3, "n": 2, "icon": "🌟"}]
   ],
-  "world": {"width": 1300, "height": 2000, "lotSize": 150},
+  "world": {"width": 1300, "height": 2000, "lotSize": 170},
   "regions": [
     {"grade": 0, "x": 330, "y": 1000, "width": 670, "height": 650},
     {"grade": 1, "x": 900, "y": 620, "width": 380, "height": 700},

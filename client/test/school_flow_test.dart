@@ -7,6 +7,7 @@ import 'package:genius_kiddo/features/activities/count/count_lesson.dart';
 import 'package:genius_kiddo/features/school/school_controller.dart';
 import 'package:genius_kiddo/features/school/grade_choice_screen.dart';
 import 'package:genius_kiddo/features/school/school_screen.dart';
+import 'package:genius_kiddo/features/school/world_view.dart';
 
 import 'test_harness.dart';
 
@@ -16,6 +17,14 @@ Future<void> _settle(WidgetTester tester, [int frames = 20]) async {
   for (var i = 0; i < frames; i++) {
     await tester.pump(const Duration(milliseconds: 100));
   }
+}
+
+/// Leva a câmera do mapa até o espaço (como o botão 🎯 / a seta fariam).
+Future<void> _show(WidgetTester tester, String spaceId) async {
+  tester
+      .state<WorldViewState>(find.byType(WorldView))
+      .flyTo(spaceId, animate: false);
+  await tester.pump();
 }
 
 Future<void> _hold(WidgetTester tester, Finder finder) async {
@@ -62,6 +71,7 @@ void main() {
       expect(container.read(schoolControllerProvider).stars, 3);
 
       // Ordem de liberação: Horta só depois da Sala ter 1 aula.
+      await _show(tester, 'horta');
       await tester.tap(find.byKey(const ValueKey('lot_horta')));
       await _settle(tester);
       expect(find.byKey(const ValueKey('sheetBuild')), findsNothing);
@@ -69,16 +79,7 @@ void main() {
       expect(container.read(schoolControllerProvider).stars, 3);
 
       // Espaço de série futura: não abre folha, só a fala encorajadora.
-      await tester.scrollUntilVisible(
-        find.byKey(const ValueKey('lot_biblio')),
-        200,
-        scrollable: find
-            .descendant(
-              of: find.byType(SchoolScreen),
-              matching: find.byType(Scrollable),
-            )
-            .first,
-      );
+      await _show(tester, 'biblio');
       await tester.tap(find.byKey(const ValueKey('lot_biblio')));
       await _settle(tester);
       expect(find.byKey(const ValueKey('sheetBuild')), findsNothing);
@@ -98,6 +99,7 @@ void main() {
       );
       await tester.tap(find.byKey(const ValueKey('btnSchool')));
       await _settle(tester);
+      await _show(tester, 'horta');
       await tester.tap(find.byKey(const ValueKey('lot_horta')));
       await _settle(tester);
       await tester.tap(find.byKey(const ValueKey('sheetLesson')));
@@ -188,6 +190,7 @@ void main() {
       );
       await tester.tap(find.byKey(const ValueKey('btnSchool')));
       await _settle(tester);
+      await _show(tester, 'sala');
       await tester.tap(find.byKey(const ValueKey('lot_sala')));
       await _settle(tester);
       await tester.tap(find.byKey(const ValueKey('sheetLesson')));
