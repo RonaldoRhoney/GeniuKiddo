@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/shake.dart';
 import '../../app/theme.dart';
 import '../../content/models.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -18,8 +19,11 @@ class SchoolLot extends ConsumerStatefulWidget {
     required this.suggested,
     required this.grown,
     required this.onTap,
+    this.shakes = 0,
   });
 
+  /// Toques com o espaço trancado (dispara o balanço).
+  final int shakes;
   final SpaceDef space;
   final String gradeIcon;
   final bool suggested;
@@ -121,70 +125,76 @@ class _SchoolLotState extends ConsumerState<SchoolLot>
       button: true,
       label: semanticLabel,
       excludeSemantics: true,
-      child: AnimatedScale(
-        scale: widget.grown ? 1.08 : 1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOutBack,
-        child: AnimatedBuilder(
-          animation: _pulse,
-          builder: (context, child) =>
-              Transform.scale(scale: 1 + _pulse.value * .04, child: child),
-          child: Material(
-            color: open ? colors.card : colors.card.withValues(alpha: .5),
-            borderRadius: BorderRadius.circular(26),
-            child: InkWell(
+      child: Shake(
+        trigger: widget.shakes,
+        child: AnimatedScale(
+          scale: widget.grown ? 1.08 : 1,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutBack,
+          child: AnimatedBuilder(
+            animation: _pulse,
+            builder: (context, child) =>
+                Transform.scale(scale: 1 + _pulse.value * .04, child: child),
+            child: Material(
+              color: open ? colors.card : colors.card.withValues(alpha: .5),
               borderRadius: BorderRadius.circular(26),
-              onTap: widget.onTap,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(26),
-                  border: widget.suggested && open
-                      ? Border.all(color: colors.yellow, width: 4)
-                      : null,
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Stack(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(child: Center(child: scene)),
-                        Text(
-                          name,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(26),
+                onTap: widget.onTap,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(26),
+                    border: widget.suggested && open
+                        ? Border.all(color: colors.yellow, width: 4)
+                        : null,
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  child: Stack(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(child: Center(child: scene)),
+                          Text(
+                            name,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          foot,
+                        ],
+                      ),
+                      if (open && level > 0 && canAfford)
+                        const Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Text('⬆️', style: TextStyle(fontSize: 22)),
+                        ),
+                      if (widget.suggested && open)
+                        const Positioned(
+                          bottom: 30,
+                          right: 0,
+                          child: Text('👆', style: TextStyle(fontSize: 28)),
+                        ),
+                      if (widget.grown)
+                        const Positioned.fill(
+                          child: IgnorePointer(
+                            child: Align(
+                              alignment: Alignment(0, -.7),
+                              child: Text(
+                                '✨⭐✨',
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        foot,
-                      ],
-                    ),
-                    if (open && level > 0 && canAfford)
-                      const Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Text('⬆️', style: TextStyle(fontSize: 22)),
-                      ),
-                    if (widget.suggested && open)
-                      const Positioned(
-                        bottom: 30,
-                        right: 0,
-                        child: Text('👆', style: TextStyle(fontSize: 28)),
-                      ),
-                    if (widget.grown)
-                      const Positioned.fill(
-                        child: IgnorePointer(
-                          child: Align(
-                            alignment: Alignment(0, -.7),
-                            child: Text('✨⭐✨', style: TextStyle(fontSize: 24)),
-                          ),
-                        ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

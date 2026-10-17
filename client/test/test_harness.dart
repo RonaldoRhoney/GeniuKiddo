@@ -25,6 +25,12 @@ class FakeSoundPort implements SoundPort {
 void setPhoneSize(WidgetTester tester) {
   tester.view.physicalSize = const Size(1080, 2340);
   tester.view.devicePixelRatio = 1.0;
+  // "Reduzir movimento" ligado: as animações contínuas (pulso da etapa
+  // atual, espaço sugerido) param, como num aparelho com essa
+  // acessibilidade — e o `pumpAndSettle` dos testes consegue terminar.
+  tester.platformDispatcher.accessibilityFeaturesTestValue =
+      const FakeAccessibilityFeatures(disableAnimations: true);
+  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
 }

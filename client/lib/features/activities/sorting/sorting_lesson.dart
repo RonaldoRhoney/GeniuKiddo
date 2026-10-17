@@ -42,7 +42,8 @@ class SortingLesson extends ConsumerStatefulWidget {
   ConsumerState<SortingLesson> createState() => _SortingLessonState();
 }
 
-class _SortingLessonState extends ConsumerState<SortingLesson> {
+class _SortingLessonState extends ConsumerState<SortingLesson>
+    with ActivityTimers<SortingLesson> {
   final _random = Random();
   late final _seq = sortingSequence(_random);
   int _round = 0;
@@ -77,7 +78,7 @@ class _SortingLessonState extends ConsumerState<SortingLesson> {
       _locked = true;
       setState(() => _correct = fruit);
       feedback.correct(capitalize(name), randomPraise(l10n, _round));
-      Future.delayed(const Duration(milliseconds: 1500), () {
+      later(const Duration(milliseconds: 1500), () {
         if (!mounted) return;
         if (_round + 1 >= _seq.length) {
           finishLesson(context, ref, widget.outcome, l10n.sortDone);
@@ -101,6 +102,7 @@ class _SortingLessonState extends ConsumerState<SortingLesson> {
   Widget build(BuildContext context) {
     ref.listen<LanguageState>(languageControllerProvider, (prev, next) {
       if (prev != null && prev.code != next.code) {
+        cancelLater();
         setState(() {
           _round = 0;
           _locked = false;
@@ -127,8 +129,11 @@ class _SortingLessonState extends ConsumerState<SortingLesson> {
               label: name,
               child: GestureDetector(
                 key: const ValueKey('sortItem'),
-                onTap: () =>
-                    ref.read(itemFeedbackProvider).nameOnly(capitalize(name)),
+                onTap: () {
+                  final feedback = ref.read(itemFeedbackProvider);
+                  feedback.sound.play(FeedbackSound.pop);
+                  feedback.nameOnly(capitalize(name));
+                },
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(

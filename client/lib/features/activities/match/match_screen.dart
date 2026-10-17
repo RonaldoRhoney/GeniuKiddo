@@ -12,6 +12,7 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
 import '../activity_outcome.dart';
 import '../activity_shell.dart';
+import '../lesson_common.dart';
 import '../round_dots.dart';
 
 /// RF-04 — Associar ("quem é a sombra?"): 3 rodadas, silhueta e 3 opções,
@@ -27,7 +28,8 @@ class MatchScreen extends ConsumerStatefulWidget {
   ConsumerState<MatchScreen> createState() => _MatchScreenState();
 }
 
-class _MatchScreenState extends ConsumerState<MatchScreen> {
+class _MatchScreenState extends ConsumerState<MatchScreen>
+    with ActivityTimers<MatchScreen> {
   static const _rounds = 3;
   final _random = Random();
   late final List<String> _targets = (List.of(
@@ -36,6 +38,9 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
   int _round = 0;
   bool _locked = false;
   bool _revealed = false;
+
+  /// Dica (RT-03): depois de um toque fora, a opção certa ganha contorno.
+  String? _hintId;
   List<String> _options = [];
 
   @override
@@ -46,6 +51,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
 
   /// Seção 4.5: trocar de idioma no meio reinicia a atividade.
   void _restart() {
+    cancelLater();
     setState(() => _round = 0);
     _newRound();
   }
@@ -53,6 +59,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
   void _newRound() {
     _locked = false;
     _revealed = false;
+    _hintId = null;
     final target = _targets[_round];
     final distractors =
         (List.of(widget.items)
@@ -85,7 +92,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
         itemName(l10n, content.item(target).id),
         randomPraise(l10n, _round + id.length),
       );
-      Future.delayed(const Duration(milliseconds: 1700), () {
+      later(const Duration(milliseconds: 1700), () {
         if (!mounted) return;
         if (_round + 1 >= _rounds) {
           _finish();
@@ -96,6 +103,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
       });
     } else {
       feedback.wrong(itemName(l10n, content.item(id).id), l10n.matchIntro);
+      setState(() => _hintId = _targets[_round]);
     }
   }
 
@@ -168,18 +176,16 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     key: ValueKey('matchOption_$id'),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Material(
-                        color: AppColors.of(context).card,
-                        borderRadius: BorderRadius.circular(24),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(24),
-                          onTap: () => _onTapOption(id),
-                          child: Center(
-                            child: Text(
-                              content.item(id).emoji,
-                              style: const TextStyle(fontSize: 48),
-                            ),
-                          ),
+                      child: LessonCard(
+                        semanticLabel: itemName(
+                          AppLocalizations.of(context)!,
+                          id,
+                        ),
+                        highlighted: id == _hintId,
+                        onTap: () => _onTapOption(id),
+                        child: Text(
+                          content.item(id).emoji,
+                          style: const TextStyle(fontSize: 48),
                         ),
                       ),
                     ),

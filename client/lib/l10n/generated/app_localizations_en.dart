@@ -752,4 +752,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get worldKidLabel => 'Student';
+
+  @override
+  String get repeatButton => 'Hear it again';
+
+  @override
+  String spaceIntro(String name, String desc) {
+    return '$name! $desc';
+  }
 }

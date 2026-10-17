@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../app/guide_avatar.dart';
+import '../../app/guide_bar.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../app/theme.dart';
 import '../../app/top_controls.dart';
 
@@ -33,60 +34,28 @@ class ActivityShell extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
               child: Row(
                 children: [
-                  IconButton(
+                  KidIconButton(
+                    icon: Icons.home_rounded,
+                    label: AppLocalizations.of(context)!.homeButton,
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.home_rounded),
-                    style: IconButton.styleFrom(
-                      backgroundColor: colors.card,
-                      shape: const CircleBorder(),
+                  ),
+                  const SizedBox(width: 8),
+                  // Em telas estreitas os controles encolhem o mínimo
+                  // necessário, como no menu, na trilha e na escola.
+                  const Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: TopControls(),
                     ),
                   ),
-                  const Spacer(),
-                  const TopControls(),
                 ],
               ),
             ),
-            Padding(
+            GuideBubbleRow(
+              text: bubbleText,
+              onRepeat: onRepeat,
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 4),
-              child: Row(
-                children: [
-                  const GuideAvatar(size: 56),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: colors.card,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Semantics(
-                        liveRegion: true,
-                        child: Text(
-                          bubbleText,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (onRepeat != null) ...[
-                    const SizedBox(width: 8),
-                    IconButton(
-                      onPressed: onRepeat,
-                      icon: const Icon(Icons.volume_up_rounded),
-                      style: IconButton.styleFrom(
-                        backgroundColor: colors.card,
-                        shape: const CircleBorder(),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
             ),
             Expanded(
               child: Padding(

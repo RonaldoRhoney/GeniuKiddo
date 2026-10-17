@@ -179,9 +179,9 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
 
   /// RT-08 (seção 4.11): tocar com a tela em branco é erro sutil + fala de
   /// incentivo, sem navegar; tocar depois de desenhar é uma celebração
-  /// curta com o ícone próprio da atividade (🎨), sem estrela, e volta à
-  /// trilha pelo ▶ — não conta como etapa concluída (RF-06).
-  void _onCompletionTap() {
+  /// curta com o ícone próprio da atividade (🎨), sem estrela, e o ▶ volta
+  /// à tela anterior (o menu inicial) — não conta como etapa (RF-06).
+  Future<void> _onCompletionTap() async {
     final l10n = AppLocalizations.of(context)!;
     final feedback = ref.read(itemFeedbackProvider);
     if (_strokes.isEmpty) {
@@ -189,7 +189,8 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
       feedback.speech.speak(l10n.freeDrawFirst);
       return;
     }
-    showCelebration(context, icon: '🎨', message: l10n.freeDrawCelebrate);
+    await showCelebration(context, icon: '🎨', message: l10n.freeDrawCelebrate);
+    if (mounted) Navigator.of(context).pop();
   }
 }
 

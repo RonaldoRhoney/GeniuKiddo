@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,5 +73,34 @@ class LessonCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Esperas de uma atividade (pausa depois do acerto, antes da próxima
+/// rodada). Todas são canceladas juntas ao reiniciar a atividade (troca de
+/// idioma, seção 4.5) e ao fechar a tela — uma espera antiga nunca avança
+/// a rodada da atividade já reiniciada.
+mixin ActivityTimers<T extends StatefulWidget> on State<T> {
+  final List<Timer> _timers = [];
+
+  void later(Duration delay, VoidCallback action) {
+    _timers.add(
+      Timer(delay, () {
+        if (mounted) action();
+      }),
+    );
+  }
+
+  void cancelLater() {
+    for (final t in _timers) {
+      t.cancel();
+    }
+    _timers.clear();
+  }
+
+  @override
+  void dispose() {
+    cancelLater();
+    super.dispose();
   }
 }

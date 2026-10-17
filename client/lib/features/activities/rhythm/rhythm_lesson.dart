@@ -120,7 +120,12 @@ class _RhythmLessonState extends ConsumerState<RhythmLesson> {
   }
 
   void _onTap(int pad) {
-    if (!_input) return;
+    if (!_input) {
+      // Ainda é a vez do Kiddo mostrar: responde ao toque (4.6) sem
+      // tocar a nota, pra não confundir a sequência.
+      ref.read(itemFeedbackProvider).sound.play(FeedbackSound.pop);
+      return;
+    }
     final l10n = AppLocalizations.of(context)!;
     final feedback = ref.read(itemFeedbackProvider);
     _flash(pad);

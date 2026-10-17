@@ -215,5 +215,9 @@
   "worldDragHint": "Drag your finger to see the school!",
 
   "worldKidHello": "Hi! I study here!",
-  "worldKidLabel": "Student"
+  "worldKidLabel": "Student",
+
+  "repeatButton": "Hear it again",
+
+  "spaceIntro": "{name}! {desc}"
 }

@@ -58,6 +58,11 @@ class WorldViewState extends ConsumerState<WorldView>
   Size _viewport = Size.zero;
   bool _placed = false;
 
+  /// A criança já arrastou? Antes disso, se a área visível mudar (o balão
+  /// do guia cresceu, a tela girou), a câmera volta a centrar o espaço
+  /// brilhante.
+  bool _userMoved = false;
+
   /// RM-02: mãozinha de "arraste" até a criança arrastar pela 1ª vez.
   late bool _showHint = !ref.read(persistenceServiceProvider).worldHintSeen;
   late final AnimationController _hand = AnimationController(
@@ -102,6 +107,7 @@ class WorldViewState extends ConsumerState<WorldView>
 
   void _onInteractionStart(ScaleStartDetails _) {
     _flight.stop();
+    _userMoved = true;
     if (!_showHint) return;
     setState(() => _showHint = false);
     _hand.stop();
@@ -162,7 +168,15 @@ class WorldViewState extends ConsumerState<WorldView>
     final dark = Theme.of(context).brightness == Brightness.dark;
     return LayoutBuilder(
       builder: (context, constraints) {
+        final resized = _viewport != constraints.biggest;
         _viewport = constraints.biggest;
+        if (resized && _placed && !_userMoved && widget.initialFocus != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted && !_userMoved) {
+              flyTo(widget.beacon ?? widget.initialFocus!, animate: false);
+            }
+          });
+        }
         if (!_placed && widget.initialFocus != null) {
           _placed = true;
           WidgetsBinding.instance.addPostFrameCallback((_) {

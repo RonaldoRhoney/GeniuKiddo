@@ -1405,6 +1405,18 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Aluno'**
   String get worldKidLabel;
+
+  /// Rótulo (leitor de tela) do botão 🔊 que repete a fala do guia
+  ///
+  /// In pt, this message translates to:
+  /// **'Ouvir de novo'**
+  String get repeatButton;
+
+  /// Fala ao abrir um espaço da escola: nome + descrição
+  ///
+  /// In pt, this message translates to:
+  /// **'{name}! {desc}'**
+  String spaceIntro(String name, String desc);
 }
 
 class _AppLocalizationsDelegate

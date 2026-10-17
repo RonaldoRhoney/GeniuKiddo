@@ -70,7 +70,8 @@ class LettersLesson extends ConsumerStatefulWidget {
   ConsumerState<LettersLesson> createState() => _LettersLessonState();
 }
 
-class _LettersLessonState extends ConsumerState<LettersLesson> {
+class _LettersLessonState extends ConsumerState<LettersLesson>
+    with ActivityTimers<LettersLesson> {
   static const _rounds = 3;
   final _random = Random();
   late final List<String> _targets = (List.of(
@@ -80,6 +81,9 @@ class _LettersLessonState extends ConsumerState<LettersLesson> {
   bool _locked = false;
   List<String> _options = const [];
   String? _correct;
+
+  /// Dica (RT-03): depois de um toque fora, a letra certa ganha contorno.
+  String? _hint;
 
   int get _optionCount => widget.grade >= 2 ? 4 : 3;
 
@@ -102,6 +106,7 @@ class _LettersLessonState extends ConsumerState<LettersLesson> {
     setState(() {
       _locked = false;
       _correct = null;
+      _hint = null;
       _options = letterOptions(
         letterItems.map(_nameOf),
         _targetName,
@@ -127,7 +132,7 @@ class _LettersLessonState extends ConsumerState<LettersLesson> {
         capitalize(_targetName),
         l10n.lettersCorrect(randomPraise(l10n, _round), letter),
       );
-      Future.delayed(const Duration(milliseconds: 2000), () {
+      later(const Duration(milliseconds: 2000), () {
         if (!mounted) return;
         if (_round + 1 >= _rounds) {
           finishLesson(context, ref, widget.outcome, l10n.lettersDone);
@@ -138,6 +143,7 @@ class _LettersLessonState extends ConsumerState<LettersLesson> {
       });
     } else {
       feedback.wrong(letter, _prompt());
+      setState(() => _hint = initialOf(_targetName, _fold));
     }
   }
 
@@ -145,6 +151,7 @@ class _LettersLessonState extends ConsumerState<LettersLesson> {
   Widget build(BuildContext context) {
     ref.listen<LanguageState>(languageControllerProvider, (prev, next) {
       if (prev != null && prev.code != next.code) {
+        cancelLater();
         _round = 0;
         WidgetsBinding.instance.addPostFrameCallback((_) => _newRound());
       }
@@ -165,9 +172,11 @@ class _LettersLessonState extends ConsumerState<LettersLesson> {
               label: capitalize(_targetName),
               child: GestureDetector(
                 key: const ValueKey('letterFigure'),
-                onTap: () => ref
-                    .read(itemFeedbackProvider)
-                    .nameOnly(capitalize(_targetName)),
+                onTap: () {
+                  final feedback = ref.read(itemFeedbackProvider);
+                  feedback.sound.play(FeedbackSound.pop);
+                  feedback.nameOnly(capitalize(_targetName));
+                },
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -197,6 +206,7 @@ class _LettersLessonState extends ConsumerState<LettersLesson> {
                         key: ValueKey('letter_$letter'),
                         semanticLabel: letter,
                         correct: letter == _correct,
+                        highlighted: letter == _hint,
                         onTap: () => _onTap(letter),
                         child: Text(
                           letter,

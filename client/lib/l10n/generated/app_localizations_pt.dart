@@ -779,4 +779,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get worldKidLabel => 'Aluno';
+
+  @override
+  String get repeatButton => 'Ouvir de novo';
+
+  @override
+  String spaceIntro(String name, String desc) {
+    return '$name! $desc';
+  }
 }

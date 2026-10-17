@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../app/guide_avatar.dart';
+import '../../app/guide_bar.dart';
 import '../../app/hold_to_unlock.dart';
 import '../../app/theme.dart';
 import '../../app/top_controls.dart';
@@ -84,9 +84,15 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     return l10n.schoolHintLesson;
   }
 
+  /// Toques em espaço trancado, por espaço (dispara o balanço, 6.6).
+  final Map<String, int> _shakes = {};
+  void _shake(String id) =>
+      setState(() => _shakes[id] = (_shakes[id] ?? 0) + 1);
+
   void _tapSpace(SpaceDef space) {
     if (!_school.isOpen(space)) {
       _feedback.sound.play(FeedbackSound.wrong);
+      _shake(space.id);
       _say((l10n) => l10n.schoolGradeLocked(l10n.gradeName(space.grade)));
       return;
     }
@@ -94,12 +100,16 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     final blocker = _school.blockedBy(space);
     if (blocker != null) {
       _feedback.sound.play(FeedbackSound.wrong);
+      _shake(space.id);
       _say((l10n) => l10n.schoolLockedPrev(l10n.spaceName(blocker.id)));
       return;
     }
     _feedback.sound.play(FeedbackSound.pop);
     _school.markSeen(space.id);
-    _say((l10n) => '${l10n.spaceName(space.id)}! ${l10n.spaceDesc(space.id)}');
+    _say(
+      (l10n) =>
+          l10n.spaceIntro(l10n.spaceName(space.id), l10n.spaceDesc(space.id)),
+    );
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.of(context).card,
@@ -268,33 +278,10 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                 ],
               ),
             ),
-            Padding(
+            GuideBubbleRow(
+              text: _bubble(l10n),
+              onRepeat: () => _say(_bubble),
               padding: const EdgeInsets.fromLTRB(16, 6, 16, 4),
-              child: Row(
-                children: [
-                  const GuideAvatar(size: 56),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: colors.card,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Semantics(
-                        liveRegion: true,
-                        child: Text(
-                          _bubble(l10n),
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
             Expanded(
               child: Stack(
@@ -316,6 +303,7 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                         gradeIcon: def.grades[space.grade].icon,
                         suggested: space.id == suggestion,
                         grown: space.id == _justChanged,
+                        shakes: _shakes[space.id] ?? 0,
                         onTap: () => _tapSpace(space),
                       ),
                       worldChildren: const [

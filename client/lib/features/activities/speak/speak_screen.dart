@@ -10,6 +10,7 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
 import '../activity_outcome.dart';
 import '../activity_shell.dart';
+import '../lesson_common.dart';
 import '../round_dots.dart';
 
 /// RF-05 — Falar (repetir sem gravar): o guia diz a palavra, a criança
@@ -25,9 +26,13 @@ class SpeakScreen extends ConsumerStatefulWidget {
   ConsumerState<SpeakScreen> createState() => _SpeakScreenState();
 }
 
-class _SpeakScreenState extends ConsumerState<SpeakScreen> {
+class _SpeakScreenState extends ConsumerState<SpeakScreen>
+    with ActivityTimers<SpeakScreen> {
   int _round = 0;
   bool _locked = false;
+
+  /// Depois do ✓ o balão mostra o elogio que está sendo falado (4.2).
+  bool _praised = false;
 
   @override
   void initState() {
@@ -37,9 +42,11 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
 
   /// Seção 4.5: trocar de idioma no meio reinicia a atividade.
   void _restart() {
+    cancelLater();
     setState(() {
       _round = 0;
       _locked = false;
+      _praised = false;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) => _speakPrompt());
   }
@@ -63,8 +70,9 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
     if (_locked) return;
     _locked = true;
     final l10n = AppLocalizations.of(context)!;
+    setState(() => _praised = true);
     ref.read(itemFeedbackProvider).speech.speak(l10n.speakGood);
-    Future.delayed(const Duration(milliseconds: 1700), () {
+    later(const Duration(milliseconds: 1700), () {
       if (!mounted) return;
       if (_round + 1 >= widget.items.length) {
         _finish();
@@ -72,6 +80,7 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
         setState(() {
           _round++;
           _locked = false;
+          _praised = false;
         });
         _speakPrompt();
       }
@@ -97,7 +106,7 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
     final item = content.item(widget.items[_round]);
     final prompt = l10n.speakPrompt(itemName(l10n, item.id));
     return ActivityShell(
-      bubbleText: prompt,
+      bubbleText: _praised ? l10n.speakGood : prompt,
       onRepeat: _speakPrompt,
       body: Column(
         children: [

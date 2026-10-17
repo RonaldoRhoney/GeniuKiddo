@@ -9,6 +9,7 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
 import '../activity_outcome.dart';
 import '../activity_shell.dart';
+import '../lesson_common.dart';
 import 'trace_glyphs.dart';
 
 const double _viewBoxSize = 300;
@@ -29,7 +30,8 @@ class TraceScreen extends ConsumerStatefulWidget {
   ConsumerState<TraceScreen> createState() => _TraceScreenState();
 }
 
-class _TraceScreenState extends ConsumerState<TraceScreen> {
+class _TraceScreenState extends ConsumerState<TraceScreen>
+    with ActivityTimers<TraceScreen> {
   late final Path _path = glyphPath(widget.glyph);
   late final List<Offset> _points = _samplePoints(_path);
   int _idx = 0;
@@ -59,6 +61,7 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
 
   /// Seção 4.5: trocar de idioma no meio reinicia o traçado.
   void _restart() {
+    cancelLater();
     setState(() {
       _idx = 0;
       _finished = false;
@@ -85,7 +88,7 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
       if (_idx >= _points.length - 3) {
         _finished = true;
         setState(() => _idx = _points.length - 1);
-        Future.delayed(const Duration(milliseconds: 400), _finish);
+        later(const Duration(milliseconds: 400), _finish);
       }
     }
   }

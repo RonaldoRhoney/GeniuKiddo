@@ -287,5 +287,11 @@
 
   "worldKidHello": "Oi! Eu estudo aqui!",
   "@worldKidHello": {"description": "Fala ao tocar num aluno que passeia no mapa (RM-07)"},
-  "worldKidLabel": "Aluno"
+  "worldKidLabel": "Aluno",
+
+  "repeatButton": "Ouvir de novo",
+  "@repeatButton": {"description": "Rótulo (leitor de tela) do botão 🔊 que repete a fala do guia"},
+
+  "spaceIntro": "{name}! {desc}",
+  "@spaceIntro": {"description": "Fala ao abrir um espaço da escola: nome + descrição", "placeholders": {"name": {"type": "String"}, "desc": {"type": "String"}}}
 }

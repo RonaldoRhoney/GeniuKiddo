@@ -70,7 +70,8 @@ const shapeColors = {
   );
 }
 
-class _ShapesLessonState extends ConsumerState<ShapesLesson> {
+class _ShapesLessonState extends ConsumerState<ShapesLesson>
+    with ActivityTimers<ShapesLesson> {
   static const _rounds = 3;
   final _random = Random();
   int _round = 0;
@@ -133,7 +134,7 @@ class _ShapesLessonState extends ConsumerState<ShapesLesson> {
       _locked = true;
       setState(() => _correct = o);
       feedback.correct(capitalize(_name(o)), randomPraise(l10n, _round));
-      Future.delayed(const Duration(milliseconds: 1500), () {
+      later(const Duration(milliseconds: 1500), () {
         if (!mounted) return;
         if (_round + 1 >= _rounds) {
           finishLesson(context, ref, widget.outcome, l10n.shapesDone);
@@ -152,6 +153,7 @@ class _ShapesLessonState extends ConsumerState<ShapesLesson> {
   Widget build(BuildContext context) {
     ref.listen<LanguageState>(languageControllerProvider, (prev, next) {
       if (prev != null && prev.code != next.code) {
+        cancelLater();
         _round = 0;
         _newRound();
       }

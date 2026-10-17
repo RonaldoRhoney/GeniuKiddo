@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../app/guide_avatar.dart';
+import '../../app/guide_bar.dart';
+import '../../app/shake.dart';
 import '../../app/hold_to_unlock.dart';
 import '../../app/theme.dart';
 import '../../app/top_controls.dart';
@@ -30,19 +31,27 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  /// O que o guia está dizendo (balão = fala, seção 4.2).
+  late String Function(AppLocalizations l10n) _bubble = _welcome;
+  int _schoolShakes = 0;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _speakWelcome());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _say(_bubble);
+    });
   }
 
-  void _speakWelcome() {
-    if (!mounted) return;
-    ref.read(itemFeedbackProvider).speech.speak(_welcome());
+  void _say(String Function(AppLocalizations l10n) text) {
+    setState(() => _bubble = text);
+    ref
+        .read(itemFeedbackProvider)
+        .speech
+        .speak(text(AppLocalizations.of(context)!));
   }
 
-  String _welcome() {
-    final l10n = AppLocalizations.of(context)!;
+  String _welcome(AppLocalizations l10n) {
     return ref.read(languageControllerProvider).isFirstChoice
         ? l10n.welcomeFirst
         : l10n.welcomeBack;
@@ -56,10 +65,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void _openSchool() {
     if (!ref.read(phase2UnlockedProvider)) {
       ref.read(itemFeedbackProvider).sound.play(FeedbackSound.wrong);
-      ref
-          .read(itemFeedbackProvider)
-          .speech
-          .speak(AppLocalizations.of(context)!.homeSchoolLocked);
+      setState(() => _schoolShakes++);
+      _say((l10n) => l10n.homeSchoolLocked);
       return;
     }
     _go(
@@ -73,7 +80,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     ref.listen<LanguageState>(languageControllerProvider, (prev, next) {
       if (prev != null && prev.code != next.code) {
-        WidgetsBinding.instance.addPostFrameCallback((_) => _speakWelcome());
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _say(_bubble);
+        });
       }
     });
     final l10n = AppLocalizations.of(context)!;
@@ -113,36 +122,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                child: Row(
-                  children: [
-                    const GuideAvatar(size: 72),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.card,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Semantics(
-                          liveRegion: true,
-                          child: Text(
-                            _welcome(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              GuideBubbleRow(
+                text: _bubble(l10n),
+                onRepeat: () => _say(_bubble),
+                avatarSize: 72,
               ),
               Expanded(
                 child: ListView(
@@ -160,6 +143,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const SizedBox(height: 14),
                     _HomeCard(
                       key: const ValueKey('btnSchool'),
+                      shakes: _schoolShakes,
                       icon: schoolOpen ? '🏫' : '🔒',
                       title: l10n.trailSchool,
                       color: colors.green,
@@ -195,7 +179,11 @@ class _HomeCard extends StatelessWidget {
     this.subtitle,
     this.locked = false,
     this.darkText = false,
+    this.shakes = 0,
   });
+
+  /// Toques com o cartão trancado (dispara o balanço).
+  final int shakes;
 
   final String icon;
   final String title;
@@ -211,47 +199,50 @@ class _HomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textColor = darkText ? const Color(0xFF2B2D42) : Colors.white;
-    return Opacity(
-      opacity: locked ? .5 : 1,
-      child: Material(
-        color: color,
-        borderRadius: BorderRadius.circular(32),
-        child: InkWell(
+    return Shake(
+      trigger: shakes,
+      child: Opacity(
+        opacity: locked ? .5 : 1,
+        child: Material(
+          color: color,
           borderRadius: BorderRadius.circular(32),
-          onTap: onTap,
-          child: Container(
-            constraints: const BoxConstraints(minHeight: 120),
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-            child: Row(
-              children: [
-                Text(icon, style: const TextStyle(fontSize: 52)),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w800,
-                          color: textColor,
-                        ),
-                      ),
-                      if (subtitle != null)
+          child: InkWell(
+            borderRadius: BorderRadius.circular(32),
+            onTap: onTap,
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 120),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+              child: Row(
+                children: [
+                  Text(icon, style: const TextStyle(fontSize: 52)),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                         Text(
-                          subtitle!,
+                          title,
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: textColor.withValues(alpha: .8),
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                            color: textColor,
                           ),
                         ),
-                    ],
+                        if (subtitle != null)
+                          Text(
+                            subtitle!,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: textColor.withValues(alpha: .8),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

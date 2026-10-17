@@ -51,7 +51,8 @@ class CountLesson extends ConsumerStatefulWidget {
   return (n: n, options: options);
 }
 
-class _CountLessonState extends ConsumerState<CountLesson> {
+class _CountLessonState extends ConsumerState<CountLesson>
+    with ActivityTimers<CountLesson> {
   static const _rounds = 3;
   final _random = Random();
   int _round = 0;
@@ -65,6 +66,9 @@ class _CountLessonState extends ConsumerState<CountLesson> {
   bool _grown = false;
   bool _locked = false;
   int? _correct;
+
+  /// Dica (RT-03): depois de um toque fora, o número certo ganha contorno.
+  int? _hint;
 
   @override
   void initState() {
@@ -83,6 +87,7 @@ class _CountLessonState extends ConsumerState<CountLesson> {
       _grown = false;
       _locked = false;
       _correct = null;
+      _hint = null;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -99,7 +104,12 @@ class _CountLessonState extends ConsumerState<CountLesson> {
   }
 
   void _tapPlant(int i) {
-    if (_locked || _countedAt[i] != 0) return;
+    if (_locked) return;
+    if (_countedAt[i] != 0) {
+      // Já contada: responde mesmo assim (4.6), repetindo o número dela.
+      ref.read(itemFeedbackProvider).nameOnly(_word(_countedAt[i]));
+      return;
+    }
     setState(() {
       _counted++;
       _countedAt = [..._countedAt]..[i] = _counted;
@@ -120,7 +130,7 @@ class _CountLessonState extends ConsumerState<CountLesson> {
         _grown = true;
       });
       feedback.correct(_word(k), randomPraise(l10n, _round + k));
-      Future.delayed(const Duration(milliseconds: 1800), () {
+      later(const Duration(milliseconds: 1800), () {
         if (!mounted) return;
         if (_round + 1 >= _rounds) {
           finishLesson(context, ref, widget.outcome, l10n.countDone);
@@ -131,6 +141,7 @@ class _CountLessonState extends ConsumerState<CountLesson> {
       });
     } else {
       feedback.wrong(_word(k), l10n.countRetry);
+      setState(() => _hint = _n);
     }
   }
 
@@ -138,6 +149,7 @@ class _CountLessonState extends ConsumerState<CountLesson> {
   Widget build(BuildContext context) {
     ref.listen<LanguageState>(languageControllerProvider, (prev, next) {
       if (prev != null && prev.code != next.code) {
+        cancelLater();
         _round = 0;
         _newRound();
       }
@@ -226,6 +238,7 @@ class _CountLessonState extends ConsumerState<CountLesson> {
                         key: ValueKey('count_$k'),
                         semanticLabel: _word(k),
                         correct: k == _correct,
+                        highlighted: k == _hint,
                         onTap: () => _tapOption(k),
                         child: Text(
                           '$k',
