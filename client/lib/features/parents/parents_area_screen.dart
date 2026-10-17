@@ -9,6 +9,7 @@ import '../../core/break_controller.dart';
 import '../../core/item_feedback.dart';
 import '../../core/language_controller.dart';
 import '../../core/persistence_service.dart';
+import '../../core/supported_languages.dart';
 import '../../core/theme_controller.dart';
 import '../../core/tts_speech_port.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -16,10 +17,10 @@ import '../school/school_controller.dart';
 import '../school/school_texts.dart';
 import '../trail/trail_controller.dart';
 
-/// Área dos pais (seção 4.7), atrás do portão (`HoldToUnlock`). Conteúdo
-/// comum a todas as fases: idioma, som e voz (tom + seleção manual + botão
-/// de teste), pausa sugerida, progresso, aparência e resumo de privacidade.
-/// "Série da criança" (Fase 2) entra só quando a Fase 2 existir.
+/// Área dos pais (seção 4.7), atrás do portão (`HoldToUnlock`): idioma;
+/// música e voz (liga/desliga, tom, escolha da voz e teste); pausa
+/// sugerida; Escolinha (liberar e série da criança); progresso (com
+/// "liberar todas as etapas"); aparência; privacidade; sair do app.
 class ParentsAreaScreen extends ConsumerStatefulWidget {
   const ParentsAreaScreen({super.key});
 
@@ -33,22 +34,44 @@ const _breakOptions = [0, 5, 10, 15, 20];
 class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
   late String _tone = ref.read(persistenceServiceProvider).voiceTone;
   late int _breakMinutes = ref.read(persistenceServiceProvider).breakMinutes;
+  late bool _voiceOn = ref.read(persistenceServiceProvider).voiceEnabled;
   List<Map<Object?, Object?>> _voices = const [];
   String? _voiceName;
+
+  String get _languageCode =>
+      ref.read(languageControllerProvider).code ??
+      supportedLanguages.first.code;
 
   @override
   void initState() {
     super.initState();
-    final languageCode = ref.read(languageControllerProvider).code ?? 'pt';
+    _loadVoices();
+  }
+
+  /// Vozes do idioma ATUAL — recarregadas quando o idioma muda aqui mesmo
+  /// pela pílula, pra nunca gravar uma voz de um idioma no outro.
+  void _loadVoices() {
+    final languageCode = _languageCode;
     _voiceName = ref
         .read(persistenceServiceProvider)
         .voiceNameFor(languageCode);
+    _voices = const [];
     final speech = ref.read(speechPortProvider);
     if (speech is TtsSpeechPort) {
       speech.voicesForCurrentLanguage().then((voices) {
-        if (mounted) setState(() => _voices = voices);
+        if (!mounted || languageCode != _languageCode) return;
+        setState(() {
+          _voices = voices;
+          // Voz salva que sumiu do aparelho: volta pro automático.
+          if (!voices.any((v) => v['name'] == _voiceName)) _voiceName = null;
+        });
       });
     }
+  }
+
+  void _setVoiceOn(bool on) {
+    setState(() => _voiceOn = on);
+    ref.read(persistenceServiceProvider).setVoiceEnabled(on);
   }
 
   void _setTone(String tone) {
@@ -58,8 +81,7 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
 
   void _setVoiceName(String? name) {
     setState(() => _voiceName = name);
-    final languageCode = ref.read(languageControllerProvider).code ?? 'pt';
-    ref.read(persistenceServiceProvider).setVoiceNameFor(languageCode, name);
+    ref.read(persistenceServiceProvider).setVoiceNameFor(_languageCode, name);
   }
 
   void _setBreakMinutes(int minutes) {
@@ -71,6 +93,9 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<LanguageState>(languageControllerProvider, (prev, next) {
+      if (prev != null && prev.code != next.code) setState(_loadVoices);
+    });
     final l10n = AppLocalizations.of(context)!;
     final colors = AppColors.of(context);
     final trail = ref.watch(trailControllerProvider);
@@ -114,6 +139,21 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
                     ),
                     const Spacer(),
                     const MusicToggleButton(),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.parentsVoiceOnLabel,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    Switch(
+                      key: const ValueKey('voiceOn'),
+                      value: _voiceOn,
+                      onChanged: _setVoiceOn,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -202,6 +242,24 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(l10n.parentsProgressStars(trail.stars)),
+                if (trail.done < content.trail.length) ...[
+                  const SizedBox(height: 10),
+                  Text(
+                    l10n.parentsUnlockTrailHint,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    height: 48,
+                    child: OutlinedButton(
+                      key: const ValueKey('unlockTrail'),
+                      onPressed: () => ref
+                          .read(trailControllerProvider.notifier)
+                          .unlockAll(content.trail.length),
+                      child: Text(l10n.parentsUnlockTrail),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

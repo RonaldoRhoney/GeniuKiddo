@@ -293,5 +293,10 @@
   "@repeatButton": {"description": "Rótulo (leitor de tela) do botão 🔊 que repete a fala do guia"},
 
   "spaceIntro": "{name}! {desc}",
-  "@spaceIntro": {"description": "Fala ao abrir um espaço da escola: nome + descrição", "placeholders": {"name": {"type": "String"}, "desc": {"type": "String"}}}
+  "@spaceIntro": {"description": "Fala ao abrir um espaço da escola: nome + descrição", "placeholders": {"name": {"type": "String"}, "desc": {"type": "String"}}},
+
+  "parentsVoiceOnLabel": "Voz do guia ligada",
+  "parentsUnlockTrail": "Liberar todas as etapas da trilha",
+  "@parentsUnlockTrail": {"description": "RF-FASE-03 / 4.7: atalho de progresso dos pais"},
+  "parentsUnlockTrailHint": "Libera as etapas sem dar estrelas; a criança pode jogar em qualquer ordem."
 }

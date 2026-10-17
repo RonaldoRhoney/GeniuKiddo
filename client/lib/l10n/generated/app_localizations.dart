@@ -1417,6 +1417,24 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'{name}! {desc}'**
   String spaceIntro(String name, String desc);
+
+  /// No description provided for @parentsVoiceOnLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Voz do guia ligada'**
+  String get parentsVoiceOnLabel;
+
+  /// RF-FASE-03 / 4.7: atalho de progresso dos pais
+  ///
+  /// In pt, this message translates to:
+  /// **'Liberar todas as etapas da trilha'**
+  String get parentsUnlockTrail;
+
+  /// No description provided for @parentsUnlockTrailHint.
+  ///
+  /// In pt, this message translates to:
+  /// **'Libera as etapas sem dar estrelas; a criança pode jogar em qualquer ordem.'**
+  String get parentsUnlockTrailHint;
 }
 
 class _AppLocalizationsDelegate

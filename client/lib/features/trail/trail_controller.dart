@@ -32,6 +32,14 @@ class TrailController extends Notifier<TrailState> {
     return TrailNodeStatus.locked;
   }
 
+  /// RF-FASE-03 / 4.7: os pais liberam todas as etapas de uma vez, sem
+  /// estrela (estrela só vem de concluir de verdade, seção 5.2).
+  Future<void> unlockAll(int total) async {
+    if (state.done >= total) return;
+    await ref.read(persistenceServiceProvider).setTrailDone(total);
+    state = state.copyWith(done: total);
+  }
+
   /// Retorna `true` quando foi a primeira conclusão desta etapa (pra tela
   /// de celebração decidir se mostra "+1").
   Future<bool> complete(int index) async {

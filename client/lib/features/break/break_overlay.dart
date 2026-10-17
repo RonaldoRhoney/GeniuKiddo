@@ -35,50 +35,48 @@ class _BreakOverlayState extends ConsumerState<BreakOverlay> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final colors = AppColors.of(context);
-    return PopScope(
-      canPop: false,
-      child: Material(
-        color: const Color(0xE61D1A3A),
-        child: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 340),
-            margin: const EdgeInsets.all(24),
-            padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
-            decoration: BoxDecoration(
-              color: colors.card,
-              borderRadius: BorderRadius.circular(36),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('😴', style: TextStyle(fontSize: 72)),
-                const SizedBox(height: 10),
-                Text(
-                  l10n.breakMessage,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 19,
-                  ),
+    // O voltar do Android é segurado em `GeniusKiddoApp.didPopRoute`.
+    return Material(
+      color: const Color(0xE61D1A3A),
+      child: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 340),
+          margin: const EdgeInsets.all(24),
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
+          decoration: BoxDecoration(
+            color: colors.card,
+            borderRadius: BorderRadius.circular(36),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('😴', style: TextStyle(fontSize: 72)),
+              const SizedBox(height: 10),
+              Text(
+                l10n.breakMessage,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19,
                 ),
-                const SizedBox(height: 26),
-                HoldToUnlock(
-                  size: 56,
-                  semanticLabel: l10n.parentGateLabel,
-                  onUnlock: () =>
-                      ref.read(breakControllerProvider.notifier).dismiss(),
+              ),
+              const SizedBox(height: 26),
+              HoldToUnlock(
+                size: 56,
+                semanticLabel: l10n.parentGateLabel,
+                onUnlock: () =>
+                    ref.read(breakControllerProvider.notifier).dismiss(),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                l10n.breakHoldHint,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: colors.ink.withValues(alpha: .6),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.breakHoldHint,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: colors.ink.withValues(alpha: .6),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

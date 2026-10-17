@@ -143,4 +143,20 @@ void main() {
       expect(find.byType(BreakOverlay), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'seção 4.8: com a pausa aberta, o voltar do Android não navega por baixo dela',
+    (tester) async {
+      await pumpAppAtTrail(tester, extraPrefs: _oneMinute);
+      await tester.pump(const Duration(minutes: 1));
+      await tester.pump();
+      expect(find.byType(BreakOverlay), findsOneWidget);
+
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+      // Continua na trilha, com a pausa por cima.
+      expect(find.byKey(const ValueKey('trailHome')), findsOneWidget);
+      expect(find.byType(BreakOverlay), findsOneWidget);
+    },
+  );
 }

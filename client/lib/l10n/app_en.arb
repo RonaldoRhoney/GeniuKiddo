@@ -219,5 +219,9 @@
 
   "repeatButton": "Hear it again",
 
-  "spaceIntro": "{name}! {desc}"
+  "spaceIntro": "{name}! {desc}",
+
+  "parentsVoiceOnLabel": "Guide voice on",
+  "parentsUnlockTrail": "Unlock all trail steps",
+  "parentsUnlockTrailHint": "Unlocks the steps without giving stars; the child can play in any order."
 }

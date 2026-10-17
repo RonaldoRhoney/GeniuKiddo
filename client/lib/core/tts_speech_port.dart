@@ -68,7 +68,9 @@ class TtsSpeechPort implements SpeechPort {
     final persistence = _ref.read(persistenceServiceProvider);
     if (!persistence.voiceEnabled) return;
 
-    final languageCode = _ref.read(languageControllerProvider).code ?? 'pt';
+    final languageCode =
+        _ref.read(languageControllerProvider).code ??
+        supportedLanguages.first.code;
     final locale = languageFor(languageCode).ttsLocale;
 
     final tone = _tones[persistence.voiceTone] ?? _tones['fofa']!;
@@ -114,41 +116,19 @@ class TtsSpeechPort implements SpeechPort {
     });
   }
 
-  /// Seção 4.3: "seleção automática... preferência por vozes femininas,
-  /// claras e jovens" — mesma lista curada dos protótipos HTML.
-  ///
-  /// Android (motor do Google): as vozes padrão do motor, versão offline —
-  /// "afs" pra pt-BR e "sfg" pra en-US (as do protótipo não existem lá).
-  static const _preferredNames = {
-    'pt-BR': [
-      'pt-br-x-afs-local',
-      'Luciana',
-      'Google português do Brasil',
-      'Francisca',
-      'Maria',
-      'Fernanda',
-      'Vitória',
-      'Camila',
-    ],
-    'en-US': [
-      'en-us-x-sfg-local',
-      'Samantha',
-      'Kathy',
-      'Ava',
-      'Allison',
-      'Google US English',
-      'Aria',
-      'Jenny',
-      'Zira',
-      'Susan',
-    ],
-  };
-
   Map<Object?, Object?>? _bestAutomaticVoice(
     List<Map<Object?, Object?>> voices,
     String locale,
   ) {
-    for (final preferred in _preferredNames[locale] ?? const []) {
+    // Seção 4.3: preferência por vozes femininas, claras e jovens — a lista
+    // fica em cada idioma (`SupportedLanguage.preferredVoices`).
+    final preferredNames = supportedLanguages
+        .firstWhere(
+          (l) => l.ttsLocale == locale,
+          orElse: () => supportedLanguages.first,
+        )
+        .preferredVoices;
+    for (final preferred in preferredNames) {
       final match = voices
           .where((v) => (v['name'] as String? ?? '').contains(preferred))
           .firstOrNull;
@@ -196,7 +176,9 @@ class TtsSpeechPort implements SpeechPort {
   /// Exposto pra área dos pais (M4) listar e escolher a voz manualmente —
   /// mesma ideia do seletor de voz com botão "Testar a voz" dos protótipos.
   Future<List<Map<Object?, Object?>>> voicesForCurrentLanguage() async {
-    final languageCode = _ref.read(languageControllerProvider).code ?? 'pt';
+    final languageCode =
+        _ref.read(languageControllerProvider).code ??
+        supportedLanguages.first.code;
     final locale = languageFor(languageCode).ttsLocale;
     return _voicesFor(locale);
   }

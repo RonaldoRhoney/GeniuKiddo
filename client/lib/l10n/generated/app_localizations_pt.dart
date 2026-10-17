@@ -787,4 +787,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String spaceIntro(String name, String desc) {
     return '$name! $desc';
   }
+
+  @override
+  String get parentsVoiceOnLabel => 'Voz do guia ligada';
+
+  @override
+  String get parentsUnlockTrail => 'Liberar todas as etapas da trilha';
+
+  @override
+  String get parentsUnlockTrailHint =>
+      'Libera as etapas sem dar estrelas; a criança pode jogar em qualquer ordem.';
 }

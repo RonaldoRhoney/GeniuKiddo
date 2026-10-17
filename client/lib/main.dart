@@ -10,6 +10,7 @@ import 'core/break_controller.dart';
 import 'core/item_feedback.dart';
 import 'core/language_controller.dart';
 import 'core/persistence_service.dart';
+import 'core/supported_languages.dart';
 import 'core/theme_controller.dart';
 import 'core/tts_speech_port.dart';
 import 'features/break/break_overlay.dart';
@@ -59,6 +60,12 @@ class _GeniusKiddoAppState extends ConsumerState<GeniusKiddoApp>
     super.dispose();
   }
 
+  /// Seção 4.8: com a pausa aberta, o voltar do Android não faz nada — a
+  /// sobreposição fica fora do Navigator, então sem isto o voltar
+  /// navegaria pelas telas por baixo dela. Só o portão fecha a pausa.
+  @override
+  Future<bool> didPopRoute() async => ref.read(breakControllerProvider);
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // Seção 4.4: "pausar tudo quando o app vai para segundo plano; retomar
@@ -90,7 +97,7 @@ class _GeniusKiddoAppState extends ConsumerState<GeniusKiddoApp>
       theme: buildAppTheme(Brightness.light),
       darkTheme: buildAppTheme(Brightness.dark),
       themeMode: themeMode,
-      locale: Locale(code ?? 'pt'),
+      locale: Locale(code ?? supportedLanguages.first.code),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: const SplashScreen(),
