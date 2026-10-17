@@ -610,5 +610,9 @@
   "parentsPrivacyFullPolicy": "Política completa:",
   "parentsPrivacyCopy": "Copiar endereço",
   "parentsPrivacyCopied": "Endereço copiado",
-  "parentsPrivacyContact": "Contato:"
+  "parentsPrivacyContact": "Contato:",
+  "parentsHoldHintShort": "Segure 2 s",
+  "@parentsHoldHintShort": {
+    "description": "Dica no botão quadrado \"🔒 Pais\" após um toque rápido"
+  }
 }

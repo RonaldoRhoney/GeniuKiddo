@@ -1579,6 +1579,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Contato:'**
   String get parentsPrivacyContact;
+
+  /// Dica no botão quadrado "🔒 Pais" após um toque rápido
+  ///
+  /// In pt, this message translates to:
+  /// **'Segure 2 s'**
+  String get parentsHoldHintShort;
 }
 
 class _AppLocalizationsDelegate

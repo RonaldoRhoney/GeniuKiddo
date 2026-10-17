@@ -853,4 +853,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get parentsPrivacyContact => 'Contact:';
+
+  @override
+  String get parentsHoldHintShort => 'Hold 2 s';
 }

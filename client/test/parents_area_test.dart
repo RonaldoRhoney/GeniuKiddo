@@ -44,7 +44,7 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('parentsEntry')));
       await tester.pump();
       expect(find.byType(ParentsAreaScreen), findsNothing);
-      expect(find.text('Segure para abrir'), findsOneWidget);
+      expect(find.text('Segure 2 s'), findsOneWidget);
       await tester.pump(const Duration(seconds: 3));
       expect(find.text('Pais'), findsOneWidget);
     },

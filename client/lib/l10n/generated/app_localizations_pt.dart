@@ -879,4 +879,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get parentsPrivacyContact => 'Contato:';
+
+  @override
+  String get parentsHoldHintShort => 'Segure 2 s';
 }

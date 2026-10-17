@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/guide_bar.dart';
 import '../../app/shake.dart';
+import '../../app/stars_pill.dart';
 import '../../app/hold_to_unlock.dart';
 import '../../app/theme.dart';
 import '../../app/top_controls.dart';
@@ -162,30 +163,6 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: colors.card,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        const Text('⭐', style: TextStyle(fontSize: 20)),
-                        const SizedBox(width: 6),
-                        Text(
-                          '${trail.stars}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 8),
                   // Em telas estreitas os controles encolhem o mínimo
                   // necessário — nunca empurram o cadeado (4.7) pra fora.
                   const Expanded(
@@ -198,9 +175,10 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
                   const SizedBox(width: 8),
                   HoldToUnlock(
                     key: const ValueKey('parentsEntry'),
-                    semanticLabel: l10n.parentGateLabel,
+                    semanticLabel:
+                        '${l10n.parentGateLabel}. ${l10n.parentsHoldHint}',
                     label: l10n.parentsEntry,
-                    hint: l10n.parentsHoldHint,
+                    hint: l10n.parentsHoldHintShort,
                     onUnlock: () => Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => const ParentsAreaScreen(),
@@ -212,33 +190,47 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
             ),
             GuideBubbleRow(text: _bubble(l10n), onRepeat: () => _say(_bubble)),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                itemCount: content.trail.length,
-                itemBuilder: (context, index) {
-                  final node = content.trail[index];
-                  final status = ref
-                      .watch(trailControllerProvider.notifier)
-                      .statusOf(index);
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Align(
-                      alignment: index.isOdd
-                          ? Alignment.centerRight
-                          : (index % 4 == 2
-                                ? Alignment.centerLeft
-                                : Alignment.center),
-                      child: _TrailNode(
-                        key: ValueKey('trailNode_$index'),
-                        shakes: _shakes[index] ?? 0,
-                        title: trailNodeTitle(l10n, node.id),
-                        icon: _activityIcons[node.type]!,
-                        status: status,
-                        onTap: () => _openNode(index, node),
-                      ),
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                      itemCount: content.trail.length,
+                      itemBuilder: (context, index) {
+                        final node = content.trail[index];
+                        final status = ref
+                            .watch(trailControllerProvider.notifier)
+                            .statusOf(index);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Align(
+                            alignment: index.isOdd
+                                ? Alignment.centerRight
+                                : (index % 4 == 2
+                                      ? Alignment.centerLeft
+                                      : Alignment.center),
+                            child: _TrailNode(
+                              key: ValueKey('trailNode_$index'),
+                              shakes: _shakes[index] ?? 0,
+                              title: trailNodeTitle(l10n, node.id),
+                              icon: _activityIcons[node.type]!,
+                              status: status,
+                              onTap: () => _openNode(index, node),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                  Positioned(
+                    top: 4,
+                    right: 16,
+                    child: StarsPill(
+                      key: const ValueKey('trailStars'),
+                      stars: trail.stars,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

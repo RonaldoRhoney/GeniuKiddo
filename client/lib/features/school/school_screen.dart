@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/guide_bar.dart';
 import '../../app/hold_to_unlock.dart';
+import '../../app/stars_pill.dart';
 import '../../app/theme.dart';
 import '../../app/top_controls.dart';
 import '../../content/content_repository.dart';
@@ -259,8 +260,6 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   const SizedBox(width: 8),
-                  _StarsPill(stars: state.stars),
-                  const SizedBox(width: 8),
                   const Expanded(
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
@@ -271,9 +270,10 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                   const SizedBox(width: 8),
                   HoldToUnlock(
                     key: const ValueKey('parentsEntry'),
-                    semanticLabel: l10n.parentGateLabel,
+                    semanticLabel:
+                        '${l10n.parentGateLabel}. ${l10n.parentsHoldHint}',
                     label: l10n.parentsEntry,
-                    hint: l10n.parentsHoldHint,
+                    hint: l10n.parentsHoldHintShort,
                     onUnlock: () => Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => const ParentsAreaScreen(),
@@ -314,6 +314,14 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                       worldChildren: const [
                         Positioned.fill(child: WorldLife()),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    left: 12,
+                    child: StarsPill(
+                      key: const ValueKey('schoolStars'),
+                      stars: state.stars,
                     ),
                   ),
                   Positioned(
@@ -381,36 +389,6 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _StarsPill extends StatelessWidget {
-  const _StarsPill({required this.stars});
-
-  final int stars;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = AppColors.of(context);
-    return Container(
-      key: const ValueKey('schoolStars'),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      decoration: BoxDecoration(
-        color: colors.card,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text('⭐', style: TextStyle(fontSize: 20)),
-          const SizedBox(width: 6),
-          Text(
-            '$stars',
-            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
-          ),
-        ],
       ),
     );
   }

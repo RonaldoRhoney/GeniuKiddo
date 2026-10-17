@@ -270,5 +270,6 @@
   "parentsPrivacyFullPolicy": "Full policy:",
   "parentsPrivacyCopy": "Copy address",
   "parentsPrivacyCopied": "Address copied",
-  "parentsPrivacyContact": "Contact:"
+  "parentsPrivacyContact": "Contact:",
+  "parentsHoldHintShort": "Hold 2 s"
 }

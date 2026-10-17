@@ -117,13 +117,14 @@ class _HoldToUnlockState extends State<HoldToUnlock>
   }
 
   Widget _pill(AppColors colors) {
-    // Largura fixa: mostrar a dica não pode empurrar os outros botões.
+    // Quadrado de 64 dp, do tamanho dos outros botões do topo: cadeado e o
+    // texto embaixo; enche de baixo pra cima enquanto o adulto segura.
     return Container(
+      width: 64,
       height: 64,
-      width: 108,
       decoration: BoxDecoration(
         color: colors.card,
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: colors.purple.withValues(alpha: .5),
           width: 2,
@@ -135,40 +136,33 @@ class _HoldToUnlockState extends State<HoldToUnlock>
         builder: (context, child) => Stack(
           alignment: Alignment.center,
           children: [
-            // Enche da esquerda pra direita enquanto o adulto segura.
             Positioned.fill(
               child: FractionallySizedBox(
-                alignment: Alignment.centerLeft,
-                widthFactor: _controller.value,
+                alignment: Alignment.bottomCenter,
+                heightFactor: _controller.value,
                 child: ColoredBox(color: colors.purple.withValues(alpha: .35)),
               ),
             ),
             child!,
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(widget.icon, size: 22, color: colors.ink),
-              const SizedBox(width: 6),
-              Flexible(
-                child: Text(
-                  _showHint ? widget.hint! : widget.label!,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: _showHint ? 12 : 17,
-                    height: 1.1,
-                    color: colors.ink,
-                  ),
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(widget.icon, size: 24, color: colors.ink),
+            const SizedBox(height: 2),
+            Text(
+              _showHint ? widget.hint! : widget.label!,
+              maxLines: 1,
+              overflow: TextOverflow.visible,
+              softWrap: false,
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: _showHint ? 10 : 13,
+                color: colors.ink,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
