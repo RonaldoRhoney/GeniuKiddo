@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Versão** | 1.2 (atualizada por solicitação do Rhoney) |
+| **Versão** | 1.3 (atualizada por solicitação do Rhoney) |
 | **Data** | 16/10/2026 |
 | **Responsável** | Rhoney (Ronaldo Martins), RhoneyInc |
 | **Destinatário** | Claude Code (implementação) |
@@ -20,6 +20,7 @@
 | 1.0 | 13/10/2026 | Primeira versão formal consolidada (histórico, restrições, Fases 1 a 3, regras transversais, arquitetura, conformidade, roadmap) |
 | 1.1 | 14/10/2026 | **Rabisco livre** ganha botão ✓ de conclusão (RF-06, RT-08, seção 6.10). **Fase 3 detalhada** (seção 8): subfases 3A e 3B, identidade e consentimento, tarefas do professor, ajuda entre alunos, custo, dados e retenção. Roadmap com M10 e M11. ADR 014 e 015 |
 | 1.2 | 16/10/2026 | **Liberação em ordem** dentro de cada fase (RT-09, seção 4.12): na escola, espaços, aulas e objetivos abrem um de cada vez (seções 6.6 e 6.7, Anexo B). **RF-FASE-02** definido para a Fase 2 (libera ao concluir as 8 etapas). Decisões do M5: estrelas da escola separadas das da trilha, escolha da série atrás do portão, entrada 🏫 na trilha. **Voz** em pt-BR só com voz da região exata e sem internet (seção 4.3). **Estrutura para novos idiomas** (seções 4.5 e 10). Frases novas no Anexo C. ADR 016 e 017 |
+| 1.3 | 16/10/2026 | **Menu inicial** (seção 5.1): nova raiz da navegação, com Trilha, Escolinha e Rabisco livre; trilha e escola ganham 🏠 para voltar a ele. **Sair do app** na área dos pais, atrás do portão (seção 4.7). Botão voltar do Android detalhado (seção 4.10). Entrada da Escolinha passa da trilha para o menu (RF-FASE-02) |
 
 ---
 
@@ -108,7 +109,7 @@
 ### 3.1 Liberação sequencial (RF-FASE)
 - **RF-FASE-01 — A Fase N+1 só é liberada depois que a criança passa pela Fase N.** A regra vale para as fases atuais e futuras ("e assim sucessivamente").
 - **RF-FASE-02 — Critério de liberação.** O critério é por **participação**, não por desempenho.
-  - **Fase 2 [DEFINIDO]:** libera ao concluir as 8 etapas da Fase 1. A partir daí, a trilha mostra o botão **🏫 Escolinha** ao lado do Rabisco livre; as duas fases continuam acessíveis (a escola tem 🏠 para voltar à trilha).
+  - **Fase 2 [DEFINIDO]:** libera ao concluir as 8 etapas da Fase 1. Antes disso, o cartão **🏫 Escolinha** do menu inicial (seção 5.1) aparece apagado com 🔒, e tocar nele gera a fala "A Escolinha abre quando você terminar a trilha!". Depois de liberada, as duas fases continuam acessíveis pelo menu.
   - **Fase 3 [PENDENTE]:** proposta de partida, sujeita à confirmação: libera ao concluir a Fase 2 até o primeiro "passar de ano" (Maternal).
 - **RF-FASE-03 — Os pais podem liberar manualmente** uma fase na área dos pais (atrás do portão), como já ocorre com "liberar todas as etapas".
 - **RF-FASE-04 — A Fase 3 exige, em qualquer caso, o consentimento dos pais** (seção 8), independentemente de a criança já ter passado pela Fase 2.
@@ -172,8 +173,8 @@ Um gênio simpático e amigável (turbante amarelo com joia coral, corpo roxo, c
 
 ### 4.7 Área dos pais e portão
 - **Portão:** botão que exige **segurar por 2 segundos** (a criança pequena não consegue). Cadeado pequeno no canto da tela, de propósito.
-- Conteúdo comum a todas as fases: idioma; música e voz; **tom e escolha da voz** com botão de teste; **pausa para descansar**; progresso; aparência (automático, claro, escuro); resumo de privacidade em linguagem simples; link para política de privacidade e termos (abre fora do app, só após o portão).
-- Fase 2 acrescenta: **série da criança** (com troca posterior) e atalhos de progresso.
+- Conteúdo comum a todas as fases: idioma; música e voz; **tom e escolha da voz** com botão de teste; **pausa para descansar**; progresso; aparência (automático, claro, escuro); resumo de privacidade em linguagem simples; link para política de privacidade e termos (abre fora do app, só após o portão); **Sair do app** (fecha o app; o progresso fica salvo). É o único jeito de fechar o app por dentro, para a criança não sair sem querer (seção 4.10).
+- Fase 2 acrescenta: **série da criança** (com troca posterior), **liberar a Escolinha** antes de a trilha terminar (RF-FASE-03) e atalhos de progresso.
 
 ### 4.8 Pausa sugerida
 Após o tempo configurado de uso contínuo (desligada, 5, 10, **15 padrão** ou 20 min), uma sobreposição com 😴 e a fala "Hora de descansar os olhinhos! Vamos beber água?". Só continua com o portão de segurar (pais). Se uma celebração estiver aberta, adiar a pausa. Implementada no protótipo da Fase 1; **obrigatória no app final** para todas as fases (alinha com a exigência de ferramentas de limite de tempo do ECA Digital).
@@ -184,7 +185,7 @@ Salvar localmente, sem dado pessoal: idioma, música, voz, tom, vozes escolhidas
 ### 4.10 Acessibilidade e segurança da criança
 - Alvos de toque grandes (≥ 64 dp na área da criança; ≥ 44 dp nos pais).
 - Contraste AA nos textos dos pais; **nunca informar só por cor** (nomes das cores falados e escritos); rótulos semânticos; respeitar "reduzir movimento".
-- Tratar o botão voltar do Android: volta para a tela anterior, não fecha o app. Links externos só após o portão.
+- Tratar o botão voltar do Android: volta para a tela anterior (de uma atividade para a trilha ou a escola; da trilha ou da escola para o menu inicial). **No menu inicial, o voltar não fecha o app.** Sair do app só pela área dos pais, atrás do portão (seção 4.7). Links externos só após o portão.
 
 ### 4.11 Atividades livres: conclusão explícita (RT-08)
 - **RT-08 — Toda atividade livre (sem objetivo definido, como o rabisco livre) precisa de um botão de conclusão ✓ claro**, grande, verde, no mesmo estilo dos demais botões de conclusão, para a criança saber como "terminar" e seguir.
@@ -208,12 +209,19 @@ Salvar localmente, sem dado pessoal: idioma, música, voz, tom, vozes escolhidas
 ```
 Splash ("Toque para começar")
   └─ Escolha de idioma (só na 1ª vez)
-       └─ Trilha
-            ├─ Atividade (pintar | traçar | ouvir | associar | falar)
-            ├─ Rabisco livre
-            └─ Portão dos pais → Área dos pais
+       └─ Menu inicial (raiz)
+            ├─ 🗺️ Trilha (Fase 1) ── 🏠 volta ao menu
+            │    └─ Atividade (pintar | traçar | ouvir | associar | falar)
+            ├─ 🏫 Escolinha (Fase 2; 🔒 até liberar, RF-FASE-02) ── 🏠 volta ao menu
+            │    ├─ Escolha da série (1ª entrada, atrás do portão)
+            │    └─ Aula do espaço
+            ├─ 🖍️ Rabisco livre (sempre liberado, RT-08)
+            └─ Portão dos pais → Área dos pais (inclui "Sair do app")
+Portão dos pais também no canto da trilha e da escola.
 Sobreposições: Celebração · Pausa para descansar
 ```
+
+**Menu inicial.** É a raiz da navegação depois da abertura: o guia dá as boas-vindas ("Oi! Eu sou o Kiddo!" na 1ª vez, "Oi! Que bom te ver!" depois) e cada fase é um cartão grande, com ícone, nome e, na Trilha, o progresso ("8 de 8"). As fases futuras aparecem no menu com 🔒 até serem liberadas (RF-FASE-01 e RT-09). No topo ficam a pílula de idioma, a música, a aparência e o cadeado dos pais. Na trilha, o guia diz "Toque na estrela brilhante!" ou, com a trilha completa, "Você completou a trilha! Quer brincar de novo?".
 
 ### 5.2 Trilha (8 etapas)
 | # | Tipo | Conteúdo |
