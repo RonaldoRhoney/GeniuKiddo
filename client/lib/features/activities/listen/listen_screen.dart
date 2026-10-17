@@ -10,16 +10,16 @@ import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
-import '../../trail/trail_controller.dart';
+import '../activity_outcome.dart';
 import '../activity_shell.dart';
 import '../round_dots.dart';
 
 /// RF-03 — Ouvir e tocar: 3 rodadas, 4 cartões (2x2), pedido falado. Segue
 /// RT-01 a RT-04 via `ItemFeedback`.
 class ListenScreen extends ConsumerStatefulWidget {
-  const ListenScreen({super.key, required this.nodeIndex, required this.items});
+  const ListenScreen({super.key, required this.outcome, required this.items});
 
-  final int nodeIndex;
+  final ActivityOutcome outcome;
   final List<String> items;
 
   @override
@@ -62,11 +62,11 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
     final l10n = AppLocalizations.of(context)!;
     final content = ref.read(contentRepositoryProvider);
     final item = content.item(_targets[_round]);
-    final article = itemArticle(context, item);
+    final gender = itemGender(context, item);
     ref
         .read(itemFeedbackProvider)
         .speech
-        .speak(l10n.listenPrompt(article, itemName(l10n, item.id)));
+        .speak(l10n.listenPrompt(gender, itemName(l10n, item.id)));
   }
 
   void _onTapCard(String id) {
@@ -95,10 +95,7 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
       final tItem = content.item(target);
       feedback.wrong(
         itemName(l10n, content.item(id).id),
-        l10n.listenPrompt(
-          itemArticle(context, tItem),
-          itemName(l10n, tItem.id),
-        ),
+        l10n.listenPrompt(itemGender(context, tItem), itemName(l10n, tItem.id)),
       );
       setState(() => _hintId = target);
     }
@@ -106,15 +103,9 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref
-        .read(trailControllerProvider.notifier)
-        .complete(widget.nodeIndex);
+    final badge = await widget.outcome.complete(ref);
     if (!mounted) return;
-    await showCelebration(
-      context,
-      isFirstCompletion: isFirst,
-      message: l10n.listenDone,
-    );
+    await showCelebration(context, badge: badge, message: l10n.listenDone);
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -128,7 +119,7 @@ class _ListenScreenState extends ConsumerState<ListenScreen> {
     final content = ref.watch(contentRepositoryProvider);
     final target = content.item(_targets[_round]);
     final prompt = l10n.listenPrompt(
-      itemArticle(context, target),
+      itemGender(context, target),
       itemName(l10n, target.id),
     );
     return ActivityShell(

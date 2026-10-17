@@ -2,20 +2,25 @@
 // ou uma etapa é editar `assets/content/*.json`, nunca mudar código de tela.
 
 class ItemDef {
-  const ItemDef({
-    required this.id,
-    required this.emoji,
-    required this.articlePt,
-  });
+  const ItemDef({required this.id, required this.emoji, required this.gender});
 
   final String id;
   final String emoji;
-  final String articlePt;
+
+  /// Gênero gramatical POR IDIOMA ("m"/"f"), porque muda de um idioma pro
+  /// outro (maçã é feminino em pt, masculino em alemão). Idioma sem gênero
+  /// (inglês) simplesmente não aparece aqui. Quem decide o artigo é a
+  /// tradução (mensagens `select` no ARB), nunca o código.
+  final Map<String, String> gender;
+
+  /// "m", "f" ou "other" (idioma sem gênero ou não informado).
+  String genderIn(String languageCode) => gender[languageCode] ?? 'other';
 
   factory ItemDef.fromJson(String id, Map<String, dynamic> json) => ItemDef(
     id: id,
     emoji: json['emoji'] as String,
-    articlePt: json['articlePt'] as String,
+    gender: (json['gender'] as Map<String, dynamic>? ?? const {})
+        .cast<String, String>(),
   );
 }
 

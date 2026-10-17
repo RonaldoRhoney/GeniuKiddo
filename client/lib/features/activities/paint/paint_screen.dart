@@ -9,7 +9,7 @@ import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
-import '../../trail/trail_controller.dart';
+import '../activity_outcome.dart';
 import '../activity_shell.dart';
 import 'paint_art.dart';
 
@@ -17,9 +17,9 @@ import 'paint_art.dart';
 /// cores, toque na região a preenche, concluída quando todas as regiões
 /// forem pintadas, dica (região pisca) após 7s sem interação.
 class PaintScreen extends ConsumerStatefulWidget {
-  const PaintScreen({super.key, required this.nodeIndex, required this.art});
+  const PaintScreen({super.key, required this.outcome, required this.art});
 
-  final int nodeIndex;
+  final ActivityOutcome outcome;
   final String art;
 
   @override
@@ -124,15 +124,9 @@ class _PaintScreenState extends ConsumerState<PaintScreen> {
   Future<void> _finish() async {
     _hintTimer?.cancel();
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref
-        .read(trailControllerProvider.notifier)
-        .complete(widget.nodeIndex);
+    final badge = await widget.outcome.complete(ref);
     if (!mounted) return;
-    await showCelebration(
-      context,
-      isFirstCompletion: isFirst,
-      message: l10n.paintDone,
-    );
+    await showCelebration(context, badge: badge, message: l10n.paintDone);
     if (!mounted) return;
     Navigator.of(context).pop();
   }

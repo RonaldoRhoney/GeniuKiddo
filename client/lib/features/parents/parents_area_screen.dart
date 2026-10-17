@@ -11,6 +11,8 @@ import '../../core/persistence_service.dart';
 import '../../core/theme_controller.dart';
 import '../../core/tts_speech_port.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../school/school_controller.dart';
+import '../school/school_texts.dart';
 import '../trail/trail_controller.dart';
 
 /// Área dos pais (seção 4.7), atrás do portão (`HoldToUnlock`). Conteúdo
@@ -188,6 +190,7 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
               ],
             ),
           ),
+          _Section(title: l10n.parentsSchoolLabel, child: _SchoolSection()),
           _Section(
             title: l10n.parentsProgressLabel,
             child: Column(
@@ -250,6 +253,64 @@ class _ParentsAreaScreenState extends ConsumerState<ParentsAreaScreen> {
     'super' => l10n.parentsVoiceToneSuper,
     _ => l10n.parentsVoiceToneFofa,
   };
+}
+
+/// Seção 4.7 (Fase 2): série da criança, com troca posterior sem apagar o
+/// construído, e RF-FASE-03 (liberar a Escolinha antes da trilha acabar).
+class _SchoolSection extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final unlocked = ref.watch(phase2UnlockedProvider);
+    final school = ref.watch(schoolControllerProvider);
+    final grades = ref.watch(contentRepositoryProvider).school.grades;
+    if (!unlocked) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.parentsSchoolLockedHint),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 48,
+            child: OutlinedButton.icon(
+              key: const ValueKey('unlockSchool'),
+              onPressed: () =>
+                  ref.read(phase2UnlockedProvider.notifier).unlockManually(),
+              icon: const Text('🏫'),
+              label: Text(l10n.parentsUnlockSchool),
+            ),
+          ),
+        ],
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.parentsGradeLabel,
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (var g = 0; g < grades.length; g++)
+              _Chip(
+                label: '${grades[g].icon} ${l10n.gradeName(g)}',
+                selected: school.grade == g,
+                onTap: () =>
+                    ref.read(schoolControllerProvider.notifier).chooseGrade(g),
+              ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(l10n.parentsGradeChangeNote, style: const TextStyle(fontSize: 12)),
+        const SizedBox(height: 8),
+        Text(l10n.parentsSchoolProgress(school.stars, school.medals)),
+      ],
+    );
+  }
 }
 
 class _Section extends StatelessWidget {

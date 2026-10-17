@@ -21,6 +21,22 @@ Path _circle(double cx, double cy, double r) =>
     Path()..addOval(Rect.fromCircle(center: Offset(cx, cy), radius: r));
 
 List<PaintRegion> paintArt(String artId) => switch (artId) {
+  // Ateliê do Maternal (Anexo B: flor, 6 regiões).
+  'flower' => [
+    PaintRegion('sky', () => _rect(0, 0, 300, 220)),
+    PaintRegion('ground', () => _rect(0, 220, 300, 80)),
+    PaintRegion('stem', () => _rect(144, 150, 12, 90)),
+    PaintRegion(
+      'leaf',
+      () => Path()
+        ..moveTo(156, 205)
+        ..quadraticBezierTo(212, 172, 218, 208)
+        ..quadraticBezierTo(182, 228, 156, 205)
+        ..close(),
+    ),
+    PaintRegion('petals', () => _circle(150, 120, 42)),
+    PaintRegion('center', () => _circle(150, 120, 16)),
+  ],
   'garden' => [
     PaintRegion('sky', () => _rect(0, 0, 300, 215)),
     PaintRegion('sun', () => _circle(235, 62, 36)),

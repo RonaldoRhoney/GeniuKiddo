@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// voz/som real (TTS, `just_audio`) entra no M3 — por enquanto os ports usam
 /// um backend mudo (`NoopSpeechPort`/`NoopSoundPort`), trocado depois sem
 /// mudar nenhuma chamada de `ItemFeedback`.
-enum FeedbackSound { correct, wrong, pop, win }
+/// `pad0`–`pad3`: as 4 notas do Pátio (Anexo B).
+enum FeedbackSound { correct, wrong, pop, win, build, pad0, pad1, pad2, pad3 }
 
 abstract class SpeechPort {
   /// `clear: true` = voz dedicada a nomes isolados (RT-01), mais devagar e

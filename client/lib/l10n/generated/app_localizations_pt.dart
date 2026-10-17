@@ -58,6 +58,63 @@ class AppLocalizationsPt extends AppLocalizations {
   String get itemSun => 'sol';
 
   @override
+  String get itemFlower => 'flor';
+
+  @override
+  String get itemMoon => 'lua';
+
+  @override
+  String get itemHouse => 'casa';
+
+  @override
+  String get itemGrape => 'uva';
+
+  @override
+  String get itemFrog => 'sapo';
+
+  @override
+  String get itemDuck => 'pato';
+
+  @override
+  String get itemCow => 'vaca';
+
+  @override
+  String get itemLion => 'leão';
+
+  @override
+  String get itemEgg => 'ovo';
+
+  @override
+  String get itemBee => 'abelha';
+
+  @override
+  String get itemBear => 'urso';
+
+  @override
+  String get itemStrawberry => 'morango';
+
+  @override
+  String get itemOrange => 'laranja';
+
+  @override
+  String get itemWatermelon => 'melancia';
+
+  @override
+  String get itemCarrot => 'cenoura';
+
+  @override
+  String get itemBroccoli => 'brócolis';
+
+  @override
+  String get itemPotato => 'batata';
+
+  @override
+  String get itemLettuce => 'alface';
+
+  @override
+  String get itemOnion => 'cebola';
+
+  @override
   String get colorRed => 'vermelho';
 
   @override
@@ -139,8 +196,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get glyphNameO => 'a letra O';
 
   @override
-  String listenPrompt(String article, String name) {
-    return 'Toque n$article $name!';
+  String listenPrompt(String gender, String name) {
+    String _temp0 = intl.Intl.selectLogic(gender, {
+      'f': 'Toque na $name!',
+      'other': 'Toque no $name!',
+    });
+    return '$_temp0';
   }
 
   @override
@@ -287,4 +348,359 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get parentsPrivacyPolicyPlaceholder =>
       'A política de privacidade completa será publicada junto com o app na loja.';
+
+  @override
+  String get trailSchool => 'Escolinha';
+
+  @override
+  String get gradeGateTitle => 'Para os pais';
+
+  @override
+  String get gradeGateHint =>
+      'Segure o cadeado para escolher a série da criança.';
+
+  @override
+  String get gradeChoiceTitle => 'Qual é a série?';
+
+  @override
+  String get gradeChoiceSubtitle =>
+      'Escolha a série da criança. Dá para mudar depois na área dos pais.';
+
+  @override
+  String get gradeName0 => 'Maternal';
+
+  @override
+  String get gradeName1 => 'Pré I';
+
+  @override
+  String get gradeName2 => 'Pré II';
+
+  @override
+  String gradeAge(int age) {
+    return '$age anos';
+  }
+
+  @override
+  String get spaceName_sala => 'Sala de aula';
+
+  @override
+  String get spaceDesc_sala => 'Aqui aprendemos as formas e as cores!';
+
+  @override
+  String get spaceName_horta => 'Horta';
+
+  @override
+  String get spaceDesc_horta => 'Aqui contamos as plantinhas!';
+
+  @override
+  String get spaceName_atelie => 'Ateliê de arte';
+
+  @override
+  String get spaceDesc_atelie => 'Aqui pintamos desenhos lindos!';
+
+  @override
+  String get spaceName_biblio => 'Biblioteca';
+
+  @override
+  String get spaceDesc_biblio => 'Aqui descobrimos as letras!';
+
+  @override
+  String get spaceName_patio => 'Pátio';
+
+  @override
+  String get spaceDesc_patio => 'Aqui brincamos de repetir os sons!';
+
+  @override
+  String get spaceName_refeit => 'Refeitório';
+
+  @override
+  String get spaceDesc_refeit => 'Aqui separamos frutas e legumes!';
+
+  @override
+  String get schoolWelcomeFirst =>
+      'Bem-vindo à nossa escolinha! Toque na sala de aula!';
+
+  @override
+  String get schoolWelcomeBack =>
+      'Oi! Que bom te ver! Vamos cuidar da nossa escola?';
+
+  @override
+  String get schoolHintGoal => 'Você cumpriu um objetivo! Toque no troféu!';
+
+  @override
+  String get schoolHintStars => 'Você tem estrelas! Toque no espaço brilhante!';
+
+  @override
+  String get schoolHintLesson =>
+      'Toque num espaço para ter aula e ganhar estrelas!';
+
+  @override
+  String schoolGradeLocked(String grade) {
+    return 'Esse espaço chega no $grade! Vamos passar de ano!';
+  }
+
+  @override
+  String get schoolBuild => 'Construir';
+
+  @override
+  String get schoolUpgrade => 'Melhorar';
+
+  @override
+  String get schoolLesson => 'Ter aula';
+
+  @override
+  String get schoolEarnStars => 'Ganhar estrelas';
+
+  @override
+  String get schoolMaxed => 'Espaço no máximo! 🌟';
+
+  @override
+  String get schoolClose => 'Fechar';
+
+  @override
+  String get schoolBuilt => 'Que lindo! Nossa escola cresceu!';
+
+  @override
+  String get schoolUpgraded => 'Uau! Ficou ainda melhor!';
+
+  @override
+  String get schoolNeedStars => 'Faça uma aula para ganhar estrelas!';
+
+  @override
+  String get schoolLessonDone => 'Você ganhou estrelas!';
+
+  @override
+  String schoolKidsLabel(int count) {
+    return '$count alunos na escola';
+  }
+
+  @override
+  String get goalsButton => 'Objetivos';
+
+  @override
+  String goalsTitle(String grade) {
+    return 'Objetivos do $grade';
+  }
+
+  @override
+  String missionBuild(int n) {
+    return 'Construir $n espaços';
+  }
+
+  @override
+  String missionLessons(int n) {
+    return 'Fazer $n aulas';
+  }
+
+  @override
+  String missionUpgrade(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Melhorar $n espaços',
+      one: 'Melhorar um espaço',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String missionMax(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Deixar $n espaços no máximo',
+      one: 'Deixar um espaço no máximo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalClaim => 'Pegar';
+
+  @override
+  String get medalEarned => 'Medalha conquistada! Parabéns!';
+
+  @override
+  String get promoteButton => 'Passar de ano';
+
+  @override
+  String get graduateButton => 'Formatura';
+
+  @override
+  String get graduatedBadge => 'Formatura!';
+
+  @override
+  String promoted(String grade) {
+    return 'Parabéns! Agora você está no $grade! Chegaram espaços novos!';
+  }
+
+  @override
+  String get graduated =>
+      'Formatura! Você completou a escolinha! Em breve: 1º ano!';
+
+  @override
+  String get afterPromotion => 'Toque no espaço novo que está brilhando!';
+
+  @override
+  String get afterGraduation => 'Vamos brincar mais na nossa escola?';
+
+  @override
+  String get graduationDoneNote => '🎓 Formatura concluída! Em breve: 1º ano.';
+
+  @override
+  String get parentsSchoolLabel => 'Escolinha';
+
+  @override
+  String get parentsSchoolLockedHint =>
+      'A Escolinha abre quando a criança termina as etapas da trilha.';
+
+  @override
+  String get parentsUnlockSchool => 'Liberar a Escolinha agora';
+
+  @override
+  String get parentsGradeLabel => 'Série da criança';
+
+  @override
+  String get parentsGradeChangeNote =>
+      'Trocar a série não apaga o que foi construído; os objetivos do ano recomeçam.';
+
+  @override
+  String parentsSchoolProgress(int stars, int medals) {
+    return '$stars estrelas na escola · $medals medalhas';
+  }
+
+  @override
+  String get shapeCircle => 'círculo';
+
+  @override
+  String get shapeSquare => 'quadrado';
+
+  @override
+  String get shapeTriangle => 'triângulo';
+
+  @override
+  String get shapeStar => 'estrela';
+
+  @override
+  String get shapeHeart => 'coração';
+
+  @override
+  String colorRedFor(String gender) {
+    String _temp0 = intl.Intl.selectLogic(gender, {
+      'f': 'vermelha',
+      'other': 'vermelho',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String colorBlueFor(String gender) {
+    String _temp0 = intl.Intl.selectLogic(gender, {'other': 'azul'});
+    return '$_temp0';
+  }
+
+  @override
+  String colorYellowFor(String gender) {
+    String _temp0 = intl.Intl.selectLogic(gender, {
+      'f': 'amarela',
+      'other': 'amarelo',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String colorGreenFor(String gender) {
+    String _temp0 = intl.Intl.selectLogic(gender, {'other': 'verde'});
+    return '$_temp0';
+  }
+
+  @override
+  String colorPurpleFor(String gender) {
+    String _temp0 = intl.Intl.selectLogic(gender, {
+      'f': 'roxa',
+      'other': 'roxo',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String shapeWithColor(String shape, String color) {
+    return '$shape $color';
+  }
+
+  @override
+  String get shapesDone => 'Você conhece as formas!';
+
+  @override
+  String get countIntro => 'Toque nas plantinhas e conte! Quantas são?';
+
+  @override
+  String get countRetry => 'Conte as plantinhas de novo!';
+
+  @override
+  String get countNumbers =>
+      'zero,um,dois,três,quatro,cinco,seis,sete,oito,nove,dez';
+
+  @override
+  String get countPlant => 'plantinha';
+
+  @override
+  String get countDone => 'Você contou tudo!';
+
+  @override
+  String lettersPrompt(String name) {
+    return '$name! Com qual letra começa?';
+  }
+
+  @override
+  String lettersCorrect(String praise, String letter) {
+    return '$praise Começa com $letter!';
+  }
+
+  @override
+  String get lettersDone => 'Você descobriu as letras!';
+
+  @override
+  String get letterFold => 'á=a,à=a,â=a,ã=a,é=e,ê=e,í=i,ó=o,ô=o,õ=o,ú=u,ç=c';
+
+  @override
+  String get rhythmWatch => 'Olhe e escute!';
+
+  @override
+  String get rhythmTurn => 'Sua vez!';
+
+  @override
+  String get rhythmRetry => 'Quase! Vamos ouvir de novo!';
+
+  @override
+  String get rhythmNote => 'Olhe, escute e repita a sequência!';
+
+  @override
+  String rhythmPad(int n) {
+    return 'Botão $n';
+  }
+
+  @override
+  String get rhythmDone => 'Que música bonita!';
+
+  @override
+  String sortPrompt(String gender, String name) {
+    String _temp0 = intl.Intl.selectLogic(gender, {
+      'f': 'Onde vai a $name? Frutas ou legumes?',
+      'other': 'Onde vai o $name? Frutas ou legumes?',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get sortRetry => 'Frutas ou legumes?';
+
+  @override
+  String get sortFruits => 'Frutas';
+
+  @override
+  String get sortVeggies => 'Legumes';
+
+  @override
+  String get sortDone => 'Tudo separadinho!';
 }

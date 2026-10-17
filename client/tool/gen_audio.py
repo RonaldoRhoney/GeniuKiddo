@@ -109,6 +109,16 @@ def sfx_build():
     render(buf, os.path.join(SFX_DIR, 'build.wav'), 0.95)
 
 
+def sfx_pads():
+    # Pátio (Anexo B): 4 botões com as notas 262, 330, 392 e 523 Hz —
+    # mesmo tone(FR[p], .4, 'triangle', .14) do protótipo, volume maior
+    # pra compensar o alto-falante do celular.
+    for i, f in enumerate([262, 330, 392, 523]):
+        buf = []
+        add_tone(buf, f, 0, 0.4, 0.5, triangle)
+        render(buf, os.path.join(SFX_DIR, f'pad{i}.wav'), 0.42)
+
+
 def music_loop():
     # Mesma melodia/harmonia do musicTick() do app (escala pentatônica de
     # dó), um ciclo completo de 16 passos a 480ms, pronta pra tocar em
@@ -136,4 +146,5 @@ if __name__ == '__main__':
     sfx_win()
     sfx_oops()
     sfx_build()
+    sfx_pads()
     music_loop()

@@ -16,7 +16,7 @@ Empacotada localmente no app (nunca carregada de `fonts.googleapis.com`), por ex
 
 | Ativo | Origem | Licença | Arquivo |
 |---|---|---|---|
-| `pop`, `good`, `win`, `oops`, `build` (efeitos curtos) | Gerados por síntese (osciladores senoidais/triangulares), mesmo desenho sonoro já aprovado nos protótipos HTML — renderizados em WAV por `tool/gen_audio.py` | Autoria própria (RhoneyInc) — nenhum conteúdo de terceiros, nenhuma licença externa envolvida | `assets/sfx/*.wav` |
+| `pop`, `good`, `win`, `oops`, `build` (efeitos curtos) e `pad0`–`pad3` (notas do Pátio: 262, 330, 392 e 523 Hz) | Gerados por síntese (osciladores senoidais/triangulares), mesmo desenho sonoro já aprovado nos protótipos HTML — renderizados em WAV por `tool/gen_audio.py` | Autoria própria (RhoneyInc) — nenhum conteúdo de terceiros, nenhuma licença externa envolvida | `assets/sfx/*.wav` |
 | `music_loop.wav` (trilha de fundo em loop) | Mesma melodia/harmonia pentatônica já codificada nos protótipos, renderizada em WAV pelo mesmo script | Autoria própria (RhoneyInc) | `assets/music/music_loop.wav` |
 
 **Interino, não final.** Seção 4.4 da especificação: "no app final, usar trilhas originais

@@ -13,6 +13,7 @@ import '../../content/models.dart';
 import '../../core/item_feedback.dart';
 import '../../core/language_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../activities/activity_outcome.dart';
 import '../activities/free_draw/free_draw_screen.dart';
 import '../activities/listen/listen_screen.dart';
 import '../activities/match/match_screen.dart';
@@ -20,6 +21,9 @@ import '../activities/paint/paint_screen.dart';
 import '../activities/speak/speak_screen.dart';
 import '../activities/trace/trace_screen.dart';
 import '../parents/parents_area_screen.dart';
+import '../school/grade_choice_screen.dart';
+import '../school/school_controller.dart';
+import '../school/school_screen.dart';
 import 'trail_controller.dart';
 
 const _activityIcons = <ActivityType, IconData>{
@@ -86,11 +90,26 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
 
   Widget _activityFor(int index, TrailNodeDef node) {
     return switch (node.type) {
-      ActivityType.paint => PaintScreen(nodeIndex: index, art: node.art!),
-      ActivityType.trace => TraceScreen(nodeIndex: index, glyph: node.glyph!),
-      ActivityType.listen => ListenScreen(nodeIndex: index, items: node.items!),
-      ActivityType.match => MatchScreen(nodeIndex: index, items: node.items!),
-      ActivityType.speak => SpeakScreen(nodeIndex: index, items: node.items!),
+      ActivityType.paint => PaintScreen(
+        outcome: TrailStepOutcome(index),
+        art: node.art!,
+      ),
+      ActivityType.trace => TraceScreen(
+        outcome: TrailStepOutcome(index),
+        glyph: node.glyph!,
+      ),
+      ActivityType.listen => ListenScreen(
+        outcome: TrailStepOutcome(index),
+        items: node.items!,
+      ),
+      ActivityType.match => MatchScreen(
+        outcome: TrailStepOutcome(index),
+        items: node.items!,
+      ),
+      ActivityType.speak => SpeakScreen(
+        outcome: TrailStepOutcome(index),
+        items: node.items!,
+      ),
     };
   }
 
@@ -217,25 +236,43 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-                child: SizedBox(
-                  height: 60,
-                  child: FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: colors.purple,
-                      shape: const StadiumBorder(),
-                    ),
-                    onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const FreeDrawScreen()),
-                    ),
-                    icon: const Text('🖍️', style: TextStyle(fontSize: 22)),
-                    label: Text(
-                      l10n.trailFreeDraw,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 18,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: _BigButton(
+                        icon: '🖍️',
+                        label: l10n.trailFreeDraw,
+                        color: colors.purple,
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const FreeDrawScreen(),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    // RF-FASE-01: a Escolinha só aparece depois de liberada
+                    // (trilha concluída ou liberação dos pais).
+                    if (ref.watch(phase2UnlockedProvider)) ...[
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: _BigButton(
+                          key: const ValueKey('btnSchool'),
+                          icon: '🏫',
+                          label: l10n.trailSchool,
+                          color: colors.green,
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  ref.read(schoolControllerProvider).grade ==
+                                      null
+                                  ? const GradeChoiceScreen()
+                                  : const SchoolScreen(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
             ],
@@ -244,6 +281,51 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
       ),
     );
   }
+}
+
+class _BigButton extends StatelessWidget {
+  const _BigButton({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  final String icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: 64,
+    child: FilledButton(
+      style: FilledButton.styleFrom(
+        backgroundColor: color,
+        shape: const StadiumBorder(),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+      ),
+      onPressed: onTap,
+      child: FittedBox(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(icon, style: const TextStyle(fontSize: 22)),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 class _TrailNode extends StatelessWidget {

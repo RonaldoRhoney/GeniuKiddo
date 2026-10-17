@@ -58,6 +58,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemSun => 'sun';
 
   @override
+  String get itemFlower => 'flower';
+
+  @override
+  String get itemMoon => 'moon';
+
+  @override
+  String get itemHouse => 'house';
+
+  @override
+  String get itemGrape => 'grape';
+
+  @override
+  String get itemFrog => 'frog';
+
+  @override
+  String get itemDuck => 'duck';
+
+  @override
+  String get itemCow => 'cow';
+
+  @override
+  String get itemLion => 'lion';
+
+  @override
+  String get itemEgg => 'egg';
+
+  @override
+  String get itemBee => 'bee';
+
+  @override
+  String get itemBear => 'bear';
+
+  @override
+  String get itemStrawberry => 'strawberry';
+
+  @override
+  String get itemOrange => 'orange';
+
+  @override
+  String get itemWatermelon => 'watermelon';
+
+  @override
+  String get itemCarrot => 'carrot';
+
+  @override
+  String get itemBroccoli => 'broccoli';
+
+  @override
+  String get itemPotato => 'potato';
+
+  @override
+  String get itemLettuce => 'lettuce';
+
+  @override
+  String get itemOnion => 'onion';
+
+  @override
   String get colorRed => 'red';
 
   @override
@@ -137,8 +194,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get glyphNameO => 'the letter O';
 
   @override
-  String listenPrompt(String article, String name) {
-    return 'Tap $article $name!';
+  String listenPrompt(String gender, String name) {
+    return 'Tap the $name!';
   }
 
   @override
@@ -285,4 +342,339 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get parentsPrivacyPolicyPlaceholder =>
       'The full privacy policy will be published together with the app in the store.';
+
+  @override
+  String get trailSchool => 'School';
+
+  @override
+  String get gradeGateTitle => 'For parents';
+
+  @override
+  String get gradeGateHint => 'Hold the lock to choose the child\'s grade.';
+
+  @override
+  String get gradeChoiceTitle => 'Which grade?';
+
+  @override
+  String get gradeChoiceSubtitle =>
+      'Choose the child\'s grade. You can change it later in the parents area.';
+
+  @override
+  String get gradeName0 => 'Nursery';
+
+  @override
+  String get gradeName1 => 'Pre-K 1';
+
+  @override
+  String get gradeName2 => 'Pre-K 2';
+
+  @override
+  String gradeAge(int age) {
+    return '$age years old';
+  }
+
+  @override
+  String get spaceName_sala => 'Classroom';
+
+  @override
+  String get spaceDesc_sala => 'Here we learn shapes and colors!';
+
+  @override
+  String get spaceName_horta => 'Garden';
+
+  @override
+  String get spaceDesc_horta => 'Here we count the plants!';
+
+  @override
+  String get spaceName_atelie => 'Art studio';
+
+  @override
+  String get spaceDesc_atelie => 'Here we paint beautiful pictures!';
+
+  @override
+  String get spaceName_biblio => 'Library';
+
+  @override
+  String get spaceDesc_biblio => 'Here we discover letters!';
+
+  @override
+  String get spaceName_patio => 'Playground';
+
+  @override
+  String get spaceDesc_patio => 'Here we play repeat the sounds!';
+
+  @override
+  String get spaceName_refeit => 'Lunchroom';
+
+  @override
+  String get spaceDesc_refeit => 'Here we sort fruits and veggies!';
+
+  @override
+  String get schoolWelcomeFirst => 'Welcome to our school! Tap the classroom!';
+
+  @override
+  String get schoolWelcomeBack =>
+      'Hi! So good to see you! Shall we take care of our school?';
+
+  @override
+  String get schoolHintGoal => 'You reached a goal! Tap the trophy!';
+
+  @override
+  String get schoolHintStars => 'You have stars! Tap the glowing space!';
+
+  @override
+  String get schoolHintLesson => 'Tap a space to have a lesson and earn stars!';
+
+  @override
+  String schoolGradeLocked(String grade) {
+    return 'This space arrives in $grade! Let us move up a grade!';
+  }
+
+  @override
+  String get schoolBuild => 'Build';
+
+  @override
+  String get schoolUpgrade => 'Upgrade';
+
+  @override
+  String get schoolLesson => 'Start lesson';
+
+  @override
+  String get schoolEarnStars => 'Earn stars';
+
+  @override
+  String get schoolMaxed => 'Fully grown! 🌟';
+
+  @override
+  String get schoolClose => 'Close';
+
+  @override
+  String get schoolBuilt => 'So pretty! Our school grew!';
+
+  @override
+  String get schoolUpgraded => 'Wow! It got even better!';
+
+  @override
+  String get schoolNeedStars => 'Do a lesson to earn stars!';
+
+  @override
+  String get schoolLessonDone => 'You earned stars!';
+
+  @override
+  String schoolKidsLabel(int count) {
+    return '$count kids at school';
+  }
+
+  @override
+  String get goalsButton => 'Goals';
+
+  @override
+  String goalsTitle(String grade) {
+    return 'Goals for $grade';
+  }
+
+  @override
+  String missionBuild(int n) {
+    return 'Build $n spaces';
+  }
+
+  @override
+  String missionLessons(int n) {
+    return 'Do $n lessons';
+  }
+
+  @override
+  String missionUpgrade(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Upgrade $n spaces',
+      one: 'Upgrade a space',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String missionMax(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Max out $n spaces',
+      one: 'Max out a space',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalClaim => 'Get';
+
+  @override
+  String get medalEarned => 'Medal earned! Congratulations!';
+
+  @override
+  String get promoteButton => 'Next grade';
+
+  @override
+  String get graduateButton => 'Graduate';
+
+  @override
+  String get graduatedBadge => 'Graduated!';
+
+  @override
+  String promoted(String grade) {
+    return 'Congratulations! You are now in $grade! New spaces arrived!';
+  }
+
+  @override
+  String get graduated =>
+      'Graduation! You finished the school! Coming soon: 1st grade!';
+
+  @override
+  String get afterPromotion => 'Tap the new glowing space!';
+
+  @override
+  String get afterGraduation => 'Shall we play more in our school?';
+
+  @override
+  String get graduationDoneNote =>
+      '🎓 Graduation complete! Coming soon: 1st grade.';
+
+  @override
+  String get parentsSchoolLabel => 'School';
+
+  @override
+  String get parentsSchoolLockedHint =>
+      'The School opens when the child finishes the trail steps.';
+
+  @override
+  String get parentsUnlockSchool => 'Unlock the School now';
+
+  @override
+  String get parentsGradeLabel => 'Child\'s grade';
+
+  @override
+  String get parentsGradeChangeNote =>
+      'Changing the grade keeps everything built; the year\'s goals start over.';
+
+  @override
+  String parentsSchoolProgress(int stars, int medals) {
+    return '$stars stars at school · $medals medals';
+  }
+
+  @override
+  String get shapeCircle => 'circle';
+
+  @override
+  String get shapeSquare => 'square';
+
+  @override
+  String get shapeTriangle => 'triangle';
+
+  @override
+  String get shapeStar => 'star';
+
+  @override
+  String get shapeHeart => 'heart';
+
+  @override
+  String colorRedFor(String gender) {
+    return 'red';
+  }
+
+  @override
+  String colorBlueFor(String gender) {
+    return 'blue';
+  }
+
+  @override
+  String colorYellowFor(String gender) {
+    return 'yellow';
+  }
+
+  @override
+  String colorGreenFor(String gender) {
+    return 'green';
+  }
+
+  @override
+  String colorPurpleFor(String gender) {
+    return 'purple';
+  }
+
+  @override
+  String shapeWithColor(String shape, String color) {
+    return '$color $shape';
+  }
+
+  @override
+  String get shapesDone => 'You know your shapes!';
+
+  @override
+  String get countIntro => 'Tap the plants and count! How many are there?';
+
+  @override
+  String get countRetry => 'Count the plants again!';
+
+  @override
+  String get countNumbers =>
+      'zero,one,two,three,four,five,six,seven,eight,nine,ten';
+
+  @override
+  String get countPlant => 'plant';
+
+  @override
+  String get countDone => 'You counted them all!';
+
+  @override
+  String lettersPrompt(String name) {
+    return '$name! Which letter does it start with?';
+  }
+
+  @override
+  String lettersCorrect(String praise, String letter) {
+    return '$praise It starts with $letter!';
+  }
+
+  @override
+  String get lettersDone => 'You found the letters!';
+
+  @override
+  String get letterFold => '';
+
+  @override
+  String get rhythmWatch => 'Watch and listen!';
+
+  @override
+  String get rhythmTurn => 'Your turn!';
+
+  @override
+  String get rhythmRetry => 'Almost! Let us listen again!';
+
+  @override
+  String get rhythmNote => 'Watch, listen and repeat the sequence!';
+
+  @override
+  String rhythmPad(int n) {
+    return 'Pad $n';
+  }
+
+  @override
+  String get rhythmDone => 'What lovely music!';
+
+  @override
+  String sortPrompt(String gender, String name) {
+    return 'Where does the $name go? Fruits or veggies?';
+  }
+
+  @override
+  String get sortRetry => 'Fruits or veggies?';
+
+  @override
+  String get sortFruits => 'Fruits';
+
+  @override
+  String get sortVeggies => 'Veggies';
+
+  @override
+  String get sortDone => 'All sorted!';
 }

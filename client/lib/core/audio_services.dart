@@ -12,6 +12,11 @@ const _sfxAssetFor = {
   FeedbackSound.wrong: 'assets/sfx/oops.wav',
   FeedbackSound.pop: 'assets/sfx/pop.wav',
   FeedbackSound.win: 'assets/sfx/win.wav',
+  FeedbackSound.build: 'assets/sfx/build.wav',
+  FeedbackSound.pad0: 'assets/sfx/pad0.wav',
+  FeedbackSound.pad1: 'assets/sfx/pad1.wav',
+  FeedbackSound.pad2: 'assets/sfx/pad2.wav',
+  FeedbackSound.pad3: 'assets/sfx/pad3.wav',
 };
 
 /// Efeitos curtos (seção 4.4): tocam SEMPRE, independente do botão de

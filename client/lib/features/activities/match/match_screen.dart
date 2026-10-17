@@ -10,7 +10,7 @@ import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
-import '../../trail/trail_controller.dart';
+import '../activity_outcome.dart';
 import '../activity_shell.dart';
 import '../round_dots.dart';
 
@@ -18,9 +18,9 @@ import '../round_dots.dart';
 /// acerto revela a figura colorida. RT-05: a silhueta só fala o nome DEPOIS
 /// de revelada — nunca antes (nunca chamamos `nameOnly` na silhueta).
 class MatchScreen extends ConsumerStatefulWidget {
-  const MatchScreen({super.key, required this.nodeIndex, required this.items});
+  const MatchScreen({super.key, required this.outcome, required this.items});
 
-  final int nodeIndex;
+  final ActivityOutcome outcome;
   final List<String> items;
 
   @override
@@ -101,15 +101,9 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref
-        .read(trailControllerProvider.notifier)
-        .complete(widget.nodeIndex);
+    final badge = await widget.outcome.complete(ref);
     if (!mounted) return;
-    await showCelebration(
-      context,
-      isFirstCompletion: isFirst,
-      message: l10n.matchDone,
-    );
+    await showCelebration(context, badge: badge, message: l10n.matchDone);
     if (!mounted) return;
     Navigator.of(context).pop();
   }

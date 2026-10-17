@@ -17,16 +17,51 @@ String itemName(AppLocalizations l10n, String itemId) {
     'car' => l10n.itemCar,
     'ball' => l10n.itemBall,
     'sun' => l10n.itemSun,
+    'circle' => l10n.shapeCircle,
+    'square' => l10n.shapeSquare,
+    'triangle' => l10n.shapeTriangle,
+    'star' => l10n.shapeStar,
+    'heart' => l10n.shapeHeart,
+    'flower' => l10n.itemFlower,
+    'moon' => l10n.itemMoon,
+    'house' => l10n.itemHouse,
+    'grape' => l10n.itemGrape,
+    'frog' => l10n.itemFrog,
+    'duck' => l10n.itemDuck,
+    'cow' => l10n.itemCow,
+    'lion' => l10n.itemLion,
+    'egg' => l10n.itemEgg,
+    'bee' => l10n.itemBee,
+    'bear' => l10n.itemBear,
+    'strawberry' => l10n.itemStrawberry,
+    'orange' => l10n.itemOrange,
+    'watermelon' => l10n.itemWatermelon,
+    'carrot' => l10n.itemCarrot,
+    'broccoli' => l10n.itemBroccoli,
+    'potato' => l10n.itemPotato,
+    'lettuce' => l10n.itemLettuce,
+    'onion' => l10n.itemOnion,
     _ => throw StateError('item sem tradução: $itemId'),
   };
 }
 
-/// Artigo do item no idioma ativo. Em português usa o gênero de
-/// `ItemDef.articlePt` (precisa pra concordância — "o gato"/"a bola"); em
-/// inglês é sempre "the" (prototype: `en: ['the', name]`).
-String itemArticle(BuildContext context, ItemDef item) {
-  final isEnglish = Localizations.localeOf(context).languageCode == 'en';
-  return isEnglish ? 'the' : item.articlePt;
+/// Gênero do item no idioma ativo, pra as mensagens `select` do ARB
+/// escolherem o artigo e a concordância ("no gato"/"na bola"). Um idioma
+/// novo só precisa do próprio ARB e do gênero em `items.json`.
+String itemGender(BuildContext context, ItemDef item) =>
+    item.genderIn(Localizations.localeOf(context).languageCode);
+
+/// Cor como adjetivo, concordando com o gênero do substantivo ("a estrela
+/// vermelha"); cada idioma resolve a própria forma no ARB.
+String colorAdjective(AppLocalizations l10n, String colorId, String gender) {
+  return switch (colorId) {
+    'red' => l10n.colorRedFor(gender),
+    'blue' => l10n.colorBlueFor(gender),
+    'yellow' => l10n.colorYellowFor(gender),
+    'green' => l10n.colorGreenFor(gender),
+    'purple' => l10n.colorPurpleFor(gender),
+    _ => colorName(l10n, colorId),
+  };
 }
 
 String colorName(AppLocalizations l10n, String colorId) {

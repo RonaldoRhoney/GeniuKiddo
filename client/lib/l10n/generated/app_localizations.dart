@@ -194,6 +194,120 @@ abstract class AppLocalizations {
   /// **'sol'**
   String get itemSun;
 
+  /// No description provided for @itemFlower.
+  ///
+  /// In pt, this message translates to:
+  /// **'flor'**
+  String get itemFlower;
+
+  /// No description provided for @itemMoon.
+  ///
+  /// In pt, this message translates to:
+  /// **'lua'**
+  String get itemMoon;
+
+  /// No description provided for @itemHouse.
+  ///
+  /// In pt, this message translates to:
+  /// **'casa'**
+  String get itemHouse;
+
+  /// No description provided for @itemGrape.
+  ///
+  /// In pt, this message translates to:
+  /// **'uva'**
+  String get itemGrape;
+
+  /// No description provided for @itemFrog.
+  ///
+  /// In pt, this message translates to:
+  /// **'sapo'**
+  String get itemFrog;
+
+  /// No description provided for @itemDuck.
+  ///
+  /// In pt, this message translates to:
+  /// **'pato'**
+  String get itemDuck;
+
+  /// No description provided for @itemCow.
+  ///
+  /// In pt, this message translates to:
+  /// **'vaca'**
+  String get itemCow;
+
+  /// No description provided for @itemLion.
+  ///
+  /// In pt, this message translates to:
+  /// **'leão'**
+  String get itemLion;
+
+  /// No description provided for @itemEgg.
+  ///
+  /// In pt, this message translates to:
+  /// **'ovo'**
+  String get itemEgg;
+
+  /// No description provided for @itemBee.
+  ///
+  /// In pt, this message translates to:
+  /// **'abelha'**
+  String get itemBee;
+
+  /// No description provided for @itemBear.
+  ///
+  /// In pt, this message translates to:
+  /// **'urso'**
+  String get itemBear;
+
+  /// No description provided for @itemStrawberry.
+  ///
+  /// In pt, this message translates to:
+  /// **'morango'**
+  String get itemStrawberry;
+
+  /// No description provided for @itemOrange.
+  ///
+  /// In pt, this message translates to:
+  /// **'laranja'**
+  String get itemOrange;
+
+  /// No description provided for @itemWatermelon.
+  ///
+  /// In pt, this message translates to:
+  /// **'melancia'**
+  String get itemWatermelon;
+
+  /// No description provided for @itemCarrot.
+  ///
+  /// In pt, this message translates to:
+  /// **'cenoura'**
+  String get itemCarrot;
+
+  /// No description provided for @itemBroccoli.
+  ///
+  /// In pt, this message translates to:
+  /// **'brócolis'**
+  String get itemBroccoli;
+
+  /// No description provided for @itemPotato.
+  ///
+  /// In pt, this message translates to:
+  /// **'batata'**
+  String get itemPotato;
+
+  /// No description provided for @itemLettuce.
+  ///
+  /// In pt, this message translates to:
+  /// **'alface'**
+  String get itemLettuce;
+
+  /// No description provided for @itemOnion.
+  ///
+  /// In pt, this message translates to:
+  /// **'cebola'**
+  String get itemOnion;
+
   /// No description provided for @colorRed.
   ///
   /// In pt, this message translates to:
@@ -344,11 +458,11 @@ abstract class AppLocalizations {
   /// **'a letra O'**
   String get glyphNameO;
 
-  /// No description provided for @listenPrompt.
+  /// gender = gênero do item no idioma (m/f/other, de items.json) — cada idioma escolhe o artigo
   ///
   /// In pt, this message translates to:
-  /// **'Toque n{article} {name}!'**
-  String listenPrompt(String article, String name);
+  /// **'{gender, select, f{Toque na {name}!} other{Toque no {name}!}}'**
+  String listenPrompt(String gender, String name);
 
   /// No description provided for @listenDone.
   ///
@@ -619,6 +733,558 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'A política de privacidade completa será publicada junto com o app na loja.'**
   String get parentsPrivacyPolicyPlaceholder;
+
+  /// No description provided for @trailSchool.
+  ///
+  /// In pt, this message translates to:
+  /// **'Escolinha'**
+  String get trailSchool;
+
+  /// No description provided for @gradeGateTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Para os pais'**
+  String get gradeGateTitle;
+
+  /// No description provided for @gradeGateHint.
+  ///
+  /// In pt, this message translates to:
+  /// **'Segure o cadeado para escolher a série da criança.'**
+  String get gradeGateHint;
+
+  /// No description provided for @gradeChoiceTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Qual é a série?'**
+  String get gradeChoiceTitle;
+
+  /// No description provided for @gradeChoiceSubtitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Escolha a série da criança. Dá para mudar depois na área dos pais.'**
+  String get gradeChoiceSubtitle;
+
+  /// No description provided for @gradeName0.
+  ///
+  /// In pt, this message translates to:
+  /// **'Maternal'**
+  String get gradeName0;
+
+  /// No description provided for @gradeName1.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pré I'**
+  String get gradeName1;
+
+  /// No description provided for @gradeName2.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pré II'**
+  String get gradeName2;
+
+  /// No description provided for @gradeAge.
+  ///
+  /// In pt, this message translates to:
+  /// **'{age} anos'**
+  String gradeAge(int age);
+
+  /// No description provided for @spaceName_sala.
+  ///
+  /// In pt, this message translates to:
+  /// **'Sala de aula'**
+  String get spaceName_sala;
+
+  /// No description provided for @spaceDesc_sala.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aqui aprendemos as formas e as cores!'**
+  String get spaceDesc_sala;
+
+  /// No description provided for @spaceName_horta.
+  ///
+  /// In pt, this message translates to:
+  /// **'Horta'**
+  String get spaceName_horta;
+
+  /// No description provided for @spaceDesc_horta.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aqui contamos as plantinhas!'**
+  String get spaceDesc_horta;
+
+  /// No description provided for @spaceName_atelie.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ateliê de arte'**
+  String get spaceName_atelie;
+
+  /// No description provided for @spaceDesc_atelie.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aqui pintamos desenhos lindos!'**
+  String get spaceDesc_atelie;
+
+  /// No description provided for @spaceName_biblio.
+  ///
+  /// In pt, this message translates to:
+  /// **'Biblioteca'**
+  String get spaceName_biblio;
+
+  /// No description provided for @spaceDesc_biblio.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aqui descobrimos as letras!'**
+  String get spaceDesc_biblio;
+
+  /// No description provided for @spaceName_patio.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pátio'**
+  String get spaceName_patio;
+
+  /// No description provided for @spaceDesc_patio.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aqui brincamos de repetir os sons!'**
+  String get spaceDesc_patio;
+
+  /// No description provided for @spaceName_refeit.
+  ///
+  /// In pt, this message translates to:
+  /// **'Refeitório'**
+  String get spaceName_refeit;
+
+  /// No description provided for @spaceDesc_refeit.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aqui separamos frutas e legumes!'**
+  String get spaceDesc_refeit;
+
+  /// No description provided for @schoolWelcomeFirst.
+  ///
+  /// In pt, this message translates to:
+  /// **'Bem-vindo à nossa escolinha! Toque na sala de aula!'**
+  String get schoolWelcomeFirst;
+
+  /// No description provided for @schoolWelcomeBack.
+  ///
+  /// In pt, this message translates to:
+  /// **'Oi! Que bom te ver! Vamos cuidar da nossa escola?'**
+  String get schoolWelcomeBack;
+
+  /// No description provided for @schoolHintGoal.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você cumpriu um objetivo! Toque no troféu!'**
+  String get schoolHintGoal;
+
+  /// No description provided for @schoolHintStars.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você tem estrelas! Toque no espaço brilhante!'**
+  String get schoolHintStars;
+
+  /// No description provided for @schoolHintLesson.
+  ///
+  /// In pt, this message translates to:
+  /// **'Toque num espaço para ter aula e ganhar estrelas!'**
+  String get schoolHintLesson;
+
+  /// No description provided for @schoolGradeLocked.
+  ///
+  /// In pt, this message translates to:
+  /// **'Esse espaço chega no {grade}! Vamos passar de ano!'**
+  String schoolGradeLocked(String grade);
+
+  /// No description provided for @schoolBuild.
+  ///
+  /// In pt, this message translates to:
+  /// **'Construir'**
+  String get schoolBuild;
+
+  /// No description provided for @schoolUpgrade.
+  ///
+  /// In pt, this message translates to:
+  /// **'Melhorar'**
+  String get schoolUpgrade;
+
+  /// No description provided for @schoolLesson.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ter aula'**
+  String get schoolLesson;
+
+  /// No description provided for @schoolEarnStars.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ganhar estrelas'**
+  String get schoolEarnStars;
+
+  /// No description provided for @schoolMaxed.
+  ///
+  /// In pt, this message translates to:
+  /// **'Espaço no máximo! 🌟'**
+  String get schoolMaxed;
+
+  /// No description provided for @schoolClose.
+  ///
+  /// In pt, this message translates to:
+  /// **'Fechar'**
+  String get schoolClose;
+
+  /// No description provided for @schoolBuilt.
+  ///
+  /// In pt, this message translates to:
+  /// **'Que lindo! Nossa escola cresceu!'**
+  String get schoolBuilt;
+
+  /// No description provided for @schoolUpgraded.
+  ///
+  /// In pt, this message translates to:
+  /// **'Uau! Ficou ainda melhor!'**
+  String get schoolUpgraded;
+
+  /// No description provided for @schoolNeedStars.
+  ///
+  /// In pt, this message translates to:
+  /// **'Faça uma aula para ganhar estrelas!'**
+  String get schoolNeedStars;
+
+  /// No description provided for @schoolLessonDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você ganhou estrelas!'**
+  String get schoolLessonDone;
+
+  /// No description provided for @schoolKidsLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'{count} alunos na escola'**
+  String schoolKidsLabel(int count);
+
+  /// No description provided for @goalsButton.
+  ///
+  /// In pt, this message translates to:
+  /// **'Objetivos'**
+  String get goalsButton;
+
+  /// No description provided for @goalsTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Objetivos do {grade}'**
+  String goalsTitle(String grade);
+
+  /// No description provided for @missionBuild.
+  ///
+  /// In pt, this message translates to:
+  /// **'Construir {n} espaços'**
+  String missionBuild(int n);
+
+  /// No description provided for @missionLessons.
+  ///
+  /// In pt, this message translates to:
+  /// **'Fazer {n} aulas'**
+  String missionLessons(int n);
+
+  /// No description provided for @missionUpgrade.
+  ///
+  /// In pt, this message translates to:
+  /// **'{n, plural, =1{Melhorar um espaço} other{Melhorar {n} espaços}}'**
+  String missionUpgrade(int n);
+
+  /// No description provided for @missionMax.
+  ///
+  /// In pt, this message translates to:
+  /// **'{n, plural, =1{Deixar um espaço no máximo} other{Deixar {n} espaços no máximo}}'**
+  String missionMax(int n);
+
+  /// No description provided for @goalClaim.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pegar'**
+  String get goalClaim;
+
+  /// No description provided for @medalEarned.
+  ///
+  /// In pt, this message translates to:
+  /// **'Medalha conquistada! Parabéns!'**
+  String get medalEarned;
+
+  /// No description provided for @promoteButton.
+  ///
+  /// In pt, this message translates to:
+  /// **'Passar de ano'**
+  String get promoteButton;
+
+  /// No description provided for @graduateButton.
+  ///
+  /// In pt, this message translates to:
+  /// **'Formatura'**
+  String get graduateButton;
+
+  /// No description provided for @graduatedBadge.
+  ///
+  /// In pt, this message translates to:
+  /// **'Formatura!'**
+  String get graduatedBadge;
+
+  /// No description provided for @promoted.
+  ///
+  /// In pt, this message translates to:
+  /// **'Parabéns! Agora você está no {grade}! Chegaram espaços novos!'**
+  String promoted(String grade);
+
+  /// No description provided for @graduated.
+  ///
+  /// In pt, this message translates to:
+  /// **'Formatura! Você completou a escolinha! Em breve: 1º ano!'**
+  String get graduated;
+
+  /// No description provided for @afterPromotion.
+  ///
+  /// In pt, this message translates to:
+  /// **'Toque no espaço novo que está brilhando!'**
+  String get afterPromotion;
+
+  /// No description provided for @afterGraduation.
+  ///
+  /// In pt, this message translates to:
+  /// **'Vamos brincar mais na nossa escola?'**
+  String get afterGraduation;
+
+  /// No description provided for @graduationDoneNote.
+  ///
+  /// In pt, this message translates to:
+  /// **'🎓 Formatura concluída! Em breve: 1º ano.'**
+  String get graduationDoneNote;
+
+  /// No description provided for @parentsSchoolLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Escolinha'**
+  String get parentsSchoolLabel;
+
+  /// No description provided for @parentsSchoolLockedHint.
+  ///
+  /// In pt, this message translates to:
+  /// **'A Escolinha abre quando a criança termina as etapas da trilha.'**
+  String get parentsSchoolLockedHint;
+
+  /// No description provided for @parentsUnlockSchool.
+  ///
+  /// In pt, this message translates to:
+  /// **'Liberar a Escolinha agora'**
+  String get parentsUnlockSchool;
+
+  /// No description provided for @parentsGradeLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Série da criança'**
+  String get parentsGradeLabel;
+
+  /// No description provided for @parentsGradeChangeNote.
+  ///
+  /// In pt, this message translates to:
+  /// **'Trocar a série não apaga o que foi construído; os objetivos do ano recomeçam.'**
+  String get parentsGradeChangeNote;
+
+  /// No description provided for @parentsSchoolProgress.
+  ///
+  /// In pt, this message translates to:
+  /// **'{stars} estrelas na escola · {medals} medalhas'**
+  String parentsSchoolProgress(int stars, int medals);
+
+  /// No description provided for @shapeCircle.
+  ///
+  /// In pt, this message translates to:
+  /// **'círculo'**
+  String get shapeCircle;
+
+  /// No description provided for @shapeSquare.
+  ///
+  /// In pt, this message translates to:
+  /// **'quadrado'**
+  String get shapeSquare;
+
+  /// No description provided for @shapeTriangle.
+  ///
+  /// In pt, this message translates to:
+  /// **'triângulo'**
+  String get shapeTriangle;
+
+  /// No description provided for @shapeStar.
+  ///
+  /// In pt, this message translates to:
+  /// **'estrela'**
+  String get shapeStar;
+
+  /// No description provided for @shapeHeart.
+  ///
+  /// In pt, this message translates to:
+  /// **'coração'**
+  String get shapeHeart;
+
+  /// Cor como adjetivo, concordando com o gênero do substantivo ("a estrela vermelha"); idioma sem gênero ignora
+  ///
+  /// In pt, this message translates to:
+  /// **'{gender, select, f{vermelha} other{vermelho}}'**
+  String colorRedFor(String gender);
+
+  /// No description provided for @colorBlueFor.
+  ///
+  /// In pt, this message translates to:
+  /// **'{gender, select, other{azul}}'**
+  String colorBlueFor(String gender);
+
+  /// No description provided for @colorYellowFor.
+  ///
+  /// In pt, this message translates to:
+  /// **'{gender, select, f{amarela} other{amarelo}}'**
+  String colorYellowFor(String gender);
+
+  /// No description provided for @colorGreenFor.
+  ///
+  /// In pt, this message translates to:
+  /// **'{gender, select, other{verde}}'**
+  String colorGreenFor(String gender);
+
+  /// No description provided for @colorPurpleFor.
+  ///
+  /// In pt, this message translates to:
+  /// **'{gender, select, f{roxa} other{roxo}}'**
+  String colorPurpleFor(String gender);
+
+  /// Ordem forma+cor no idioma (pt: "quadrado azul"; en: "blue square")
+  ///
+  /// In pt, this message translates to:
+  /// **'{shape} {color}'**
+  String shapeWithColor(String shape, String color);
+
+  /// No description provided for @shapesDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você conhece as formas!'**
+  String get shapesDone;
+
+  /// No description provided for @countIntro.
+  ///
+  /// In pt, this message translates to:
+  /// **'Toque nas plantinhas e conte! Quantas são?'**
+  String get countIntro;
+
+  /// No description provided for @countRetry.
+  ///
+  /// In pt, this message translates to:
+  /// **'Conte as plantinhas de novo!'**
+  String get countRetry;
+
+  /// Números falados de 0 a 10, separados por vírgula (contagem da Horta)
+  ///
+  /// In pt, this message translates to:
+  /// **'zero,um,dois,três,quatro,cinco,seis,sete,oito,nove,dez'**
+  String get countNumbers;
+
+  /// No description provided for @countPlant.
+  ///
+  /// In pt, this message translates to:
+  /// **'plantinha'**
+  String get countPlant;
+
+  /// No description provided for @countDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você contou tudo!'**
+  String get countDone;
+
+  /// No description provided for @lettersPrompt.
+  ///
+  /// In pt, this message translates to:
+  /// **'{name}! Com qual letra começa?'**
+  String lettersPrompt(String name);
+
+  /// No description provided for @lettersCorrect.
+  ///
+  /// In pt, this message translates to:
+  /// **'{praise} Começa com {letter}!'**
+  String lettersCorrect(String praise, String letter);
+
+  /// No description provided for @lettersDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você descobriu as letras!'**
+  String get lettersDone;
+
+  /// Biblioteca: letras com acento que contam como a letra base na inicial (pares letra=base, separados por vírgula). Cada idioma define a sua — ex.: em espanhol o ñ NÃO entra, porque é uma letra própria. Vazio = nenhuma troca.
+  ///
+  /// In pt, this message translates to:
+  /// **'á=a,à=a,â=a,ã=a,é=e,ê=e,í=i,ó=o,ô=o,õ=o,ú=u,ç=c'**
+  String get letterFold;
+
+  /// No description provided for @rhythmWatch.
+  ///
+  /// In pt, this message translates to:
+  /// **'Olhe e escute!'**
+  String get rhythmWatch;
+
+  /// No description provided for @rhythmTurn.
+  ///
+  /// In pt, this message translates to:
+  /// **'Sua vez!'**
+  String get rhythmTurn;
+
+  /// No description provided for @rhythmRetry.
+  ///
+  /// In pt, this message translates to:
+  /// **'Quase! Vamos ouvir de novo!'**
+  String get rhythmRetry;
+
+  /// No description provided for @rhythmNote.
+  ///
+  /// In pt, this message translates to:
+  /// **'Olhe, escute e repita a sequência!'**
+  String get rhythmNote;
+
+  /// No description provided for @rhythmPad.
+  ///
+  /// In pt, this message translates to:
+  /// **'Botão {n}'**
+  String rhythmPad(int n);
+
+  /// No description provided for @rhythmDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Que música bonita!'**
+  String get rhythmDone;
+
+  /// No description provided for @sortPrompt.
+  ///
+  /// In pt, this message translates to:
+  /// **'{gender, select, f{Onde vai a {name}? Frutas ou legumes?} other{Onde vai o {name}? Frutas ou legumes?}}'**
+  String sortPrompt(String gender, String name);
+
+  /// No description provided for @sortRetry.
+  ///
+  /// In pt, this message translates to:
+  /// **'Frutas ou legumes?'**
+  String get sortRetry;
+
+  /// No description provided for @sortFruits.
+  ///
+  /// In pt, this message translates to:
+  /// **'Frutas'**
+  String get sortFruits;
+
+  /// No description provided for @sortVeggies.
+  ///
+  /// In pt, this message translates to:
+  /// **'Legumes'**
+  String get sortVeggies;
+
+  /// No description provided for @sortDone.
+  ///
+  /// In pt, this message translates to:
+  /// **'Tudo separadinho!'**
+  String get sortDone;
 }
 
 class _AppLocalizationsDelegate

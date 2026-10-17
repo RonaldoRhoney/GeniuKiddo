@@ -8,7 +8,7 @@ import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
-import '../../trail/trail_controller.dart';
+import '../activity_outcome.dart';
 import '../activity_shell.dart';
 import '../round_dots.dart';
 
@@ -16,9 +16,9 @@ import '../round_dots.dart';
 /// repete em voz alta e toca num botão grande ✓. ADR-004: nenhum acesso ao
 /// microfone, nunca.
 class SpeakScreen extends ConsumerStatefulWidget {
-  const SpeakScreen({super.key, required this.nodeIndex, required this.items});
+  const SpeakScreen({super.key, required this.outcome, required this.items});
 
-  final int nodeIndex;
+  final ActivityOutcome outcome;
   final List<String> items;
 
   @override
@@ -80,15 +80,9 @@ class _SpeakScreenState extends ConsumerState<SpeakScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref
-        .read(trailControllerProvider.notifier)
-        .complete(widget.nodeIndex);
+    final badge = await widget.outcome.complete(ref);
     if (!mounted) return;
-    await showCelebration(
-      context,
-      isFirstCompletion: isFirst,
-      message: l10n.speakDone,
-    );
+    await showCelebration(context, badge: badge, message: l10n.speakDone);
     if (!mounted) return;
     Navigator.of(context).pop();
   }

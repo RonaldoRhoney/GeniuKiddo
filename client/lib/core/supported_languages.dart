@@ -10,6 +10,7 @@ class SupportedLanguage {
     required this.code,
     required this.greeting,
     required this.nativeName,
+    required this.ttsLocale,
   });
 
   /// Código do idioma, igual ao `@@locale` do ARB (`pt`, `en`...).
@@ -21,9 +22,28 @@ class SupportedLanguage {
 
   /// Nome do idioma na própria língua, rótulo pequeno nos cartões.
   final String nativeName;
+
+  /// Locale da voz do sistema (`flutter_tts`) pra este idioma.
+  final String ttsLocale;
 }
 
 const List<SupportedLanguage> supportedLanguages = [
-  SupportedLanguage(code: 'pt', greeting: 'Oi!', nativeName: 'Português'),
-  SupportedLanguage(code: 'en', greeting: 'Hi!', nativeName: 'English'),
+  SupportedLanguage(
+    code: 'pt',
+    greeting: 'Oi!',
+    nativeName: 'Português',
+    ttsLocale: 'pt-BR',
+  ),
+  SupportedLanguage(
+    code: 'en',
+    greeting: 'Hi!',
+    nativeName: 'English',
+    ttsLocale: 'en-US',
+  ),
 ];
+
+/// Idioma pelo código; desconhecido cai no primeiro da lista.
+SupportedLanguage languageFor(String? code) => supportedLanguages.firstWhere(
+  (l) => l.code == code,
+  orElse: () => supportedLanguages.first,
+);

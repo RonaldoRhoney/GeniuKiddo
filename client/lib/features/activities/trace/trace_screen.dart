@@ -7,7 +7,7 @@ import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
-import '../../trail/trail_controller.dart';
+import '../activity_outcome.dart';
 import '../activity_shell.dart';
 import 'trace_glyphs.dart';
 
@@ -20,9 +20,9 @@ const int _lookaheadWindow = 12; // Anexo A
 /// frente (sem atalhos), tolerância larga, conclui ao chegar nas 3 últimas
 /// amostras.
 class TraceScreen extends ConsumerStatefulWidget {
-  const TraceScreen({super.key, required this.nodeIndex, required this.glyph});
+  const TraceScreen({super.key, required this.outcome, required this.glyph});
 
-  final int nodeIndex;
+  final ActivityOutcome outcome;
   final String glyph;
 
   @override
@@ -92,13 +92,11 @@ class _TraceScreenState extends ConsumerState<TraceScreen> {
 
   Future<void> _finish() async {
     final l10n = AppLocalizations.of(context)!;
-    final isFirst = await ref
-        .read(trailControllerProvider.notifier)
-        .complete(widget.nodeIndex);
+    final badge = await widget.outcome.complete(ref);
     if (!mounted) return;
     await showCelebration(
       context,
-      isFirstCompletion: isFirst,
+      badge: badge,
       message: l10n.traceDone(glyphName(l10n, widget.glyph)),
     );
     if (!mounted) return;

@@ -189,12 +189,7 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
       feedback.speech.speak(l10n.freeDrawFirst);
       return;
     }
-    showCelebration(
-      context,
-      isFirstCompletion: false,
-      icon: '🎨',
-      message: l10n.freeDrawCelebrate,
-    );
+    showCelebration(context, icon: '🎨', message: l10n.freeDrawCelebrate);
   }
 }
 

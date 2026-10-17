@@ -23,12 +23,12 @@ final celebrationOpenProvider = NotifierProvider<CelebrationOpenNotifier, bool>(
 /// Celebração (seção 5.4): estrela grande, "+1" só na 1ª conclusão, confete
 /// leve, som de vitória, fala de elogio (feita pelo chamador via
 /// `ItemFeedback`, não aqui) e botão ▶ grande. Sempre modal — some só
-/// quando a criança toca ▶. `icon`/`isFirstCompletion` suportam a variante
+/// quando a criança toca ▶. `icon`/`badge` suportam a variante
 /// RT-08 (atividades livres): ícone próprio da atividade (ex. 🎨), sem
 /// estrela nem "+1".
 Future<void> showCelebration(
   BuildContext context, {
-  required bool isFirstCompletion,
+  String? badge,
   required String message,
   String icon = '⭐',
 }) {
@@ -40,11 +40,8 @@ Future<void> showCelebration(
     barrierDismissible: false,
     barrierColor: const Color(0x991D1A3A),
     transitionDuration: const Duration(milliseconds: 220),
-    pageBuilder: (context, _, _) => _CelebrationContent(
-      isFirstCompletion: isFirstCompletion,
-      message: message,
-      icon: icon,
-    ),
+    pageBuilder: (context, _, _) =>
+        _CelebrationContent(badge: badge, message: message, icon: icon),
     transitionBuilder: (context, animation, _, child) =>
         FadeTransition(opacity: animation, child: child),
   ).whenComplete(
@@ -54,12 +51,13 @@ Future<void> showCelebration(
 
 class _CelebrationContent extends StatelessWidget {
   const _CelebrationContent({
-    required this.isFirstCompletion,
+    required this.badge,
     required this.message,
     required this.icon,
   });
 
-  final bool isFirstCompletion;
+  /// Selo de estrelas ("+1" na trilha, "+3" na escola); `null` = sem.
+  final String? badge;
   final String message;
   final String icon;
 
@@ -85,10 +83,10 @@ class _CelebrationContent extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(icon, style: const TextStyle(fontSize: 72)),
-                  if (isFirstCompletion) ...[
+                  if (badge != null) ...[
                     const SizedBox(height: 6),
                     Text(
-                      '+1',
+                      badge!,
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w800,

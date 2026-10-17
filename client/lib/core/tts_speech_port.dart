@@ -6,6 +6,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'item_feedback.dart';
 import 'language_controller.dart';
 import 'persistence_service.dart';
+import 'supported_languages.dart';
 
 /// Tons de voz (Anexo A / seção 4.3): [pitch, velocidade-relativa-web]. O
 /// pitch do `flutter_tts` usa a MESMA escala 0.5-2.0 da Web Speech API
@@ -50,7 +51,7 @@ class TtsSpeechPort implements SpeechPort {
     if (!persistence.voiceEnabled) return;
 
     final languageCode = _ref.read(languageControllerProvider).code ?? 'pt';
-    final locale = languageCode == 'en' ? 'en-US' : 'pt-BR';
+    final locale = languageFor(languageCode).ttsLocale;
 
     final tone = _tones[persistence.voiceTone] ?? _tones['fofa']!;
     final pitch = clear ? _clearPitch : tone.pitch;
@@ -150,7 +151,7 @@ class TtsSpeechPort implements SpeechPort {
   /// mesma ideia do seletor de voz com botão "Testar a voz" dos protótipos.
   Future<List<Map<Object?, Object?>>> voicesForCurrentLanguage() async {
     final languageCode = _ref.read(languageControllerProvider).code ?? 'pt';
-    final locale = languageCode == 'en' ? 'en-US' : 'pt-BR';
+    final locale = languageFor(languageCode).ttsLocale;
     return _voicesFor(locale);
   }
 }
