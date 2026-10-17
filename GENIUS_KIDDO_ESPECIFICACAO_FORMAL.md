@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Versão** | 1.3 (atualizada por solicitação do Rhoney) |
+| **Versão** | 1.4 (atualizada por solicitação do Rhoney) |
 | **Data** | 16/10/2026 |
 | **Responsável** | Rhoney (Ronaldo Martins), RhoneyInc |
 | **Destinatário** | Claude Code (implementação) |
@@ -21,6 +21,7 @@
 | 1.1 | 14/10/2026 | **Rabisco livre** ganha botão ✓ de conclusão (RF-06, RT-08, seção 6.10). **Fase 3 detalhada** (seção 8): subfases 3A e 3B, identidade e consentimento, tarefas do professor, ajuda entre alunos, custo, dados e retenção. Roadmap com M10 e M11. ADR 014 e 015 |
 | 1.2 | 16/10/2026 | **Liberação em ordem** dentro de cada fase (RT-09, seção 4.12): na escola, espaços, aulas e objetivos abrem um de cada vez (seções 6.6 e 6.7, Anexo B). **RF-FASE-02** definido para a Fase 2 (libera ao concluir as 8 etapas). Decisões do M5: estrelas da escola separadas das da trilha, escolha da série atrás do portão, entrada 🏫 na trilha. **Voz** em pt-BR só com voz da região exata e sem internet (seção 4.3). **Estrutura para novos idiomas** (seções 4.5 e 10). Frases novas no Anexo C. ADR 016 e 017 |
 | 1.3 | 16/10/2026 | **Menu inicial** (seção 5.1): nova raiz da navegação, com Trilha, Escolinha e Rabisco livre; trilha e escola ganham 🏠 para voltar a ele. **Sair do app** na área dos pais, atrás do portão (seção 4.7). Botão voltar do Android detalhado (seção 4.10). Entrada da Escolinha passa da trilha para o menu (RF-FASE-02) |
+| 1.4 | 16/10/2026 | **Mundo explorável decidido: mapa livre** (seção 7, ADR 012). Detalhamento implementado no M6: mapa como dado, caminho na ordem de liberação, regiões por série cobertas por nuvens, seta de borda e botão 🎯, mãozinha de arrastar, vida no cenário |
 
 ---
 
@@ -330,7 +331,7 @@ O protótipo da Fase 2 não inclui desenho livre. Se for incluído (por exemplo,
 
 ---
 
-## 7. Mundo explorável (a criança arrasta para ver os ambientes) [PLANEJADO]
+## 7. Mundo explorável (a criança arrasta para ver os ambientes) [DEFINIDO: mapa livre]
 
 **Motivação:** o Rhoney achou o app muito linear. A escola deve funcionar como nos jogos de fazenda: a criança **puxa e arrasta** para descobrir outros ambientes do terreno.
 
@@ -343,7 +344,18 @@ Requisitos candidatos (a detalhar e aprovar em plano antes de implementar):
 - **RM-06 — O mundo cresce com a série.** Áreas novas aparecem ao passar de ano.
 - **RM-07 — Vida no cenário.** Alunos e bichinhos que, ao serem tocados, falam o nome (RT-01).
 - **RM-08 — Acessibilidade e motricidade:** nenhum conteúdo essencial pode depender só de arrastar (RM-03).
-- **[PENDENTE]** O mundo é uma **faixa horizontal** (arrastar para os lados), mais fácil para criança pequena, ou um **mapa livre** (todas as direções), com mais sensação de exploração?
+- **Decisão (16/10/2026): mapa livre** (arrastar em todas as direções), escolhido pelo Rhoney em vez da faixa horizontal. Como o mapa livre é mais difícil aos 3 anos e facilita se perder, o desenho abaixo compensa isso com câmera que ajuda e regiões fechadas por nuvens.
+
+### 7.1 Como o mapa livre funciona (M6)
+- **Mapa como dado.** Tamanho do mundo, lado do terreno, posição (x, y) de cada espaço e retângulo de cada série ficam no `school.json`; nenhuma tela tem posição fixa no código. Teste automatizado confere que os terrenos cabem no mundo, não se sobrepõem e ficam na região da própria série.
+- **Arranjo das séries:** Maternal no centro, Pré I à direita, Pré II acima. Mundo de cerca de 1300 × 2000 unidades (≈ 3 × 3 telas de celular), escala fixa.
+- **Caminho na ordem de liberação (RT-09).** Um caminho de terra liga os espaços na ordem do `school.json` (Sala → Horta → Ateliê → Biblioteca → Pátio → Refeitório), então o próximo passo aparece no próprio mapa.
+- **Séries futuras sob nuvens (RM-06).** A região de cada série acima da atual fica coberta por nuvens; tocar nelas faz o guia dizer quando aquela área chega. Ao passar de ano, as nuvens se abrem e a câmera vai até o espaço novo.
+- **Câmera que ajuda (RM-03/RM-08).** Ao entrar, a câmera mostra o espaço brilhante. Quando ele sai da tela, uma **seta amarela na borda** aponta para ele, e tocar nela leva a câmera até lá; o botão **🎯** faz o mesmo a qualquer momento. Depois de uma aula, a câmera volta ao espaço brilhante se ele estiver fora da tela. Com "reduzir movimento", a câmera pula em vez de voar.
+- **Dica de arrastar (RM-02).** Na primeira vez, uma mãozinha desenha um "8" sobre o mapa e o guia diz "Arraste o dedo para ver a escola!"; some no primeiro arrasto e não volta (salvo no aparelho).
+- **Vida no cenário (RM-07).** Bichinhos passeiam nas regiões abertas (Maternal: cachorro, gato, pato; Pré I: passarinho, sapo; Pré II: abelha, vaca) e falam o nome ao toque (RT-01). Alunos passeiam em volta dos espaços construídos, na quantidade do Anexo B, e cumprimentam ao toque. Com "reduzir movimento", ficam parados.
+- **Decoração** (árvores, flores, pedras) fixa, longe dos terrenos e do caminho, sem toque e fora do leitor de tela.
+- **Aceite pendente:** teste com 3 a 5 crianças de 3 a 5 anos (seção 16), observando se arrastar é natural e se elas se perdem.
 
 ---
 
@@ -652,7 +664,7 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 | 009 | Fase 2 por séries (Maternal, Pré I, Pré II), sem relógio | Aprovado |
 | 010 | Regra transversal de áudio nas figuras (RT) para todas as fases | Aprovado |
 | 011 | Liberação sequencial de fases (RF-FASE-01) | Aprovado; critério pendente |
-| 012 | Mundo explorável por arrasto | Aprovado em conceito; formato pendente |
+| 012 | Mundo explorável por arrasto, em mapa livre (seção 7.1) | Aprovado |
 | 013 | Fase 3 como Modo Turma opcional, atrás do consentimento dos pais | Aprovado em conceito |
 | 014 | Fase 3 dividida em 3A (turma e tarefas do professor) e 3B (ajuda entre alunos) | Proposto; confirmação pendente |
 | 015 | Atividades livres têm botão de conclusão ✓, sem estrela (RT-08) | Aprovado |
@@ -665,7 +677,6 @@ COPPA (EUA), GDPR e GDPR-K (UE), Children's Code (Reino Unido). Lançamento inic
 3. Disponibilidade do nome Genius Kiddo (Play, INPI, Registro.br).
 4. Biblioteca de estado e pacotes de áudio/voz definitivos (decidir no M0).
 5. Lançar 100% gratuito ou já com pacote pago.
-6. Mundo: faixa horizontal ou mapa livre.
 7. Critério de liberação da Fase 3 (RF-FASE-02; o da Fase 2 já está definido).
 8. Todos os pontos da seção 8.8 (Fase 3).
 9. Futura conta dos pais para backup e método de login.
