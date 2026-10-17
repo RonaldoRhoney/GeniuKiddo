@@ -70,6 +70,8 @@ class GoalsSheet extends ConsumerWidget {
                 total: missions[i].n,
                 done: school.missionDone(i),
                 claimed: state.claimed[i],
+                locked: !school.missionUnlocked(i),
+                lockedLabel: l10n.missionLocked,
                 bonus: def.bonus,
                 claimLabel: l10n.goalClaim,
                 onClaim: () async {
@@ -125,6 +127,8 @@ class _MissionRow extends StatelessWidget {
     required this.total,
     required this.done,
     required this.claimed,
+    required this.locked,
+    required this.lockedLabel,
     required this.bonus,
     required this.claimLabel,
     required this.onClaim,
@@ -136,6 +140,10 @@ class _MissionRow extends StatelessWidget {
   final int total;
   final bool done;
   final bool claimed;
+
+  /// Objetivos em ordem: trancado até o anterior ser resgatado.
+  final bool locked;
+  final String lockedLabel;
   final int bonus;
   final String claimLabel;
   final VoidCallback onClaim;
@@ -143,6 +151,37 @@ class _MissionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
+    if (locked) {
+      return Opacity(
+        opacity: .5,
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: colors.bg,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: [
+              const Text('🔒', style: TextStyle(fontSize: 30)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      text,
+                      style: const TextStyle(fontWeight: FontWeight.w800),
+                    ),
+                    Text(lockedLabel, style: const TextStyle(fontSize: 12)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),

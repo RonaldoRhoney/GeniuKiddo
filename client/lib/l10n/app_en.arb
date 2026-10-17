@@ -196,5 +196,10 @@
   "musicOff": "Music off",
   "schoolLotLevel": "{name}, level {level} of {max}",
   "schoolLotEmpty": "{name}, empty, build for {cost} stars",
-  "schoolLotLocked": "{name}, arrives in {grade}"
+  "schoolLotLocked": "{name}, arrives in {grade}",
+
+  "schoolLockedPrev": "Not yet! First: {name}.",
+  "schoolNextLesson": "The next lesson is: {name}!",
+  "schoolLotSequenceLocked": "{name}, locked",
+  "missionLocked": "Locked — claim the previous goal first"
 }

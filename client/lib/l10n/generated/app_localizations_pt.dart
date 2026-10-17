@@ -724,4 +724,22 @@ class AppLocalizationsPt extends AppLocalizations {
   String schoolLotLocked(String name, String grade) {
     return '$name, chega no $grade';
   }
+
+  @override
+  String schoolLockedPrev(String name) {
+    return 'Ainda não! Primeiro: $name.';
+  }
+
+  @override
+  String schoolNextLesson(String name) {
+    return 'A próxima aula é: $name!';
+  }
+
+  @override
+  String schoolLotSequenceLocked(String name) {
+    return '$name, trancado';
+  }
+
+  @override
+  String get missionLocked => 'Trancado — resgate o objetivo anterior primeiro';
 }

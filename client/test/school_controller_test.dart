@@ -31,6 +31,21 @@ void main() {
   SchoolController ctrl(ProviderContainer c) =>
       c.read(schoolControllerProvider.notifier);
   SchoolState st(ProviderContainer c) => c.read(schoolControllerProvider);
+  Future<void> lessons(ProviderContainer c, int n) async {
+    for (var i = 0; i < n; i++) {
+      await ctrl(c).completeLesson();
+    }
+  }
+
+  /// Constrói `id` respeitando a ordem: faz aulas até ter estrelas e até o
+  /// anterior ter a sua aula (a aula da vez sempre vai pro espaço sem aula).
+  Future<void> buildInOrder(ProviderContainer c, String id) async {
+    for (var guard = 0; guard < 40; guard++) {
+      if (await ctrl(c).buildOrUpgrade(id)) return;
+      await ctrl(c).completeLesson();
+    }
+    fail('não conseguiu construir $id');
+  }
 
   test(
     'Anexo B: começa com 3 ⭐, Sala no nível 1 e série ainda não escolhida',
@@ -43,28 +58,98 @@ void main() {
     },
   );
 
+  group('ordem de liberação', () {
+    test('espaço só abre com o anterior construído + 1 aula', () async {
+      final c = await build();
+      await ctrl(c).chooseGrade(0);
+      final def = c.read(contentRepositoryProvider).school;
+
+      // Sala construída mas sem aula: Horta trancada, mesmo com 3 ⭐.
+      expect(ctrl(c).blockedBy(def.space('horta'))?.id, 'sala');
+      expect(await ctrl(c).buildOrUpgrade('horta'), isFalse);
+      expect(st(c).stars, 3);
+
+      await ctrl(c).completeLesson('sala');
+      expect(ctrl(c).blockedBy(def.space('horta')), isNull);
+      expect(await ctrl(c).buildOrUpgrade('horta'), isTrue);
+
+      // Horta construída mas sem aula: Ateliê trancado.
+      expect(ctrl(c).blockedBy(def.space('atelie'))?.id, 'horta');
+      await lessons(c, 1); // aula da vez = Horta (ainda sem aula)
+      expect(st(c).lessonsIn('horta'), 1);
+      expect(ctrl(c).blockedBy(def.space('atelie')), isNull);
+    });
+
+    test(
+      'aula da vez: espaço sem aula primeiro, depois rodízio na ordem',
+      () async {
+        final c = await build();
+        await ctrl(c).chooseGrade(0);
+        expect(ctrl(c).currentLessonSpace(), 'sala');
+        await lessons(c, 1);
+        await ctrl(c).buildOrUpgrade('horta');
+        expect(ctrl(c).currentLessonSpace(), 'horta'); // novo, sem aula
+        await lessons(c, 1);
+        expect(ctrl(c).currentLessonSpace(), 'sala'); // rodízio
+        await lessons(c, 1);
+        expect(ctrl(c).currentLessonSpace(), 'horta');
+      },
+    );
+
+    test(
+      'objetivos em ordem: o 2º só pode ser resgatado depois do 1º',
+      () async {
+        final c = await build();
+        await ctrl(c).chooseGrade(0);
+        await lessons(c, 6); // cumpre o objetivo 2 (6 aulas), não o 1
+        expect(ctrl(c).missionDone(1), isTrue);
+        expect(ctrl(c).missionUnlocked(1), isFalse);
+        expect(ctrl(c).claimableCount, 0);
+        expect(await ctrl(c).claim(1), isFalse);
+
+        await buildInOrder(c, 'horta');
+        await buildInOrder(c, 'atelie');
+        expect(await ctrl(c).claim(0), isTrue); // 3 espaços
+        expect(ctrl(c).missionUnlocked(1), isTrue);
+        expect(await ctrl(c).claim(1), isTrue);
+        expect(ctrl(c).missionUnlocked(2), isTrue);
+      },
+    );
+
+    test(
+      'progresso salvo fora de ordem é respeitado: construído nunca tranca',
+      () async {
+        final c = await build(
+          prefs: {
+            'genius_kiddo_school_v1': jsonEncode({
+              'grade': 0,
+              'built': {'sala': 1, 'atelie': 1},
+            }),
+          },
+        );
+        final def = c.read(contentRepositoryProvider).school;
+        expect(ctrl(c).blockedBy(def.space('atelie')), isNull);
+        expect(ctrl(c).isAvailable(def.space('atelie')), isTrue);
+        expect(ctrl(c).blockedBy(def.space('horta'))?.id, 'sala');
+      },
+    );
+  });
+
   test('seção 6.5: construir custa 3, nível 2 custa 6, nível 3 custa 10; sem estrela não gasta', () async {
     final c = await build();
     await ctrl(c).chooseGrade(0);
+    await lessons(c, 1); // libera a Horta: 6 ⭐
 
     expect(await ctrl(c).buildOrUpgrade('horta'), isTrue);
-    expect(st(c).stars, 0);
+    expect(st(c).stars, 3);
     expect(st(c).levelOf('horta'), 1);
 
-    // Sem estrelas: nada muda.
-    expect(await ctrl(c).buildOrUpgrade('atelie'), isFalse);
-    expect(st(c).levelOf('atelie'), 0);
-
     expect(ctrl(c).costFor('horta'), 6);
-    for (var i = 0; i < 2; i++) {
-      await ctrl(c).completeLesson();
-    }
-    expect(st(c).stars, 6);
+    expect(await ctrl(c).buildOrUpgrade('horta'), isFalse); // 3 < 6
+    await lessons(c, 1);
     expect(await ctrl(c).buildOrUpgrade('horta'), isTrue);
     expect(ctrl(c).costFor('horta'), 10);
-    for (var i = 0; i < 4; i++) {
-      await ctrl(c).completeLesson();
-    }
+    await lessons(c, 4);
     expect(await ctrl(c).buildOrUpgrade('horta'), isTrue);
     expect(st(c).levelOf('horta'), 3);
     expect(ctrl(c).costFor('horta'), isNull); // no máximo
@@ -74,46 +159,36 @@ void main() {
   test('seção 6.3: espaço de série futura não pode ser construído', () async {
     final c = await build();
     await ctrl(c).chooseGrade(0);
-    for (var i = 0; i < 3; i++) {
-      await ctrl(c).completeLesson();
-    }
+    await buildInOrder(c, 'horta');
+    await buildInOrder(c, 'atelie');
+    await lessons(c, 3);
     expect(await ctrl(c).buildOrUpgrade('biblio'), isFalse);
     expect(st(c).levelOf('biblio'), 0);
   });
 
-  test(
-    'seção 6.7: objetivos do Maternal, resgate +2 ⭐ e medalha, só uma vez',
-    () async {
-      final c = await build();
-      await ctrl(c).chooseGrade(0);
-      expect(ctrl(c).missionDone(1), isFalse);
-      expect(await ctrl(c).claim(1), isFalse);
-
-      for (var i = 0; i < 6; i++) {
-        await ctrl(c).completeLesson();
-      }
-      expect(ctrl(c).missionProgress(1), 6);
-      expect(ctrl(c).claimableCount, 1);
-      final before = st(c).stars;
-      expect(await ctrl(c).claim(1), isTrue);
-      expect(st(c).stars, before + 2);
-      expect(st(c).medals, 1);
-      expect(await ctrl(c).claim(1), isFalse); // não resgata de novo
-      expect(ctrl(c).claimableCount, 0);
-    },
-  );
+  test('seção 6.7: resgate +2 ⭐ e medalha, só uma vez', () async {
+    final c = await build();
+    await ctrl(c).chooseGrade(0);
+    expect(await ctrl(c).claim(0), isFalse);
+    await buildInOrder(c, 'horta');
+    await buildInOrder(c, 'atelie');
+    expect(ctrl(c).claimableCount, 1);
+    final before = st(c).stars;
+    expect(await ctrl(c).claim(0), isTrue);
+    expect(st(c).stars, before + 2);
+    expect(st(c).medals, 1);
+    expect(await ctrl(c).claim(0), isFalse); // não resgata de novo
+  });
 
   test('seção 6.7: passar de ano reinicia aulas e objetivos do ano, mantém o construído e marca espaços novos', () async {
     final c = await build();
     await ctrl(c).chooseGrade(0);
     expect(await ctrl(c).promote(), PromotionResult.notReady);
 
-    // Cumpre os 3 objetivos do Maternal: 3 espaços, 6 aulas, 1 melhoria.
-    for (var i = 0; i < 9; i++) {
-      await ctrl(c).completeLesson();
-    }
-    await ctrl(c).buildOrUpgrade('horta');
-    await ctrl(c).buildOrUpgrade('atelie');
+    // Objetivos do Maternal: 3 espaços, 6 aulas, 1 melhoria.
+    await buildInOrder(c, 'horta');
+    await buildInOrder(c, 'atelie');
+    await lessons(c, 6);
     await ctrl(c).buildOrUpgrade('sala');
     for (var i = 0; i < 3; i++) {
       expect(await ctrl(c).claim(i), isTrue, reason: 'objetivo $i');
@@ -125,7 +200,6 @@ void main() {
     expect(st(c).claimed, [false, false, false]);
     expect(st(c).levelOf('sala'), 2); // construído continua
     expect(st(c).fresh, ['biblio', 'patio']);
-    expect(ctrl(c).suggestion(), 'biblio'); // espaço novo tem prioridade
     // Contagem de espaços é absoluta: já tem 3 dos 5 do Pré I.
     expect(ctrl(c).missionProgress(0), 3);
   });
@@ -133,12 +207,10 @@ void main() {
   test('Pré II: com os objetivos resgatados vira formatura, e tudo continua jogável', () async {
     final c = await build();
     await ctrl(c).chooseGrade(2);
-    for (var i = 0; i < 40; i++) {
-      await ctrl(c).completeLesson();
-    }
     for (final id in ['horta', 'atelie', 'biblio', 'patio', 'refeit']) {
-      expect(await ctrl(c).buildOrUpgrade(id), isTrue, reason: id);
+      await buildInOrder(c, id);
     }
+    await lessons(c, 30);
     for (final id in ['sala', 'sala', 'horta', 'horta']) {
       expect(await ctrl(c).buildOrUpgrade(id), isTrue, reason: id);
     }
@@ -152,38 +224,31 @@ void main() {
     await ctrl(c).completeLesson(); // continua jogável
   });
 
-  test('Anexo B: trocar de série na área dos pais mantém o construído e reinicia objetivos e aulas do ano', () async {
+  test('Anexo B: trocar de série mantém o construído e reinicia objetivos e aulas do ano', () async {
     final c = await build();
     await ctrl(c).chooseGrade(0);
-    for (var i = 0; i < 6; i++) {
-      await ctrl(c).completeLesson();
-    }
-    await ctrl(c).buildOrUpgrade('horta');
-    await ctrl(c).claim(1);
+    await buildInOrder(c, 'horta');
+    await buildInOrder(c, 'atelie');
+    await ctrl(c).claim(0);
 
     await ctrl(c).chooseGrade(1);
     expect(st(c).levelOf('horta'), 1);
+    expect(st(c).levelOf('atelie'), 1);
     expect(st(c).lessonsYear, 0);
     expect(st(c).claimed, [false, false, false]);
     expect(st(c).medals, 1); // medalhas já ganhas não se perdem
   });
 
-  test('Anexo B: sugestão — construção possível, depois melhoria possível, senão a Sala', () async {
+  test('Anexo B: sugestão — construção possível, depois melhoria possível, senão a aula da vez', () async {
     final c = await build();
     await ctrl(c).chooseGrade(0);
-    expect(ctrl(c).suggestion(), 'horta'); // 3 ⭐ dá pra construir
+    expect(ctrl(c).suggestion(), 'sala'); // Horta trancada: aula na Sala
+    await lessons(c, 1);
+    expect(ctrl(c).suggestion(), 'horta'); // 6 ⭐ e Horta liberada
     await ctrl(c).buildOrUpgrade('horta');
-    expect(ctrl(c).suggestion(), 'sala'); // 0 ⭐: cai na Sala
-    for (var i = 0; i < 2; i++) {
-      await ctrl(c).completeLesson();
-    }
+    expect(ctrl(c).suggestion(), 'horta'); // 3 ⭐: aula da vez = Horta
+    await lessons(c, 1);
     expect(ctrl(c).suggestion(), 'atelie'); // construir vem antes de melhorar
-    await ctrl(c).buildOrUpgrade('atelie');
-    for (var i = 0; i < 2; i++) {
-      await ctrl(c).completeLesson();
-    }
-    expect(ctrl(c).suggestion(), 'sala'); // 6 ⭐: melhoria da Sala
-    expect(ctrl(c).canAfford('sala'), isTrue);
   });
 
   test('Anexo B: população de alunos = min(14, 2 + soma dos níveis)', () async {
@@ -209,13 +274,14 @@ void main() {
   test('seção 4.9: estado da escola persiste entre sessões', () async {
     final c = await build();
     await ctrl(c).chooseGrade(1);
-    await ctrl(c).buildOrUpgrade('horta');
+    await buildInOrder(c, 'horta');
     final saved = c.read(persistenceServiceProvider).schoolStateJson!;
 
     final c2 = await build(prefs: {'genius_kiddo_school_v1': saved});
     expect(st(c2).grade, 1);
     expect(st(c2).levelOf('horta'), 1);
-    expect(st(c2).stars, 0);
+    expect(st(c2).lessonsIn('sala'), 1);
+    expect(st(c2).lastLessonSpace, 'sala');
   });
 
   test('RF-FASE-01/03: Escolinha libera ao concluir a trilha ou pela liberação dos pais', () async {

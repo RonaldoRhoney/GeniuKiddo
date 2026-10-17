@@ -1315,6 +1315,30 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'{name}, chega no {grade}'**
   String schoolLotLocked(String name, String grade);
+
+  /// Espaço trancado pela ordem: o anterior ainda não foi concluído (construído + 1 aula)
+  ///
+  /// In pt, this message translates to:
+  /// **'Ainda não! Primeiro: {name}.'**
+  String schoolLockedPrev(String name);
+
+  /// Aulas em ordem: só uma aula fica liberada por vez
+  ///
+  /// In pt, this message translates to:
+  /// **'A próxima aula é: {name}!'**
+  String schoolNextLesson(String name);
+
+  /// No description provided for @schoolLotSequenceLocked.
+  ///
+  /// In pt, this message translates to:
+  /// **'{name}, trancado'**
+  String schoolLotSequenceLocked(String name);
+
+  /// No description provided for @missionLocked.
+  ///
+  /// In pt, this message translates to:
+  /// **'Trancado — resgate o objetivo anterior primeiro'**
+  String get missionLocked;
 }
 
 class _AppLocalizationsDelegate

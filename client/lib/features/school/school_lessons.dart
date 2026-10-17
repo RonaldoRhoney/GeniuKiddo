@@ -14,11 +14,13 @@ import 'school_controller.dart';
 
 /// Aula concluída na escola: +3 ⭐ sempre, toda vez (seção 6.5).
 class SchoolLessonOutcome extends ActivityOutcome {
-  const SchoolLessonOutcome();
+  const SchoolLessonOutcome(this.spaceId);
+
+  final String spaceId;
 
   @override
   Future<String?> complete(WidgetRef ref) async {
-    await ref.read(schoolControllerProvider.notifier).completeLesson();
+    await ref.read(schoolControllerProvider.notifier).completeLesson(spaceId);
     return '+${ref.read(contentRepositoryProvider).school.reward}';
   }
 }
@@ -28,7 +30,7 @@ const _atelierArt = ['flower', 'house', 'garden'];
 
 /// Tela da aula de um espaço, com a dificuldade da série atual (seção 6.8).
 Widget lessonScreenFor(SpaceDef space, int grade) {
-  const outcome = SchoolLessonOutcome();
+  final outcome = SchoolLessonOutcome(space.id);
   return switch (space.lesson) {
     LessonType.shapes => ShapesLesson(grade: grade, outcome: outcome),
     LessonType.count => CountLesson(grade: grade, outcome: outcome),

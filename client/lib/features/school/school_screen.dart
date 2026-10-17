@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,6 +83,13 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
       _say((l10n) => l10n.schoolGradeLocked(l10n.gradeName(space.grade)));
       return;
     }
+    // Ordem de liberação: o anterior ainda não foi concluído.
+    final blocker = _school.blockedBy(space);
+    if (blocker != null) {
+      _feedback.sound.play(FeedbackSound.wrong);
+      _say((l10n) => l10n.schoolLockedPrev(l10n.spaceName(blocker.id)));
+      return;
+    }
     _feedback.sound.play(FeedbackSound.pop);
     _school.markSeen(space.id);
     _say((l10n) => '${l10n.spaceName(space.id)}! ${l10n.spaceDesc(space.id)}');
@@ -102,6 +108,10 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
         onNeedStars: () {
           _feedback.sound.play(FeedbackSound.wrong);
           _say((l10n) => l10n.schoolNeedStars);
+        },
+        onLessonElsewhere: (next) {
+          _feedback.sound.play(FeedbackSound.wrong);
+          _say((l10n) => l10n.schoolNextLesson(l10n.spaceName(next)));
         },
       ),
     );
@@ -130,16 +140,16 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => lessonScreenFor(space, grade)));
     if (!mounted) return;
-    _say(
-      (l10n) =>
-          _school.claimableCount > before ? l10n.schoolHintGoal : _hint(l10n),
-    );
+    final reachedGoal = _school.claimableCount > before;
+    _say((l10n) => reachedGoal ? l10n.schoolHintGoal : _hint(l10n));
   }
 
-  /// "▶ Ganhar estrelas": aula rápida num espaço já construído.
+  /// "▶ Ganhar estrelas": vai direto pra aula da vez (aulas em ordem).
   void _quickLesson() {
-    final options = _school.lessonSpaces;
-    _startLesson(options[Random().nextInt(options.length)]);
+    final next = _school.currentLessonSpace();
+    if (next == null) return;
+    final def = ref.read(contentRepositoryProvider).school;
+    _startLesson(def.space(next));
   }
 
   void _openGoals() {
@@ -455,6 +465,7 @@ class _LotState extends ConsumerState<_Lot>
     final school = ref.read(schoolControllerProvider.notifier);
     final level = ref.watch(schoolControllerProvider).levelOf(widget.space.id);
     final open = school.isOpen(widget.space);
+    final blocked = open && school.blockedBy(widget.space) != null;
     final canAfford = school.canAfford(widget.space.id);
     final name = l10n.spaceName(widget.space.id);
 
@@ -466,6 +477,12 @@ class _LotState extends ConsumerState<_Lot>
         child: Text(widget.space.icon, style: const TextStyle(fontSize: 46)),
       );
       foot = Text(widget.gradeIcon, style: const TextStyle(fontSize: 20));
+    } else if (blocked) {
+      scene = Opacity(
+        opacity: .35,
+        child: Text(widget.space.icon, style: const TextStyle(fontSize: 46)),
+      );
+      foot = const Text('🔒', style: TextStyle(fontSize: 20));
     } else if (level == 0) {
       scene = const Text('🔨', style: TextStyle(fontSize: 46));
       foot = Text(
@@ -487,6 +504,8 @@ class _LotState extends ConsumerState<_Lot>
 
     final semanticLabel = !open
         ? l10n.schoolLotLocked(name, l10n.gradeName(widget.space.grade))
+        : blocked
+        ? l10n.schoolLotSequenceLocked(name)
         : level == 0
         ? l10n.schoolLotEmpty(name, school.costFor(widget.space.id) ?? 0)
         : l10n.schoolLotLevel(name, level, widget.space.maxLevel);
@@ -578,6 +597,7 @@ class _SpaceSheet extends ConsumerWidget {
     required this.onLesson,
     required this.onQuickLesson,
     required this.onNeedStars,
+    required this.onLessonElsewhere,
   });
 
   final SpaceDef space;
@@ -585,6 +605,10 @@ class _SpaceSheet extends ConsumerWidget {
   final VoidCallback onLesson;
   final VoidCallback onQuickLesson;
   final VoidCallback onNeedStars;
+
+  /// Aulas em ordem: tocou "Ter aula" fora da aula da vez — recebe o id do
+  /// espaço da aula da vez pra o guia dizer onde é.
+  final void Function(String nextSpaceId) onLessonElsewhere;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -595,6 +619,8 @@ class _SpaceSheet extends ConsumerWidget {
     final cost = school.costFor(space.id);
     final can = school.canAfford(space.id);
     final preview = space.levels[level == 0 ? 0 : level - 1].join(' ');
+    final nextLesson = school.currentLessonSpace();
+    final isLessonTurn = nextLesson == space.id;
 
     return SafeArea(
       child: Padding(
@@ -653,7 +679,10 @@ class _SpaceSheet extends ConsumerWidget {
                 icon: '▶',
                 label: l10n.schoolLesson,
                 color: colors.purple,
-                onTap: onLesson,
+                dim: !isLessonTurn,
+                onTap: isLessonTurn || nextLesson == null
+                    ? onLesson
+                    : () => onLessonElsewhere(nextLesson),
               ),
               const SizedBox(height: 10),
               if (cost == null)

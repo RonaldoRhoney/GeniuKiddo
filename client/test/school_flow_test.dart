@@ -37,7 +37,7 @@ void main() {
   );
 
   testWidgets(
-    'seção 6: trilha concluída → portão → série → escola; construir a Horta gasta 3 ⭐',
+    'seção 6: trilha concluída → portão → série → escola; Horta trancada até a 1ª aula na Sala',
     (tester) async {
       await pumpAppAtTrail(tester, trailDone: 8);
       await tester.tap(find.byKey(const ValueKey('btnSchool')));
@@ -56,14 +56,12 @@ void main() {
       expect(container.read(schoolControllerProvider).grade, 0);
       expect(container.read(schoolControllerProvider).stars, 3);
 
+      // Ordem de liberação: Horta só depois da Sala ter 1 aula.
       await tester.tap(find.byKey(const ValueKey('lot_horta')));
       await _settle(tester);
-      await tester.tap(find.byKey(const ValueKey('sheetBuild')));
-      await tester.pump();
-      await tester.pump(const Duration(seconds: 3));
-      await _settle(tester);
-      expect(container.read(schoolControllerProvider).levelOf('horta'), 1);
-      expect(container.read(schoolControllerProvider).stars, 0);
+      expect(find.byKey(const ValueKey('sheetBuild')), findsNothing);
+      expect(find.text('Ainda não! Primeiro: Sala de aula.'), findsOneWidget);
+      expect(container.read(schoolControllerProvider).stars, 3);
 
       // Espaço de série futura: não abre folha, só a fala encorajadora.
       await tester.scrollUntilVisible(
@@ -90,8 +88,7 @@ void main() {
         tester,
         trailDone: 8,
         extraPrefs: const {
-          'genius_kiddo_school_v1':
-              '{"grade":0,"stars":0,"built":{"sala":1,"horta":1}}',
+          'genius_kiddo_school_v1': '{"grade":0,"stars":0,"built":{"sala":1,"horta":1},"lessonsBySpace":{"sala":1},"lastLessonSpace":"sala"}',
         },
       );
       await tester.tap(find.byKey(const ValueKey('btnSchool')));
@@ -171,6 +168,27 @@ void main() {
         find.text('Oi! Que bom te ver! Vamos cuidar da nossa escola?'),
         findsNothing,
       );
+    },
+  );
+
+  testWidgets(
+    'aulas em ordem: fora da aula da vez, ▶ Ter aula não abre e o guia diz onde é',
+    (tester) async {
+      await pumpAppAtTrail(
+        tester,
+        trailDone: 8,
+        extraPrefs: const {
+          'genius_kiddo_school_v1': '{"grade":0,"stars":0,"built":{"sala":1,"horta":1},"lessonsBySpace":{"sala":1},"lastLessonSpace":"sala"}',
+        },
+      );
+      await tester.tap(find.byKey(const ValueKey('btnSchool')));
+      await _settle(tester);
+      await tester.tap(find.byKey(const ValueKey('lot_sala')));
+      await _settle(tester);
+      await tester.tap(find.byKey(const ValueKey('sheetLesson')));
+      await _settle(tester);
+      expect(find.byType(CountLesson), findsNothing);
+      expect(find.text('A próxima aula é: Horta!'), findsOneWidget);
     },
   );
 }

@@ -260,5 +260,13 @@
   "schoolLotEmpty": "{name}, vazio, construir por {cost} estrelas",
   "@schoolLotEmpty": {"placeholders": {"name": {"type": "String"}, "cost": {"type": "int"}}},
   "schoolLotLocked": "{name}, chega no {grade}",
-  "@schoolLotLocked": {"placeholders": {"name": {"type": "String"}, "grade": {"type": "String"}}}
+  "@schoolLotLocked": {"placeholders": {"name": {"type": "String"}, "grade": {"type": "String"}}},
+
+  "schoolLockedPrev": "Ainda não! Primeiro: {name}.",
+  "@schoolLockedPrev": {"description": "Espaço trancado pela ordem: o anterior ainda não foi concluído (construído + 1 aula)", "placeholders": {"name": {"type": "String"}}},
+  "schoolNextLesson": "A próxima aula é: {name}!",
+  "@schoolNextLesson": {"description": "Aulas em ordem: só uma aula fica liberada por vez", "placeholders": {"name": {"type": "String"}}},
+  "schoolLotSequenceLocked": "{name}, trancado",
+  "@schoolLotSequenceLocked": {"placeholders": {"name": {"type": "String"}}},
+  "missionLocked": "Trancado — resgate o objetivo anterior primeiro"
 }

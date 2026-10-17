@@ -20,6 +20,8 @@ class SchoolState {
     required this.medals,
     required this.graduated,
     required this.fresh,
+    this.lessonsBySpace = const {},
+    this.lastLessonSpace,
   });
 
   /// `null` = série ainda não escolhida (primeira entrada na escola).
@@ -46,6 +48,16 @@ class SchoolState {
   /// (brilham como "novos" e têm prioridade na sugestão).
   final List<String> fresh;
 
+  /// Aulas já feitas em cada espaço (total, não por ano) — regra de
+  /// liberação em ordem: o próximo espaço só abre depois do anterior ter
+  /// pelo menos 1 aula.
+  final Map<String, int> lessonsBySpace;
+
+  /// Espaço da última aula feita (rodízio das aulas em ordem).
+  final String? lastLessonSpace;
+
+  int lessonsIn(String spaceId) => lessonsBySpace[spaceId] ?? 0;
+
   factory SchoolState.initial(SchoolDef def) => SchoolState(
     grade: null,
     stars: def.startStars,
@@ -68,6 +80,8 @@ class SchoolState {
     int? medals,
     bool? graduated,
     List<String>? fresh,
+    Map<String, int>? lessonsBySpace,
+    String? lastLessonSpace,
   }) => SchoolState(
     grade: grade ?? this.grade,
     stars: stars ?? this.stars,
@@ -77,6 +91,8 @@ class SchoolState {
     medals: medals ?? this.medals,
     graduated: graduated ?? this.graduated,
     fresh: fresh ?? this.fresh,
+    lessonsBySpace: lessonsBySpace ?? this.lessonsBySpace,
+    lastLessonSpace: lastLessonSpace ?? this.lastLessonSpace,
   );
 
   Map<String, dynamic> toJson() => {
@@ -88,6 +104,8 @@ class SchoolState {
     'medals': medals,
     'graduated': graduated,
     'fresh': fresh,
+    'lessonsBySpace': lessonsBySpace,
+    'lastLessonSpace': lastLessonSpace,
   };
 
   /// Campo ausente cai no valor inicial — nunca quebra ao ler um estado
@@ -105,6 +123,11 @@ class SchoolState {
       medals: json['medals'] as int? ?? 0,
       graduated: json['graduated'] as bool? ?? false,
       fresh: (json['fresh'] as List?)?.cast<String>() ?? const [],
+      lessonsBySpace:
+          (json['lessonsBySpace'] as Map<String, dynamic>?)
+              ?.cast<String, int>() ??
+          const {},
+      lastLessonSpace: json['lastLessonSpace'] as String?,
     );
   }
 }
@@ -135,6 +158,39 @@ class SchoolController extends Notifier<SchoolState> {
   // ------------------------------------------------------------ consultas
 
   bool isOpen(SpaceDef space) => (state.grade ?? 0) >= space.grade;
+
+  /// Regra "só desbloqueia quando o anterior for concluído": na ordem do
+  /// `school.json`, um espaço só abre depois do anterior estar construído
+  /// e ter pelo menos 1 aula. Retorna o espaço que está segurando este, ou
+  /// `null` se nada segura. Espaço já construído nunca volta a trancar
+  /// (progresso salvo é respeitado).
+  SpaceDef? blockedBy(SpaceDef space) {
+    if (state.levelOf(space.id) > 0) return null;
+    final i = _def.spaces.indexWhere((s) => s.id == space.id);
+    if (i <= 0) return null;
+    final prev = _def.spaces[i - 1];
+    final done = state.levelOf(prev.id) > 0 && state.lessonsIn(prev.id) > 0;
+    return done ? null : prev;
+  }
+
+  /// Aberto pra série E liberado pela ordem.
+  bool isAvailable(SpaceDef space) => isOpen(space) && blockedBy(space) == null;
+
+  /// Aulas em ordem: só uma aula fica liberada por vez. Primeiro um espaço
+  /// construído que ainda não teve aula (na ordem); se todos já tiveram,
+  /// rodízio na ordem dos espaços a partir da última aula feita.
+  String? currentLessonSpace() {
+    final built = [
+      for (final s in _def.spaces)
+        if (isOpen(s) && state.levelOf(s.id) > 0) s.id,
+    ];
+    if (built.isEmpty) return null;
+    for (final id in built) {
+      if (state.lessonsIn(id) == 0) return id;
+    }
+    final last = built.indexOf(state.lastLessonSpace ?? '');
+    return built[(last + 1) % built.length];
+  }
 
   /// Custo do próximo passo (construir ou melhorar); `null` = no máximo.
   int? costFor(String spaceId) {
@@ -174,35 +230,34 @@ class SchoolController extends Notifier<SchoolState> {
 
   bool missionDone(int index) => missionProgress(index) >= missions[index].n;
 
+  /// Objetivos em ordem: o próximo só fica disponível depois do anterior
+  /// ser resgatado.
+  bool missionUnlocked(int index) => index == 0 || state.claimed[index - 1];
+
   int get claimableCount => [
     for (var i = 0; i < missions.length; i++)
-      if (missionDone(i) && !state.claimed[i]) i,
+      if (missionUnlocked(i) && missionDone(i) && !state.claimed[i]) i,
   ].length;
 
   bool get allClaimed => state.claimed.every((c) => c);
 
-  /// Seção 6.6 / Anexo B: prioriza espaço novo da série, depois construção
-  /// possível, depois melhoria possível, senão a Sala.
+  /// Seção 6.6 / Anexo B, com a ordem de liberação: espaço novo da série
+  /// (se já liberado), depois construção possível, depois melhoria
+  /// possível, senão o espaço da aula da vez.
   String? suggestion() {
     if (state.grade == null) return null;
-    final open = _def.spaces.where(isOpen).toList();
+    final available = _def.spaces.where(isAvailable).toList();
     for (final id in state.fresh) {
-      if (open.any((s) => s.id == id)) return id;
+      if (available.any((s) => s.id == id)) return id;
     }
-    for (final s in open) {
+    for (final s in available) {
       if (state.levelOf(s.id) == 0 && canAfford(s.id)) return s.id;
     }
-    for (final s in open) {
+    for (final s in available) {
       if (state.levelOf(s.id) > 0 && canAfford(s.id)) return s.id;
     }
-    return _def.spaces.first.id;
+    return currentLessonSpace() ?? _def.spaces.first.id;
   }
-
-  /// Espaços com aula disponível agora ("▶ Ganhar estrelas" sorteia um).
-  List<SpaceDef> get lessonSpaces => [
-    for (final s in _def.spaces)
-      if (isOpen(s) && state.levelOf(s.id) > 0) s,
-  ];
 
   // -------------------------------------------------------------- ações
 
@@ -226,7 +281,9 @@ class SchoolController extends Notifier<SchoolState> {
   Future<bool> buildOrUpgrade(String spaceId) async {
     final space = _def.space(spaceId);
     final cost = costFor(spaceId);
-    if (!isOpen(space) || cost == null || state.stars < cost) return false;
+    if (!isAvailable(space) || cost == null || state.stars < cost) {
+      return false;
+    }
     await _save(
       state.copyWith(
         stars: state.stars - cost,
@@ -246,16 +303,26 @@ class SchoolController extends Notifier<SchoolState> {
   }
 
   /// Aula concluída: +3 ⭐ sempre (libera por participação, seção 4.6).
-  Future<void> completeLesson() => _save(
-    state.copyWith(
-      stars: state.stars + _def.reward,
-      lessonsYear: state.lessonsYear + 1,
-    ),
-  );
+  /// `spaceId` = onde foi a aula (padrão: a aula da vez).
+  Future<void> completeLesson([String? spaceId]) {
+    final id = spaceId ?? currentLessonSpace() ?? _def.spaces.first.id;
+    return _save(
+      state.copyWith(
+        stars: state.stars + _def.reward,
+        lessonsYear: state.lessonsYear + 1,
+        lessonsBySpace: {...state.lessonsBySpace, id: state.lessonsIn(id) + 1},
+        lastLessonSpace: id,
+      ),
+    );
+  }
 
   /// Objetivo cumprido e ainda não resgatado: +2 ⭐ e uma medalha.
   Future<bool> claim(int index) async {
-    if (state.claimed[index] || !missionDone(index)) return false;
+    if (state.claimed[index] ||
+        !missionUnlocked(index) ||
+        !missionDone(index)) {
+      return false;
+    }
     final claimed = [...state.claimed]..[index] = true;
     await _save(
       state.copyWith(
