@@ -5,12 +5,12 @@
     {"icon": "🎓", "age": 5}
   ],
   "spaces": [
-    {"id": "sala", "grade": 0, "icon": "🏫", "lesson": "shapes", "levels": [["🏫"], ["🏫", "🎒"], ["🏫", "🎒", "🌈"]]},
-    {"id": "horta", "grade": 0, "icon": "🌱", "lesson": "count", "levels": [["🌱", "🌱"], ["🥕", "🌱", "🥕"], ["🌻", "🥕", "🌽", "🍅"]]},
-    {"id": "atelie", "grade": 0, "icon": "🎨", "lesson": "paint", "levels": [["🖌️"], ["🖌️", "🎨"], ["🖼️", "🎨", "🖌️"]]},
-    {"id": "biblio", "grade": 1, "icon": "📚", "lesson": "letters", "levels": [["📖"], ["📚", "📖"], ["🏛️", "📚", "📖"]]},
-    {"id": "patio", "grade": 1, "icon": "⚽", "lesson": "rhythm", "levels": [["⚽"], ["⚽", "🎠"], ["🎠", "⚽", "🏀"]]},
-    {"id": "refeit", "grade": 2, "icon": "🍽️", "lesson": "sorting", "levels": [["🍽️"], ["🍎", "🍽️"], ["🍎", "🥕", "🍽️"]]}
+    {"id": "sala", "grade": 0, "icon": "🏫", "lesson": "shapes", "levels": [["🏫"], ["🏫", "🎒"], ["🏫", "🎒", "🌈"]], "x": 520, "y": 1460},
+    {"id": "horta", "grade": 0, "icon": "🌱", "lesson": "count", "levels": [["🌱", "🌱"], ["🥕", "🌱", "🥕"], ["🌻", "🥕", "🌽", "🍅"]], "x": 820, "y": 1340},
+    {"id": "atelie", "grade": 0, "icon": "🎨", "lesson": "paint", "levels": [["🖌️"], ["🖌️", "🎨"], ["🖼️", "🎨", "🖌️"]], "x": 560, "y": 1150},
+    {"id": "biblio", "grade": 1, "icon": "📚", "lesson": "letters", "levels": [["📖"], ["📚", "📖"], ["🏛️", "📚", "📖"]], "x": 1060, "y": 1110},
+    {"id": "patio", "grade": 1, "icon": "⚽", "lesson": "rhythm", "levels": [["⚽"], ["⚽", "🎠"], ["🎠", "⚽", "🏀"]], "x": 1100, "y": 800},
+    {"id": "refeit", "grade": 2, "icon": "🍽️", "lesson": "sorting", "levels": [["🍽️"], ["🍎", "🍽️"], ["🍎", "🥕", "🍽️"]], "x": 660, "y": 520}
   ],
   "startStars": 3,
   "startBuilt": {"sala": 1},
@@ -22,5 +22,11 @@
     [{"type": "build", "n": 3, "icon": "🏗️"}, {"type": "lessons", "n": 6, "icon": "📘"}, {"type": "level", "level": 2, "n": 1, "icon": "⬆️"}],
     [{"type": "build", "n": 5, "icon": "🏗️"}, {"type": "lessons", "n": 12, "icon": "📘"}, {"type": "level", "level": 3, "n": 1, "icon": "🌟"}],
     [{"type": "build", "n": 6, "icon": "🏗️"}, {"type": "lessons", "n": 18, "icon": "📘"}, {"type": "level", "level": 3, "n": 2, "icon": "🌟"}]
+  ],
+  "world": {"width": 1300, "height": 2000, "lotSize": 150},
+  "regions": [
+    {"grade": 0, "x": 330, "y": 1000, "width": 670, "height": 650},
+    {"grade": 1, "x": 900, "y": 620, "width": 380, "height": 700},
+    {"grade": 2, "x": 330, "y": 280, "width": 640, "height": 480}
   ]
 }

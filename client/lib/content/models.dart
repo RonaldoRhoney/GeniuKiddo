@@ -72,6 +72,8 @@ class SpaceDef {
     required this.icon,
     required this.lesson,
     required this.levels,
+    this.x = 0,
+    this.y = 0,
   });
 
   final String id;
@@ -86,6 +88,11 @@ class SpaceDef {
 
   int get maxLevel => levels.length;
 
+  /// Centro do terreno no mapa (M6, unidades do mundo — ver `WorldDef`).
+  /// A ordem dos espaços no `school.json` é também a ordem do caminho.
+  final double x;
+  final double y;
+
   factory SpaceDef.fromJson(Map<String, dynamic> json) => SpaceDef(
     id: json['id'] as String,
     grade: json['grade'] as int,
@@ -94,6 +101,57 @@ class SpaceDef {
     levels: [
       for (final l in json['levels'] as List) (l as List).cast<String>(),
     ],
+    x: (json['x'] as num?)?.toDouble() ?? 0,
+    y: (json['y'] as num?)?.toDouble() ?? 0,
+  );
+}
+
+/// Mapa livre da escola (M6, seção 7): tamanho do mundo em unidades
+/// próprias (1 unidade ≈ 1 dp com a escala fixa, RM-04) e lado do terreno.
+class WorldDef {
+  const WorldDef({
+    required this.width,
+    required this.height,
+    required this.lotSize,
+  });
+
+  final double width;
+  final double height;
+  final double lotSize;
+
+  factory WorldDef.fromJson(Map<String, dynamic> json) => WorldDef(
+    width: (json['width'] as num).toDouble(),
+    height: (json['height'] as num).toDouble(),
+    lotSize: (json['lotSize'] as num).toDouble(),
+  );
+}
+
+/// Região de uma série no mapa — fica coberta por nuvens até a criança
+/// chegar nessa série (RM-06).
+class RegionDef {
+  const RegionDef({
+    required this.grade,
+    required this.x,
+    required this.y,
+    required this.width,
+    required this.height,
+  });
+
+  final int grade;
+  final double x;
+  final double y;
+  final double width;
+  final double height;
+
+  bool contains(double px, double py) =>
+      px >= x && px <= x + width && py >= y && py <= y + height;
+
+  factory RegionDef.fromJson(Map<String, dynamic> json) => RegionDef(
+    grade: json['grade'] as int,
+    x: (json['x'] as num).toDouble(),
+    y: (json['y'] as num).toDouble(),
+    width: (json['width'] as num).toDouble(),
+    height: (json['height'] as num).toDouble(),
   );
 }
 
@@ -134,8 +192,12 @@ class SchoolDef {
     required this.bonus,
     required this.maxKids,
     required this.missions,
+    required this.world,
+    required this.regions,
   });
 
+  final WorldDef world;
+  final List<RegionDef> regions;
   final List<GradeDef> grades;
   final List<SpaceDef> spaces;
   final int startStars;
@@ -177,6 +239,11 @@ class SchoolDef {
       reward: json['reward'] as int,
       bonus: json['bonus'] as int,
       maxKids: json['maxKids'] as int,
+      world: WorldDef.fromJson(json['world'] as Map<String, dynamic>),
+      regions: [
+        for (final r in json['regions'] as List)
+          RegionDef.fromJson(r as Map<String, dynamic>),
+      ],
       missions: [
         for (final g in json['missions'] as List)
           [
