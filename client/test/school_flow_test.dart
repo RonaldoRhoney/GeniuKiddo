@@ -145,4 +145,32 @@ void main() {
       expect(find.byKey(const ValueKey('btnSchool')), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'seção 4.5: trocar o idioma na escola traduz o balão do guia na hora',
+    (tester) async {
+      await pumpAppAtTrail(
+        tester,
+        trailDone: 8,
+        extraPrefs: const {'genius_kiddo_school_v1': '{"grade":0}'},
+      );
+      await tester.tap(find.byKey(const ValueKey('btnSchool')));
+      await _settle(tester);
+      expect(
+        find.text('Oi! Que bom te ver! Vamos cuidar da nossa escola?'),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.text('Hi!'));
+      await _settle(tester);
+      expect(
+        find.text('Hi! So good to see you! Shall we take care of our school?'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Oi! Que bom te ver! Vamos cuidar da nossa escola?'),
+        findsNothing,
+      );
+    },
+  );
 }

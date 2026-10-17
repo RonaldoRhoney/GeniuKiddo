@@ -89,7 +89,11 @@ class _ShapesLessonState extends ConsumerState<ShapesLesson> {
   }
 
   void _newRound() {
-    final r = shapeRound(widget.grade, _random);
+    // Mesma regra da Horta: não repetir o pedido da rodada anterior.
+    var r = shapeRound(widget.grade, _random);
+    while (_round > 0 && r.target.shape == _target.shape) {
+      r = shapeRound(widget.grade, _random);
+    }
     setState(() {
       _target = r.target;
       _options = r.options;
@@ -161,7 +165,8 @@ class _ShapesLessonState extends ConsumerState<ShapesLesson> {
           const SizedBox(height: 14),
           Expanded(
             child: GridView.count(
-              crossAxisCount: 2,
+              // Maternal (3 formas): uma linha só, sem buraco na grade.
+              crossAxisCount: _options.length == 3 ? 3 : 2,
               mainAxisSpacing: 14,
               crossAxisSpacing: 14,
               children: [

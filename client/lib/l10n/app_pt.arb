@@ -251,5 +251,14 @@
   "sortRetry": "Frutas ou legumes?",
   "sortFruits": "Frutas",
   "sortVeggies": "Legumes",
-  "sortDone": "Tudo separadinho!"
+  "sortDone": "Tudo separadinho!",
+
+  "musicOn": "Música ligada",
+  "musicOff": "Música desligada",
+  "schoolLotLevel": "{name}, nível {level} de {max}",
+  "@schoolLotLevel": {"description": "Rótulo do leitor de tela de um espaço construído", "placeholders": {"name": {"type": "String"}, "level": {"type": "int"}, "max": {"type": "int"}}},
+  "schoolLotEmpty": "{name}, vazio, construir por {cost} estrelas",
+  "@schoolLotEmpty": {"placeholders": {"name": {"type": "String"}, "cost": {"type": "int"}}},
+  "schoolLotLocked": "{name}, chega no {grade}",
+  "@schoolLotLocked": {"placeholders": {"name": {"type": "String"}, "grade": {"type": "String"}}}
 }

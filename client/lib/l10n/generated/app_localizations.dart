@@ -1285,6 +1285,36 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Tudo separadinho!'**
   String get sortDone;
+
+  /// No description provided for @musicOn.
+  ///
+  /// In pt, this message translates to:
+  /// **'Música ligada'**
+  String get musicOn;
+
+  /// No description provided for @musicOff.
+  ///
+  /// In pt, this message translates to:
+  /// **'Música desligada'**
+  String get musicOff;
+
+  /// Rótulo do leitor de tela de um espaço construído
+  ///
+  /// In pt, this message translates to:
+  /// **'{name}, nível {level} de {max}'**
+  String schoolLotLevel(String name, int level, int max);
+
+  /// No description provided for @schoolLotEmpty.
+  ///
+  /// In pt, this message translates to:
+  /// **'{name}, vazio, construir por {cost} estrelas'**
+  String schoolLotEmpty(String name, int cost);
+
+  /// No description provided for @schoolLotLocked.
+  ///
+  /// In pt, this message translates to:
+  /// **'{name}, chega no {grade}'**
+  String schoolLotLocked(String name, String grade);
 }
 
 class _AppLocalizationsDelegate

@@ -677,4 +677,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sortDone => 'All sorted!';
+
+  @override
+  String get musicOn => 'Music on';
+
+  @override
+  String get musicOff => 'Music off';
+
+  @override
+  String schoolLotLevel(String name, int level, int max) {
+    return '$name, level $level of $max';
+  }
+
+  @override
+  String schoolLotEmpty(String name, int cost) {
+    return '$name, empty, build for $cost stars';
+  }
+
+  @override
+  String schoolLotLocked(String name, String grade) {
+    return '$name, arrives in $grade';
+  }
 }

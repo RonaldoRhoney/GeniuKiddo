@@ -52,6 +52,7 @@ class _HoldToUnlockState extends State<HoldToUnlock>
       child: Semantics(
         button: true,
         label: widget.semanticLabel,
+        excludeSemantics: true,
         child: SizedBox(
           width: widget.size,
           height: widget.size,

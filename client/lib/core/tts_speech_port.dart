@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,6 +39,7 @@ class TtsSpeechPort implements SpeechPort {
   static const _clearWebRate = 0.8;
 
   List<Map<Object?, Object?>>? _cachedVoices;
+  String? _lastLoggedVoice;
 
   @override
   void speak(String text, {bool clear = false}) {
@@ -64,7 +67,8 @@ class TtsSpeechPort implements SpeechPort {
       await _tts.setSpeechRate(_ttsRate(webRate));
       await _setPreferredVoice(locale, languageCode, persistence);
       await _tts.speak(text);
-    } catch (_) {
+    } catch (e) {
+      if (kDebugMode) debugPrint('TTS erro: $e');
       // Seção 4.3: "algumas vozes do sistema ignoram o pitch. É esperado."
       // Qualquer falha de síntese (motor ausente, parâmetro rejeitado)
       // nunca derruba a tela — a criança só não ouve a fala desta vez.
@@ -86,6 +90,10 @@ class TtsSpeechPort implements SpeechPort {
     }
     pick ??= _bestAutomaticVoice(voices, locale);
     if (pick == null) return;
+    if (kDebugMode && pick['name'] != _lastLoggedVoice) {
+      _lastLoggedVoice = pick['name'] as String?;
+      debugPrint('TTS voz: ${pick['name']} (${pick['locale']})');
+    }
     await _tts.setVoice({
       'name': pick['name'] as String,
       'locale': pick['locale'] as String,
@@ -94,8 +102,12 @@ class TtsSpeechPort implements SpeechPort {
 
   /// Seção 4.3: "seleção automática... preferência por vozes femininas,
   /// claras e jovens" — mesma lista curada dos protótipos HTML.
+  ///
+  /// Android (motor do Google): as vozes padrão do motor, versão offline —
+  /// "afs" pra pt-BR e "sfg" pra en-US (as do protótipo não existem lá).
   static const _preferredNames = {
     'pt-BR': [
+      'pt-br-x-afs-local',
       'Luciana',
       'Google português do Brasil',
       'Francisca',
@@ -105,6 +117,7 @@ class TtsSpeechPort implements SpeechPort {
       'Camila',
     ],
     'en-US': [
+      'en-us-x-sfg-local',
       'Samantha',
       'Kathy',
       'Ava',
@@ -127,9 +140,25 @@ class TtsSpeechPort implements SpeechPort {
           .firstOrNull;
       if (match != null) return match;
     }
-    return voices.first;
+    // Android (motor do Google): nomes como "pt-br-x-afs-local" não batem
+    // com a lista curada — prefere uma voz que funcione sem internet (R3:
+    // zero requisição de rede na área da criança).
+    return voices.where(_isOffline).firstOrNull ?? voices.first;
   }
 
+  static bool _isOffline(Map<Object?, Object?> v) {
+    final name = (v['name'] as String? ?? '').toLowerCase();
+    final network = '${v['network_required'] ?? ''}'.toLowerCase();
+    if (network == '1' || network == 'true') return false;
+    return !name.contains('network');
+  }
+
+  /// "pt_BR", "pt-br" e "pt-BR" viram "pt-br".
+  static String _norm(String tag) => tag.replaceAll('_', '-').toLowerCase();
+
+  /// Vozes do idioma COM a região certa (pt-BR, nunca pt-PT pra quem
+  /// escolheu português do Brasil). Só cai pras vozes do idioma sem região
+  /// exata se o aparelho não tiver nenhuma da região.
   Future<List<Map<Object?, Object?>>> _voicesFor(String locale) async {
     if (_cachedVoices == null) {
       try {
@@ -139,11 +168,14 @@ class TtsSpeechPort implements SpeechPort {
         _cachedVoices = const [];
       }
     }
-    final base = locale.split('-').first;
+    final target = _norm(locale);
+    String localeOf(Map<Object?, Object?> v) =>
+        _norm(v['locale'] as String? ?? '');
+    final exact = _cachedVoices!.where((v) => localeOf(v) == target).toList();
+    if (exact.isNotEmpty) return exact;
+    final base = target.split('-').first;
     return _cachedVoices!
-        .where(
-          (v) => (v['locale'] as String? ?? '').toLowerCase().startsWith(base),
-        )
+        .where((v) => localeOf(v).split('-').first == base)
         .toList();
   }
 

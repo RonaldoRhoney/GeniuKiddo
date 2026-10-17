@@ -11,6 +11,7 @@ import '../../app/top_controls.dart';
 import '../../content/content_repository.dart';
 import '../../content/models.dart';
 import '../../core/item_feedback.dart';
+import '../../core/language_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../celebration/celebration_overlay.dart';
 import '../parents/parents_area_screen.dart';
@@ -32,7 +33,10 @@ class SchoolScreen extends ConsumerStatefulWidget {
 }
 
 class _SchoolScreenState extends ConsumerState<SchoolScreen> {
-  String _bubble = '';
+  /// Qual frase o guia está dizendo — guardada como "frase em função do
+  /// idioma", não como texto pronto, pra trocar de idioma traduzir o balão
+  /// na hora (e o guia repetir a frase no idioma novo).
+  String Function(AppLocalizations l10n) _bubble = (_) => '';
 
   /// Espaço que acabou de ser construído/melhorado (animação de crescer).
   String? _justChanged;
@@ -46,9 +50,10 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      final l10n = AppLocalizations.of(context)!;
       _say(
-        widget.firstVisit ? l10n.schoolWelcomeFirst : l10n.schoolWelcomeBack,
+        (l10n) => widget.firstVisit
+            ? l10n.schoolWelcomeFirst
+            : l10n.schoolWelcomeBack,
       );
     });
   }
@@ -59,9 +64,9 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     super.dispose();
   }
 
-  void _say(String text) {
+  void _say(String Function(AppLocalizations l10n) text) {
     setState(() => _bubble = text);
-    _feedback.speech.speak(text);
+    _feedback.speech.speak(text(AppLocalizations.of(context)!));
   }
 
   /// Dica do guia (mesma prioridade do protótipo): objetivo a resgatar,
@@ -74,15 +79,14 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
   }
 
   void _tapSpace(SpaceDef space) {
-    final l10n = AppLocalizations.of(context)!;
     if (!_school.isOpen(space)) {
       _feedback.sound.play(FeedbackSound.wrong);
-      _say(l10n.schoolGradeLocked(l10n.gradeName(space.grade)));
+      _say((l10n) => l10n.schoolGradeLocked(l10n.gradeName(space.grade)));
       return;
     }
     _feedback.sound.play(FeedbackSound.pop);
     _school.markSeen(space.id);
-    _say('${l10n.spaceName(space.id)}! ${l10n.spaceDesc(space.id)}');
+    _say((l10n) => '${l10n.spaceName(space.id)}! ${l10n.spaceDesc(space.id)}');
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.of(context).card,
@@ -97,26 +101,25 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
         onQuickLesson: _quickLesson,
         onNeedStars: () {
           _feedback.sound.play(FeedbackSound.wrong);
-          _say(l10n.schoolNeedStars);
+          _say((l10n) => l10n.schoolNeedStars);
         },
       ),
     );
   }
 
   Future<void> _buildOrUpgrade(SpaceDef space) async {
-    final l10n = AppLocalizations.of(context)!;
     final isNew = ref.read(schoolControllerProvider).levelOf(space.id) == 0;
     final ok = await _school.buildOrUpgrade(space.id);
     if (!ok || !mounted) return;
     Navigator.of(context).pop(); // fecha a folha
     _feedback.sound.play(FeedbackSound.build);
     setState(() => _justChanged = space.id);
-    _say(isNew ? l10n.schoolBuilt : l10n.schoolUpgraded);
+    _say((l10n) => isNew ? l10n.schoolBuilt : l10n.schoolUpgraded);
     _laterTimer?.cancel();
     _laterTimer = Timer(const Duration(milliseconds: 2600), () {
       if (!mounted) return;
       setState(() => _justChanged = null);
-      if (_school.claimableCount > 0) _say(l10n.schoolHintGoal);
+      if (_school.claimableCount > 0) _say((l10n) => l10n.schoolHintGoal);
     });
   }
 
@@ -127,8 +130,10 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     await Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => lessonScreenFor(space, grade)));
     if (!mounted) return;
-    final l10n = AppLocalizations.of(context)!;
-    _say(_school.claimableCount > before ? l10n.schoolHintGoal : _hint(l10n));
+    _say(
+      (l10n) =>
+          _school.claimableCount > before ? l10n.schoolHintGoal : _hint(l10n),
+    );
   }
 
   /// "▶ Ganhar estrelas": aula rápida num espaço já construído.
@@ -147,7 +152,8 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
       ),
       builder: (_) => GoalsSheet(
-        onClaimed: () => _say(AppLocalizations.of(context)!.medalEarned),
+        onClaimed: () =>
+            _say((l10n) => AppLocalizations.of(context)!.medalEarned),
         onPromote: () {
           Navigator.of(context).pop();
           _promote();
@@ -168,7 +174,7 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     await showCelebration(context, message: message, icon: '🎓');
     if (!mounted) return;
     _say(
-      result == PromotionResult.promoted
+      (l10n) => result == PromotionResult.promoted
           ? l10n.afterPromotion
           : l10n.afterGraduation,
     );
@@ -176,6 +182,13 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<LanguageState>(languageControllerProvider, (prev, next) {
+      if (prev == null || prev.code == next.code) return;
+      // Espera o frame com o idioma novo pra falar já traduzido.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _say(_bubble);
+      });
+    });
     final l10n = AppLocalizations.of(context)!;
     final colors = AppColors.of(context);
     final def = ref.watch(contentRepositoryProvider).school;
@@ -245,7 +258,7 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                       child: Semantics(
                         liveRegion: true,
                         child: Text(
-                          _bubble,
+                          _bubble(l10n),
                           style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                       ),
@@ -472,9 +485,15 @@ class _LotState extends ConsumerState<_Lot>
       );
     }
 
+    final semanticLabel = !open
+        ? l10n.schoolLotLocked(name, l10n.gradeName(widget.space.grade))
+        : level == 0
+        ? l10n.schoolLotEmpty(name, school.costFor(widget.space.id) ?? 0)
+        : l10n.schoolLotLevel(name, level, widget.space.maxLevel);
     return Semantics(
       button: true,
-      label: name,
+      label: semanticLabel,
+      excludeSemantics: true,
       child: AnimatedScale(
         scale: widget.grown ? 1.08 : 1,
         duration: const Duration(milliseconds: 300),

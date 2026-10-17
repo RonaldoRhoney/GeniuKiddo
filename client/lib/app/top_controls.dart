@@ -132,7 +132,9 @@ class MusicToggleButton extends ConsumerWidget {
     return IconButton(
       onPressed: () => ref.read(musicControllerProvider.notifier).toggle(),
       icon: Icon(enabled ? Icons.music_note_rounded : Icons.music_off_rounded),
-      tooltip: enabled ? 'Música ligada' : 'Música desligada',
+      tooltip: enabled
+          ? AppLocalizations.of(context)!.musicOn
+          : AppLocalizations.of(context)!.musicOff,
       iconSize: 26,
       style: IconButton.styleFrom(
         backgroundColor: colors.card,

@@ -190,5 +190,11 @@
   "sortRetry": "Fruits or veggies?",
   "sortFruits": "Fruits",
   "sortVeggies": "Veggies",
-  "sortDone": "All sorted!"
+  "sortDone": "All sorted!",
+
+  "musicOn": "Music on",
+  "musicOff": "Music off",
+  "schoolLotLevel": "{name}, level {level} of {max}",
+  "schoolLotEmpty": "{name}, empty, build for {cost} stars",
+  "schoolLotLocked": "{name}, arrives in {grade}"
 }
