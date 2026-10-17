@@ -127,7 +127,6 @@
   "parentsThemeDark": "Dark",
   "parentsPrivacyLabel": "Privacy",
   "parentsPrivacySummary": "Genius Kiddo never asks for the child's name, birth date or email. Everything is stored only on this device, with no internet connection, and the child's voice is never recorded.",
-  "parentsPrivacyPolicyPlaceholder": "The full privacy policy will be published together with the app in the store.",
   "trailSchool": "School",
   "gradeGateTitle": "For parents",
   "gradeGateHint": "Hold the lock to choose the child's grade.",
@@ -267,5 +266,9 @@
   "helpBreakTitle": "Rest break",
   "helpBreakBody": "After the chosen time of continuous use (15 minutes unless you change it), the \"Time to rest your eyes\" break appears. Only an adult can close it, by holding its lock.",
   "helpStuckTitle": "If the child gets stuck",
-  "helpStuckBody": "Tap 🔊 to hear it again. In activities, after a wrong tap, the right answer gets a yellow outline. A locked item shakes and Kiddo explains what comes first. The 🏠 button always goes back to the menu."
+  "helpStuckBody": "Tap 🔊 to hear it again. In activities, after a wrong tap, the right answer gets a yellow outline. A locked item shakes and Kiddo explains what comes first. The 🏠 button always goes back to the menu.",
+  "parentsPrivacyFullPolicy": "Full policy:",
+  "parentsPrivacyCopy": "Copy address",
+  "parentsPrivacyCopied": "Address copied",
+  "parentsPrivacyContact": "Contact:"
 }

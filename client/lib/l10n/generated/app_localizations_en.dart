@@ -335,10 +335,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Genius Kiddo never asks for the child\'s name, birth date or email. Everything is stored only on this device, with no internet connection, and the child\'s voice is never recorded.';
 
   @override
-  String get parentsPrivacyPolicyPlaceholder =>
-      'The full privacy policy will be published together with the app in the store.';
-
-  @override
   String get trailSchool => 'School';
 
   @override
@@ -845,4 +841,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpStuckBody =>
       'Tap 🔊 to hear it again. In activities, after a wrong tap, the right answer gets a yellow outline. A locked item shakes and Kiddo explains what comes first. The 🏠 button always goes back to the menu.';
+
+  @override
+  String get parentsPrivacyFullPolicy => 'Full policy:';
+
+  @override
+  String get parentsPrivacyCopy => 'Copy address';
+
+  @override
+  String get parentsPrivacyCopied => 'Address copied';
+
+  @override
+  String get parentsPrivacyContact => 'Contact:';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/app_info.dart';
 import '../../app/theme.dart';
 import '../../app/top_controls.dart';
 import '../../content/content_repository.dart';
@@ -643,28 +644,43 @@ class _AppearanceSection extends ConsumerWidget {
   }
 }
 
-/// Resumo de privacidade em linguagem simples (a política completa entra
-/// como link quando for publicada, M8).
+/// Resumo de privacidade em linguagem simples + endereço da política
+/// completa (seção 4.7). O endereço é selecionável e copiável — abrir o
+/// navegador exigiria um pacote novo (regra 0.5).
 class _PrivacySection extends StatelessWidget {
   const _PrivacySection();
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final colors = AppColors.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.parentsPrivacySummary),
-        const SizedBox(height: 10),
-        Text(
-          l10n.parentsPrivacyPolicyPlaceholder,
-          style: TextStyle(
-            fontSize: 12,
-            color: colors.ink.withValues(alpha: .6),
-            fontStyle: FontStyle.italic,
+        const SizedBox(height: 14),
+        _Label(l10n.parentsPrivacyFullPolicy),
+        const SelectableText(AppInfo.privacyPolicyUrl),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 48,
+          child: OutlinedButton.icon(
+            key: const ValueKey('copyPolicy'),
+            onPressed: () async {
+              await Clipboard.setData(
+                const ClipboardData(text: AppInfo.privacyPolicyUrl),
+              );
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(l10n.parentsPrivacyCopied)),
+              );
+            },
+            icon: const Icon(Icons.copy_rounded),
+            label: Text(l10n.parentsPrivacyCopy),
           ),
         ),
+        const SizedBox(height: 14),
+        _Label(l10n.parentsPrivacyContact),
+        const SelectableText(AppInfo.supportEmail),
       ],
     );
   }

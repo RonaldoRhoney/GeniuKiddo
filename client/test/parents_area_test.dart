@@ -99,6 +99,8 @@ void main() {
 
       await _openCard(tester, 'privacy');
       expect(find.textContaining('não pede nome'), findsOneWidget);
+    expect(find.text('https://ronaldorhoney.github.io/GeniuKiddo/'), findsOneWidget);
+    expect(find.byKey(const ValueKey('copyPolicy')), findsOneWidget);
     },
   );
 

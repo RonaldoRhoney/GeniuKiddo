@@ -195,10 +195,6 @@
   "parentsThemeDark": "Escuro",
   "parentsPrivacyLabel": "Privacidade",
   "parentsPrivacySummary": "O Genius Kiddo não pede nome, data de nascimento nem e-mail da criança. Tudo fica guardado só neste aparelho, sem conexão com a internet, e a voz da criança nunca é gravada.",
-  "parentsPrivacyPolicyPlaceholder": "A política de privacidade completa será publicada junto com o app na loja.",
-  "@parentsPrivacyPolicyPlaceholder": {
-    "description": "Placeholder até o M8 publicar a política de privacidade de verdade e virar link"
-  },
   "trailSchool": "Escolinha",
   "gradeGateTitle": "Para os pais",
   "gradeGateHint": "Segure o cadeado para escolher a série da criança.",
@@ -610,5 +606,9 @@
   "helpBreakTitle": "Pausa para descansar",
   "helpBreakBody": "Depois do tempo escolhido de uso contínuo (15 minutos, se você não mudar), aparece a pausa \"Hora de descansar os olhinhos\". Só um adulto fecha, segurando o cadeado dela.",
   "helpStuckTitle": "Se a criança ficar travada",
-  "helpStuckBody": "Toque no 🔊 para ouvir de novo. Nas atividades, depois de um toque fora, a resposta certa ganha um contorno amarelo. Item trancado treme e o Kiddo explica o que vem antes. O botão 🏠 sempre volta para o menu."
+  "helpStuckBody": "Toque no 🔊 para ouvir de novo. Nas atividades, depois de um toque fora, a resposta certa ganha um contorno amarelo. Item trancado treme e o Kiddo explica o que vem antes. O botão 🏠 sempre volta para o menu.",
+  "parentsPrivacyFullPolicy": "Política completa:",
+  "parentsPrivacyCopy": "Copiar endereço",
+  "parentsPrivacyCopied": "Endereço copiado",
+  "parentsPrivacyContact": "Contato:"
 }

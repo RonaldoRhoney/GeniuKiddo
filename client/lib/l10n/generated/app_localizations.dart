@@ -716,12 +716,6 @@ abstract class AppLocalizations {
   /// **'O Genius Kiddo não pede nome, data de nascimento nem e-mail da criança. Tudo fica guardado só neste aparelho, sem conexão com a internet, e a voz da criança nunca é gravada.'**
   String get parentsPrivacySummary;
 
-  /// Placeholder até o M8 publicar a política de privacidade de verdade e virar link
-  ///
-  /// In pt, this message translates to:
-  /// **'A política de privacidade completa será publicada junto com o app na loja.'**
-  String get parentsPrivacyPolicyPlaceholder;
-
   /// No description provided for @trailSchool.
   ///
   /// In pt, this message translates to:
@@ -1561,6 +1555,30 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Toque no 🔊 para ouvir de novo. Nas atividades, depois de um toque fora, a resposta certa ganha um contorno amarelo. Item trancado treme e o Kiddo explica o que vem antes. O botão 🏠 sempre volta para o menu.'**
   String get helpStuckBody;
+
+  /// No description provided for @parentsPrivacyFullPolicy.
+  ///
+  /// In pt, this message translates to:
+  /// **'Política completa:'**
+  String get parentsPrivacyFullPolicy;
+
+  /// No description provided for @parentsPrivacyCopy.
+  ///
+  /// In pt, this message translates to:
+  /// **'Copiar endereço'**
+  String get parentsPrivacyCopy;
+
+  /// No description provided for @parentsPrivacyCopied.
+  ///
+  /// In pt, this message translates to:
+  /// **'Endereço copiado'**
+  String get parentsPrivacyCopied;
+
+  /// No description provided for @parentsPrivacyContact.
+  ///
+  /// In pt, this message translates to:
+  /// **'Contato:'**
+  String get parentsPrivacyContact;
 }
 
 class _AppLocalizationsDelegate

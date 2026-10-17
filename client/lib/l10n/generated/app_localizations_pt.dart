@@ -340,10 +340,6 @@ class AppLocalizationsPt extends AppLocalizations {
       'O Genius Kiddo não pede nome, data de nascimento nem e-mail da criança. Tudo fica guardado só neste aparelho, sem conexão com a internet, e a voz da criança nunca é gravada.';
 
   @override
-  String get parentsPrivacyPolicyPlaceholder =>
-      'A política de privacidade completa será publicada junto com o app na loja.';
-
-  @override
   String get trailSchool => 'Escolinha';
 
   @override
@@ -871,4 +867,16 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get helpStuckBody =>
       'Toque no 🔊 para ouvir de novo. Nas atividades, depois de um toque fora, a resposta certa ganha um contorno amarelo. Item trancado treme e o Kiddo explica o que vem antes. O botão 🏠 sempre volta para o menu.';
+
+  @override
+  String get parentsPrivacyFullPolicy => 'Política completa:';
+
+  @override
+  String get parentsPrivacyCopy => 'Copiar endereço';
+
+  @override
+  String get parentsPrivacyCopied => 'Endereço copiado';
+
+  @override
+  String get parentsPrivacyContact => 'Contato:';
 }
