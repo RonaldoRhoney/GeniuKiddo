@@ -13,13 +13,6 @@ import '../../l10n/generated/app_localizations.dart';
 import '../activities/lesson_common.dart';
 import 'school_controller.dart';
 
-/// Bichinhos de cada região (só aparecem quando a região está aberta).
-const _animalsByGrade = [
-  ['dog', 'cat', 'duck'],
-  ['bird', 'frog'],
-  ['bee', 'cow'],
-];
-
 const _kidFaces = ['🧒', '👧', '👦', '🧒🏽', '👧🏾', '👦🏻', '🧒🏿', '👧🏼'];
 
 /// Vida no cenário (RM-07): alunos passeiam perto dos espaços construídos
@@ -93,8 +86,8 @@ class _WorldLifeState extends ConsumerState<WorldLife>
     final grade = state.grade ?? 0;
     final out = <_Walker>[];
     for (final r in school.regions) {
-      if (r.grade > grade || r.grade >= _animalsByGrade.length) continue;
-      final animals = _animalsByGrade[r.grade];
+      if (r.grade > grade) continue;
+      final animals = r.animals; // do school.json (RM-07)
       final spots = _spotsIn(r, school, animals.length, 11 + r.grade);
       for (var i = 0; i < spots.length; i++) {
         final id = animals[i];

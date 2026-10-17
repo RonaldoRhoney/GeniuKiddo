@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme.dart';
 import '../../../content/content_repository.dart';
 import '../../../content/labels.dart';
+import '../../../content/models.dart';
 import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -14,14 +15,9 @@ import '../activity_shell.dart';
 import '../lesson_common.dart';
 import '../round_dots.dart';
 
-/// Figuras da Biblioteca (mesma lista do protótipo). A figura é a mesma nos
-/// dois idiomas, mas a letra certa sai do NOME NO IDIOMA ATIVO — 🍇 é "U"
-/// (uva) em português e "G" (grape) em inglês.
-const letterItems = [
-  'dog', 'cat', 'fish', 'bird', 'apple', 'banana', 'car', 'ball', 'sun', //
-  'flower', 'moon', 'house', 'grape', 'frog', 'duck', 'cow', 'lion', 'egg',
-  'bee', 'bear',
-];
+/// Figuras da Biblioteca: vêm do `school.json` (`lessons.letters.items`).
+/// A figura é a mesma nos dois idiomas, mas a letra certa sai do NOME NO
+/// IDIOMA ATIVO — 🍇 é "U" (uva) em português e "G" (grape) em inglês.
 
 /// Lê a regra de acentos do idioma (`letterFold` no ARB, pares
 /// "á=a,ç=c"). Fica na tradução de propósito: cada idioma decide o que é
@@ -72,10 +68,15 @@ class LettersLesson extends ConsumerStatefulWidget {
 
 class _LettersLessonState extends ConsumerState<LettersLesson>
     with ActivityTimers<LettersLesson> {
-  static const _rounds = 3;
+  SchoolDef get _school => ref.read(contentRepositoryProvider).school;
+  late final int _rounds = _school.lessonRounds(LessonType.letters);
+  late final List<String> _items = _school.lessonList(
+    LessonType.letters,
+    'items',
+  );
   final _random = Random();
   late final List<String> _targets = (List.of(
-    letterItems,
+    _items,
   )..shuffle(_random)).take(_rounds).toList();
   int _round = 0;
   bool _locked = false;
@@ -108,7 +109,7 @@ class _LettersLessonState extends ConsumerState<LettersLesson>
       _correct = null;
       _hint = null;
       _options = letterOptions(
-        letterItems.map(_nameOf),
+        _items.map(_nameOf),
         _targetName,
         _optionCount,
         _random,

@@ -25,18 +25,19 @@ class SchoolLessonOutcome extends ActivityOutcome {
   }
 }
 
-/// Anexo B: arte do Ateliê por série.
-const _atelierArt = ['flower', 'house', 'garden'];
-
 /// Tela da aula de um espaço, com a dificuldade da série atual (seção 6.8).
-Widget lessonScreenFor(SpaceDef space, int grade) {
+Widget lessonScreenFor(SpaceDef space, int grade, SchoolDef school) {
   final outcome = SchoolLessonOutcome(space.id);
   return switch (space.lesson) {
     LessonType.shapes => ShapesLesson(grade: grade, outcome: outcome),
     LessonType.count => CountLesson(grade: grade, outcome: outcome),
     LessonType.paint => PaintScreen(
       outcome: outcome,
-      art: _atelierArt[grade.clamp(0, _atelierArt.length - 1)],
+      // Anexo B: arte do Ateliê por série (`lessons.paint.artByGrade`).
+      art: () {
+        final arts = school.lessonList(LessonType.paint, 'artByGrade');
+        return arts[grade.clamp(0, arts.length - 1)];
+      }(),
     ),
     LessonType.letters => LettersLesson(grade: grade, outcome: outcome),
     LessonType.rhythm => RhythmLesson(grade: grade, outcome: outcome),

@@ -33,6 +33,7 @@ class TrailNodeDef {
     this.art,
     this.items,
     this.glyph,
+    this.rounds = 3,
   });
 
   final String id;
@@ -41,12 +42,16 @@ class TrailNodeDef {
   final List<String>? items; // listen, match, speak
   final String? glyph; // trace
 
+  /// Rodadas (ouvir, associar) — padrão 3 (Anexo A).
+  final int rounds;
+
   factory TrailNodeDef.fromJson(Map<String, dynamic> json) => TrailNodeDef(
     id: json['id'] as String,
     type: ActivityType.values.byName(json['type'] as String),
     art: json['art'] as String?,
     items: (json['items'] as List?)?.cast<String>(),
     glyph: json['glyph'] as String?,
+    rounds: json['rounds'] as int? ?? 3,
   );
 }
 
@@ -135,9 +140,13 @@ class RegionDef {
     required this.y,
     required this.width,
     required this.height,
+    this.animals = const [],
   });
 
   final int grade;
+
+  /// Bichinhos que passeiam na região quando ela está aberta (RM-07).
+  final List<String> animals;
   final double x;
   final double y;
   final double width;
@@ -152,6 +161,7 @@ class RegionDef {
     y: (json['y'] as num).toDouble(),
     width: (json['width'] as num).toDouble(),
     height: (json['height'] as num).toDouble(),
+    animals: (json['animals'] as List?)?.cast<String>() ?? const [],
   );
 }
 
@@ -194,7 +204,21 @@ class SchoolDef {
     required this.missions,
     required this.world,
     required this.regions,
+    this.lessons = const {},
   });
+
+  /// Parâmetros de cada aula (Anexo B): rodadas, listas de itens, artes.
+  final Map<LessonType, Map<String, dynamic>> lessons;
+
+  /// Rodadas da aula (padrão 3, Anexo B).
+  int lessonRounds(LessonType type) => (lessons[type]?['rounds'] as int?) ?? 3;
+
+  /// Lista de ids da aula (ex.: figuras da Biblioteca, frutas).
+  List<String> lessonList(LessonType type, String key) =>
+      (lessons[type]?[key] as List?)?.cast<String>() ?? const [];
+
+  int lessonInt(LessonType type, String key, int fallback) =>
+      (lessons[type]?[key] as int?) ?? fallback;
 
   final WorldDef world;
   final List<RegionDef> regions;
@@ -240,6 +264,11 @@ class SchoolDef {
       bonus: json['bonus'] as int,
       maxKids: json['maxKids'] as int,
       world: WorldDef.fromJson(json['world'] as Map<String, dynamic>),
+      lessons: {
+        for (final e
+            in (json['lessons'] as Map<String, dynamic>? ?? const {}).entries)
+          LessonType.values.byName(e.key): e.value as Map<String, dynamic>,
+      },
       regions: [
         for (final r in json['regions'] as List)
           RegionDef.fromJson(r as Map<String, dynamic>),

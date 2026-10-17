@@ -50,4 +50,14 @@ void main() {
       expect(world.height, greaterThan(800 * 2));
     },
   );
+
+  test('RM-07: bichinhos de cada região existem no conteúdo', () async {
+    final content = await ContentRepository.load();
+    for (final r in content.school.regions) {
+      expect(r.animals, isNotEmpty, reason: 'região ${r.grade}');
+      for (final id in r.animals) {
+        expect(content.items.containsKey(id), isTrue, reason: id);
+      }
+    }
+  });
 }

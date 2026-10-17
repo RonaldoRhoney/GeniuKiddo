@@ -154,8 +154,15 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     final grade = ref.read(schoolControllerProvider).grade ?? 0;
     Navigator.of(context).pop(); // fecha a folha
     final before = _school.claimableCount;
-    await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => lessonScreenFor(space, grade)));
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => lessonScreenFor(
+          space,
+          grade,
+          ref.read(contentRepositoryProvider).school,
+        ),
+      ),
+    );
     if (!mounted) return;
     final reachedGoal = _school.claimableCount > before;
     _say((l10n) => reachedGoal ? l10n.schoolHintGoal : _hint(l10n));

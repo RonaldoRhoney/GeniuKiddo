@@ -66,7 +66,10 @@ class GoalsSheet extends ConsumerWidget {
               _MissionRow(
                 key: ValueKey('mission_$i'),
                 icon: missions[i].icon,
-                text: l10n.mission(missions[i]),
+                text: l10n.mission(
+                  missions[i],
+                  maxLevel: def.spaces.first.maxLevel,
+                ),
                 progress: school.missionProgress(i).clamp(0, missions[i].n),
                 total: missions[i].n,
                 done: school.missionDone(i),

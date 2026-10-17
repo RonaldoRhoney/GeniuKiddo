@@ -25,8 +25,16 @@
   ],
   "world": {"width": 1300, "height": 2000, "lotSize": 170},
   "regions": [
-    {"grade": 0, "x": 330, "y": 1000, "width": 670, "height": 650},
-    {"grade": 1, "x": 900, "y": 620, "width": 380, "height": 700},
-    {"grade": 2, "x": 330, "y": 280, "width": 640, "height": 480}
-  ]
+    {"grade": 0, "x": 330, "y": 1000, "width": 670, "height": 650, "animals": ["dog", "cat", "duck"]},
+    {"grade": 1, "x": 900, "y": 620, "width": 380, "height": 700, "animals": ["bird", "frog"]},
+    {"grade": 2, "x": 330, "y": 280, "width": 640, "height": 480, "animals": ["bee", "cow"]}
+  ],
+  "lessons": {
+    "shapes": {"rounds": 3},
+    "count": {"rounds": 3},
+    "paint": {"artByGrade": ["flower", "house", "garden"]},
+    "letters": {"rounds": 3, "items": ["dog", "cat", "fish", "bird", "apple", "banana", "car", "ball", "sun", "flower", "moon", "house", "grape", "frog", "duck", "cow", "lion", "egg", "bee", "bear"]},
+    "rhythm": {},
+    "sorting": {"fruits": ["apple", "banana", "grape", "strawberry", "orange", "watermelon"], "veggies": ["carrot", "broccoli", "potato", "lettuce", "onion"], "fruitCount": 3, "veggieCount": 2}
+  }
 }

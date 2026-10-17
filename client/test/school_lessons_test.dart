@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:genius_kiddo/content/content_repository.dart';
 import 'package:genius_kiddo/content/labels.dart';
+import 'package:genius_kiddo/content/models.dart';
 import 'package:genius_kiddo/features/activities/count/count_lesson.dart';
 import 'package:genius_kiddo/features/activities/letters/letters_lesson.dart';
 import 'package:genius_kiddo/features/activities/rhythm/rhythm_lesson.dart';
@@ -45,7 +46,10 @@ void main() {
     for (final (lang, l10n) in [('pt', pt), ('en', en)]) {
       test(
         '$lang: toda figura tem exatamente 1 opção certa, sem repetir, só com iniciais do mesmo idioma',
-        () {
+        () async {
+          final letterItems = (await ContentRepository.load()).school
+              .lessonList(LessonType.letters, 'items');
+          expect(letterItems, isNotEmpty);
           final names = letterItems.map((id) => itemName(l10n, id)).toList();
           final fold = parseLetterFold(l10n.letterFold);
           final pool = names.map((n) => initialOf(n, fold)).toSet();
@@ -84,6 +88,10 @@ void main() {
 
     test('toda figura da Biblioteca existe no conteúdo e tem nome nos dois idiomas', () async {
       final content = await ContentRepository.load();
+      final letterItems = content.school.lessonList(
+        LessonType.letters,
+        'items',
+      );
       for (final id in letterItems) {
         expect(content.items.containsKey(id), isTrue, reason: id);
         expect(itemName(pt, id), isNotEmpty);
@@ -178,8 +186,22 @@ void main() {
     'Refeitório (Anexo B): 5 itens, 3 frutas e 2 legumes, todos no conteúdo',
     () async {
       final content = await ContentRepository.load();
+      final sortFruits = content.school.lessonList(
+        LessonType.sorting,
+        'fruits',
+      );
+      final sortVeggies = content.school.lessonList(
+        LessonType.sorting,
+        'veggies',
+      );
       for (var seed = 0; seed < 20; seed++) {
-        final seq = sortingSequence(Random(seed));
+        final seq = sortingSequence(
+          sortFruits,
+          sortVeggies,
+          3,
+          2,
+          Random(seed),
+        );
         expect(seq.length, 5);
         expect(seq.where((e) => e.fruit).length, 3);
         expect(seq.map((e) => e.id).toSet().length, 5);

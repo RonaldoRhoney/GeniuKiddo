@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme.dart';
 import '../../../content/content_repository.dart';
 import '../../../content/labels.dart';
+import '../../../content/models.dart';
 import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -14,18 +15,21 @@ import '../activity_shell.dart';
 import '../lesson_common.dart';
 import '../round_dots.dart';
 
-const sortFruits = [
-  'apple', 'banana', 'grape', 'strawberry', 'orange', 'watermelon', //
-];
-const sortVeggies = ['carrot', 'broccoli', 'potato', 'lettuce', 'onion'];
-
-/// Sequência da aula (exposto pra teste): 3 frutas e 2 legumes, misturados.
-List<({String id, bool fruit})> sortingSequence(Random r) {
-  final fruits = (List.of(sortFruits)..shuffle(r)).take(3);
-  final veggies = (List.of(sortVeggies)..shuffle(r)).take(2);
+/// Sequência da aula (exposto pra teste): `fruitCount` frutas e
+/// `veggieCount` legumes (Anexo B: 3 e 2), misturados — listas do
+/// `school.json` (`lessons.sorting`).
+List<({String id, bool fruit})> sortingSequence(
+  List<String> fruits,
+  List<String> veggies,
+  int fruitCount,
+  int veggieCount,
+  Random r,
+) {
+  final f = (List.of(fruits)..shuffle(r)).take(fruitCount);
+  final v = (List.of(veggies)..shuffle(r)).take(veggieCount);
   return [
-    for (final f in fruits) (id: f, fruit: true),
-    for (final v in veggies) (id: v, fruit: false),
+    for (final id in f) (id: id, fruit: true),
+    for (final id in v) (id: id, fruit: false),
   ]..shuffle(r);
 }
 
@@ -45,7 +49,16 @@ class SortingLesson extends ConsumerStatefulWidget {
 class _SortingLessonState extends ConsumerState<SortingLesson>
     with ActivityTimers<SortingLesson> {
   final _random = Random();
-  late final _seq = sortingSequence(_random);
+  late final _seq = () {
+    final school = ref.read(contentRepositoryProvider).school;
+    return sortingSequence(
+      school.lessonList(LessonType.sorting, 'fruits'),
+      school.lessonList(LessonType.sorting, 'veggies'),
+      school.lessonInt(LessonType.sorting, 'fruitCount', 3),
+      school.lessonInt(LessonType.sorting, 'veggieCount', 2),
+      _random,
+    );
+  }();
   int _round = 0;
   bool _locked = false;
   bool? _hint; // true = cesta de frutas

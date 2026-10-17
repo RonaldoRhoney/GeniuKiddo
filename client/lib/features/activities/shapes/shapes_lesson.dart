@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme.dart';
 import '../../../content/content_repository.dart';
 import '../../../content/labels.dart';
+import '../../../content/models.dart';
 import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -68,7 +69,10 @@ const shapeColorIds = ['red', 'blue', 'yellow', 'green', 'purple'];
 
 class _ShapesLessonState extends ConsumerState<ShapesLesson>
     with ActivityTimers<ShapesLesson> {
-  static const _rounds = 3;
+  late final int _rounds = ref
+      .read(contentRepositoryProvider)
+      .school
+      .lessonRounds(LessonType.shapes);
   final _random = Random();
   int _round = 0;
   bool _locked = false;

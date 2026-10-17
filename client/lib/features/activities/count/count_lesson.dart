@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme.dart';
 import '../../../app/motion.dart';
+import '../../../content/content_repository.dart';
 import '../../../content/labels.dart';
+import '../../../content/models.dart';
 import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -54,7 +56,10 @@ class CountLesson extends ConsumerStatefulWidget {
 
 class _CountLessonState extends ConsumerState<CountLesson>
     with ActivityTimers<CountLesson> {
-  static const _rounds = 3;
+  late final int _rounds = ref
+      .read(contentRepositoryProvider)
+      .school
+      .lessonRounds(LessonType.count);
   final _random = Random();
   int _round = 0;
   int _previous = 0;

@@ -30,9 +30,12 @@ extension SchoolTexts on AppLocalizations {
     _ => throw StateError('espaço sem texto: $id'),
   };
 
-  String mission(MissionDef m) => switch (m.type) {
+  /// `maxLevel` = nível máximo dos espaços: missão de nível nele é "deixar
+  /// no máximo"; abaixo dele, "melhorar".
+  String mission(MissionDef m, {required int maxLevel}) => switch (m.type) {
     MissionType.build => missionBuild(m.n),
     MissionType.lessons => missionLessons(m.n),
-    MissionType.level => m.level >= 3 ? missionMax(m.n) : missionUpgrade(m.n),
+    MissionType.level =>
+      m.level >= maxLevel ? missionMax(m.n) : missionUpgrade(m.n),
   };
 }

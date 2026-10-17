@@ -111,10 +111,12 @@ class _TrailScreenState extends ConsumerState<TrailScreen> {
       ActivityType.listen => ListenScreen(
         outcome: TrailStepOutcome(index),
         items: node.items!,
+        rounds: node.rounds,
       ),
       ActivityType.match => MatchScreen(
         outcome: TrailStepOutcome(index),
         items: node.items!,
+        rounds: node.rounds,
       ),
       ActivityType.speak => SpeakScreen(
         outcome: TrailStepOutcome(index),

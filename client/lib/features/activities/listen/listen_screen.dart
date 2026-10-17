@@ -17,10 +17,18 @@ import '../round_dots.dart';
 /// RF-03 — Ouvir e tocar: 3 rodadas, 4 cartões (2x2), pedido falado. Segue
 /// RT-01 a RT-04 via `ItemFeedback`.
 class ListenScreen extends ConsumerStatefulWidget {
-  const ListenScreen({super.key, required this.outcome, required this.items});
+  const ListenScreen({
+    super.key,
+    required this.outcome,
+    required this.items,
+    this.rounds = 3,
+  });
 
   final ActivityOutcome outcome;
   final List<String> items;
+
+  /// Rodadas (do `trail.json`, padrão 3).
+  final int rounds;
 
   @override
   ConsumerState<ListenScreen> createState() => _ListenScreenState();
@@ -28,7 +36,7 @@ class ListenScreen extends ConsumerStatefulWidget {
 
 class _ListenScreenState extends ConsumerState<ListenScreen>
     with ActivityTimers<ListenScreen> {
-  static const _rounds = 3;
+  late final int _rounds = widget.rounds;
   final _random = Random();
   late final List<String> _targets = (List.of(
     widget.items,

@@ -19,10 +19,18 @@ import '../round_dots.dart';
 /// acerto revela a figura colorida. RT-05: a silhueta só fala o nome DEPOIS
 /// de revelada — nunca antes (nunca chamamos `nameOnly` na silhueta).
 class MatchScreen extends ConsumerStatefulWidget {
-  const MatchScreen({super.key, required this.outcome, required this.items});
+  const MatchScreen({
+    super.key,
+    required this.outcome,
+    required this.items,
+    this.rounds = 3,
+  });
 
   final ActivityOutcome outcome;
   final List<String> items;
+
+  /// Rodadas (do `trail.json`, padrão 3).
+  final int rounds;
 
   @override
   ConsumerState<MatchScreen> createState() => _MatchScreenState();
@@ -30,7 +38,7 @@ class MatchScreen extends ConsumerStatefulWidget {
 
 class _MatchScreenState extends ConsumerState<MatchScreen>
     with ActivityTimers<MatchScreen> {
-  static const _rounds = 3;
+  late final int _rounds = widget.rounds;
   final _random = Random();
   late final List<String> _targets = (List.of(
     widget.items,
