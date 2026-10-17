@@ -57,6 +57,11 @@ class AppColors {
 /// Paleta de pintura (seção 9.2) — 6 cores fixas usadas nas atividades de
 /// pintar/rabisco livre, independente de tema claro/escuro.
 class PaintPalette {
+  /// Ids das cores, na mesma ordem de `colors` (nome via `colorName`).
+  static const ids = ['red', 'blue', 'yellow', 'green', 'purple', 'orange'];
+
+  static Color byId(String id) => colors[ids.indexOf(id)];
+
   static const colors = <Color>[
     Color(0xFFFF5A5F), // vermelho
     Color(0xFF4DA8FF), // azul

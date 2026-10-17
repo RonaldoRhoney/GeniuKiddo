@@ -8,6 +8,7 @@ import '../../../core/language_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../celebration/celebration_overlay.dart';
 import '../activity_shell.dart';
+import '../color_palette.dart';
 
 /// RF-06 — Rabisco livre: pincel grosso, 6 cores, botão limpar, sem salvar
 /// nem compartilhar (seção 5.3). Sempre liberado, nunca "concluído" — não
@@ -26,14 +27,7 @@ class _Stroke {
 }
 
 class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
-  static const _colorIds = [
-    'red',
-    'blue',
-    'yellow',
-    'green',
-    'purple',
-    'orange',
-  ];
+  static const _colorIds = PaintPalette.ids;
 
   final List<_Stroke> _strokes = [];
   Color _color = PaintPalette.colors[0];
@@ -122,54 +116,36 @@ class _FreeDrawScreenState extends ConsumerState<FreeDrawScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          SizedBox(
-            height: 76,
-            child: Row(
-              children: [
-                for (var i = 0; i < _colorIds.length; i++)
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _pickColor(i),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: PaintPalette.colors[i],
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: _colorId == _colorIds[i]
-                                    ? AppColors.of(context).ink
-                                    : Colors.transparent,
-                                width: 3,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => setState(_strokes.clear),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.cleaning_services_rounded, size: 32),
-                        Text(
-                          l10n.freeDrawClear,
-                          style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                          ),
+          ColorPaletteBar(
+            ids: _colorIds,
+            selectedId: _colorId,
+            onPick: _pickColor,
+            trailing: Semantics(
+              button: true,
+              label: l10n.freeDrawClear,
+              excludeSemantics: true,
+              child: GestureDetector(
+                key: const ValueKey('freeDrawClear'),
+                behavior: HitTestBehavior.opaque,
+                onTap: () => setState(_strokes.clear),
+                child: SizedBox(
+                  width: 64,
+                  height: 76,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.cleaning_services_rounded, size: 32),
+                      Text(
+                        l10n.freeDrawClear,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],

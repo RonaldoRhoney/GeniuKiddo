@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/shake.dart';
 import '../../app/theme.dart';
+import '../../app/motion.dart';
 import '../../content/models.dart';
 import '../../l10n/generated/app_localizations.dart';
 import 'school_controller.dart';
@@ -129,7 +130,7 @@ class _SchoolLotState extends ConsumerState<SchoolLot>
         trigger: widget.shakes,
         child: AnimatedScale(
           scale: widget.grown ? 1.08 : 1,
-          duration: const Duration(milliseconds: 300),
+          duration: motion(context, const Duration(milliseconds: 300)),
           curve: Curves.easeOutBack,
           child: AnimatedBuilder(
             animation: _pulse,

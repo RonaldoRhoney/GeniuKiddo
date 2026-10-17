@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../content/content_repository.dart';
+import '../../app/motion.dart';
 import '../../content/labels.dart';
 import '../../content/models.dart';
 import '../../core/item_feedback.dart';
@@ -174,8 +175,8 @@ class _WorldLifeState extends ConsumerState<WorldLife>
                       ? l10n.worldKidLabel
                       : capitalize(itemName(l10n, w.id));
                   return Positioned(
-                    left: p.dx - size * .75,
-                    top: p.dy - size * .75,
+                    left: p.dx - 32,
+                    top: p.dy - 32,
                     child: Semantics(
                       button: true,
                       label: label,
@@ -185,14 +186,17 @@ class _WorldLifeState extends ConsumerState<WorldLife>
                         behavior: HitTestBehavior.opaque,
                         onTap: () => _tap(w),
                         child: SizedBox.square(
-                          // Alvo de toque ≥ 48 dp mesmo pros alunos.
-                          dimension: max(48, size * 1.5),
+                          // Alvo de toque de 64 dp (4.10), mesmo pros alunos.
+                          dimension: 64,
                           child: Center(
                             child: AnimatedSlide(
                               offset: _hopping == w.id
                                   ? const Offset(0, -.5)
                                   : Offset.zero,
-                              duration: const Duration(milliseconds: 180),
+                              duration: motion(
+                                context,
+                                const Duration(milliseconds: 180),
+                              ),
                               child: Transform.flip(
                                 // Olha pra direção em que anda.
                                 flipX: sin(a) > 0,

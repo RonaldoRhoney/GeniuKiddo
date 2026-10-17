@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/guide_bar.dart';
 import '../../app/theme.dart';
 import '../../content/content_repository.dart';
 import '../../core/item_feedback.dart';
@@ -49,10 +50,10 @@ class GoalsSheet extends ConsumerWidget {
                     ),
                   ),
                 ),
-                IconButton(
+                KidIconButton(
+                  icon: Icons.close_rounded,
+                  label: l10n.schoolClose,
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close_rounded),
-                  tooltip: l10n.schoolClose,
                 ),
               ],
             ),
@@ -225,7 +226,7 @@ class _MissionRow extends StatelessWidget {
             )
           else if (done)
             SizedBox(
-              height: 48,
+              height: 64,
               child: FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: colors.yellow,

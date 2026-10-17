@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/guide_bar.dart';
 import '../../app/theme.dart';
 import '../../content/models.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -52,10 +53,10 @@ class SpaceSheet extends ConsumerWidget {
           children: [
             Align(
               alignment: Alignment.centerRight,
-              child: IconButton(
+              child: KidIconButton(
+                icon: Icons.close_rounded,
+                label: l10n.schoolClose,
                 onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(Icons.close_rounded),
-                tooltip: l10n.schoolClose,
               ),
             ),
             Opacity(

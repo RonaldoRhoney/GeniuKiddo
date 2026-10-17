@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme.dart';
+import '../../app/motion.dart';
 import '../../content/content_repository.dart';
 import '../../content/models.dart';
 import '../../core/item_feedback.dart';
@@ -93,7 +94,7 @@ class WorldViewState extends ConsumerState<WorldView>
       if (tween != null) transformation.value = tween.value;
     });
     if (_showHint) {
-      _hand.repeat();
+      // O laço só roda sem "reduzir movimento" (ver didChangeDependencies).
       // Espera a fala de boas-vindas da escola terminar.
       _hintSpeech = Timer(const Duration(seconds: 4), () {
         if (!mounted || !_showHint) return;
@@ -103,6 +104,14 @@ class WorldViewState extends ConsumerState<WorldView>
             .speak(AppLocalizations.of(context)!.worldDragHint);
       });
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final reduce = MediaQuery.of(context).disableAnimations;
+    if (_showHint && !reduce && !_hand.isAnimating) _hand.repeat();
+    if (reduce) _hand.stop();
   }
 
   void _onInteractionStart(ScaleStartDetails _) {
@@ -478,7 +487,7 @@ class _Fog extends StatelessWidget {
       ignoring: !covered,
       child: AnimatedOpacity(
         opacity: covered ? 1 : 0,
-        duration: const Duration(milliseconds: 1400),
+        duration: motion(context, const Duration(milliseconds: 1400)),
         curve: Curves.easeOut,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

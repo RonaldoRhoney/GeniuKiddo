@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../app/theme.dart';
+import '../../../app/motion.dart';
 import '../../../content/labels.dart';
 import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
@@ -30,11 +32,9 @@ class RhythmLesson extends ConsumerStatefulWidget {
 /// Tamanho da sequência de cada rodada (exposto pra teste).
 List<int> rhythmLengths(int grade) => grade >= 2 ? const [3, 4] : const [2, 3];
 
-const _padColors = [
-  Color(0xFFFF5A5F),
-  Color(0xFF4DA8FF),
-  Color(0xFFFFC93C),
-  Color(0xFF4FCB8D),
+/// Vermelho ●, azul ▲, amarelo ■, verde ★ (Anexo B) — cores da paleta.
+final _padColors = [
+  for (final id in ['red', 'blue', 'yellow', 'green']) PaintPalette.byId(id),
 ];
 const _padSymbols = ['●', '▲', '■', '★'];
 const _padSounds = [
@@ -190,7 +190,10 @@ class _RhythmLessonState extends ConsumerState<RhythmLesson> {
                       key: ValueKey('pad_$p'),
                       onTap: () => _onTap(p),
                       child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 120),
+                        duration: motion(
+                          context,
+                          const Duration(milliseconds: 120),
+                        ),
                         decoration: BoxDecoration(
                           color: _lit == p
                               ? Color.lerp(_padColors[p], Colors.white, .45)
@@ -204,7 +207,9 @@ class _RhythmLessonState extends ConsumerState<RhythmLesson> {
                               ),
                           ],
                         ),
-                        transform: _lit == p
+                        transform:
+                            _lit == p &&
+                                !MediaQuery.of(context).disableAnimations
                             ? Matrix4.translationValues(0, 5, 0)
                             : Matrix4.identity(),
                         child: Center(

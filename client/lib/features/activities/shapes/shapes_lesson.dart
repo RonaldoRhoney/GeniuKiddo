@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../app/theme.dart';
 import '../../../content/content_repository.dart';
 import '../../../content/labels.dart';
 import '../../../core/item_feedback.dart';
@@ -29,13 +30,8 @@ class ShapesLesson extends ConsumerStatefulWidget {
 
 typedef ShapeOption = ({String shape, String color});
 
-const shapeColors = {
-  'red': Color(0xFFFF5A5F),
-  'blue': Color(0xFF4DA8FF),
-  'yellow': Color(0xFFFFC93C),
-  'green': Color(0xFF4FCB8D),
-  'purple': Color(0xFF7C5CFF),
-};
+/// Cores usadas nas formas (as mesmas da paleta de pintura).
+const shapeColorIds = ['red', 'blue', 'yellow', 'green', 'purple'];
 
 /// Sorteio de uma rodada (exposto pra teste).
 ({ShapeOption target, List<ShapeOption> options}) shapeRound(
@@ -51,7 +47,7 @@ const shapeColors = {
     return (target: options[random.nextInt(3)], options: options);
   }
   final shapes = shuffled(['circle', 'square', 'triangle', 'star', 'heart']);
-  final colors = shuffled(shapeColors.keys);
+  final colors = shuffled(shapeColorIds);
   if (grade == 1) {
     final options = [
       for (var i = 0; i < 4; i++) (shape: shapes[i], color: colors[i]),
@@ -182,7 +178,10 @@ class _ShapesLessonState extends ConsumerState<ShapesLesson>
                     child: SizedBox.square(
                       dimension: 110,
                       child: CustomPaint(
-                        painter: ShapePainter(o.shape, shapeColors[o.color]!),
+                        painter: ShapePainter(
+                          o.shape,
+                          PaintPalette.byId(o.color),
+                        ),
                       ),
                     ),
                   ),

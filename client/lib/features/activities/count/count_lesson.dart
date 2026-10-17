@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme.dart';
+import '../../../app/motion.dart';
 import '../../../content/labels.dart';
 import '../../../core/item_feedback.dart';
 import '../../../core/language_controller.dart';
@@ -193,7 +194,10 @@ class _CountLessonState extends ConsumerState<CountLesson>
                               children: [
                                 AnimatedScale(
                                   scale: _grown ? 1.2 : 1,
-                                  duration: const Duration(milliseconds: 400),
+                                  duration: motion(
+                                    context,
+                                    const Duration(milliseconds: 400),
+                                  ),
                                   child: Text(
                                     _grown ? '🌻' : '🌱',
                                     style: const TextStyle(fontSize: 54),

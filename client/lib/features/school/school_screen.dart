@@ -246,15 +246,10 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 4),
               child: Row(
                 children: [
-                  IconButton(
+                  KidIconButton(
+                    icon: Icons.home_rounded,
+                    label: l10n.homeButton,
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.home_rounded),
-                    iconSize: 28,
-                    style: IconButton.styleFrom(
-                      backgroundColor: colors.card,
-                      shape: const CircleBorder(),
-                      minimumSize: const Size(64, 64),
-                    ),
                   ),
                   const SizedBox(width: 8),
                   _StarsPill(stars: state.stars),
