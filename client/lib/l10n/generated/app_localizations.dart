@@ -1381,6 +1381,18 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Fecha o Genius Kiddo. O progresso fica salvo neste aparelho.'**
   String get parentsExitHint;
+
+  /// Rótulo (leitor de tela) do botão 🎯 e da seta de borda que levam a câmera ao espaço brilhante
+  ///
+  /// In pt, this message translates to:
+  /// **'Ir ao espaço brilhante'**
+  String get worldGoToGlow;
+
+  /// Fala da 1ª vez no mapa, junto com a mãozinha animada (RM-02)
+  ///
+  /// In pt, this message translates to:
+  /// **'Arraste o dedo para ver a escola!'**
+  String get worldDragHint;
 }
 
 class _AppLocalizationsDelegate

@@ -20,6 +20,7 @@ class PersistenceService {
   static const _kBreakMinutesKey = 'genius_kiddo_break_minutes_v1';
   static const _kSchoolStateKey = 'genius_kiddo_school_v1';
   static const _kPhase2UnlockedKey = 'genius_kiddo_phase2_unlocked_v1';
+  static const _kWorldHintSeenKey = 'genius_kiddo_world_hint_seen_v1';
 
   /// `null` = app ainda não teve idioma escolhido (primeira execução).
   String? get languageCode => _prefs.getString(_kLanguageCodeKey);
@@ -97,6 +98,12 @@ class PersistenceService {
 
   Future<void> setPhase2ManuallyUnlocked(bool value) =>
       _prefs.setBool(_kPhase2UnlockedKey, value);
+
+  /// RM-02: a mãozinha de "arraste" no mapa só aparece até a 1ª vez que a
+  /// criança arrasta.
+  bool get worldHintSeen => _prefs.getBool(_kWorldHintSeenKey) ?? false;
+
+  Future<void> setWorldHintSeen() => _prefs.setBool(_kWorldHintSeenKey, true);
 }
 
 /// Sobrescrito em `main.dart` com a instância real, depois do

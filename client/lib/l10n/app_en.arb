@@ -209,5 +209,8 @@
   "trailHint": "Tap the glowing star!",
   "homeButton": "Home",
   "parentsExitLabel": "Exit the app",
-  "parentsExitHint": "Closes Genius Kiddo. Progress stays saved on this device."
+  "parentsExitHint": "Closes Genius Kiddo. Progress stays saved on this device.",
+
+  "worldGoToGlow": "Go to the glowing space",
+  "worldDragHint": "Drag your finger to see the school!"
 }

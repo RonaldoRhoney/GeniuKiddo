@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme.dart';
 import '../../content/content_repository.dart';
 import '../../content/models.dart';
+import '../../core/item_feedback.dart';
+import '../../core/persistence_service.dart';
+import '../../l10n/generated/app_localizations.dart';
+import 'school_controller.dart';
 
 /// Mapa livre da escola (M6, seção 7): o mundo é maior que a tela e a
 /// criança arrasta em qualquer direção, com inércia (RM-01), sem zoom por
@@ -17,8 +22,17 @@ class WorldView extends ConsumerStatefulWidget {
     super.key,
     required this.lotBuilder,
     this.initialFocus,
+    this.beacon,
+    this.onFogTap,
     this.worldChildren = const [],
   });
+
+  /// Espaço brilhante: quando sai da tela, uma seta na borda aponta pra
+  /// ele, e o botão 🎯 leva a câmera até lá (RM-03).
+  final String? beacon;
+
+  /// Toque nas nuvens de uma série futura (o guia explica quando chega).
+  final void Function(int grade)? onFogTap;
 
   /// Constrói o terreno de um espaço (o mapa só posiciona).
   final Widget Function(SpaceDef space) lotBuilder;
@@ -34,7 +48,7 @@ class WorldView extends ConsumerStatefulWidget {
 }
 
 class WorldViewState extends ConsumerState<WorldView>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final transformation = TransformationController();
   late final AnimationController _flight = AnimationController(
     vsync: this,
@@ -43,6 +57,14 @@ class WorldViewState extends ConsumerState<WorldView>
   Animation<Matrix4>? _flightTween;
   Size _viewport = Size.zero;
   bool _placed = false;
+
+  /// RM-02: mãozinha de "arraste" até a criança arrastar pela 1ª vez.
+  late bool _showHint = !ref.read(persistenceServiceProvider).worldHintSeen;
+  late final AnimationController _hand = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1800),
+  );
+  Timer? _hintSpeech;
 
   WorldDef get _world => ref.read(contentRepositoryProvider).school.world;
 
@@ -65,10 +87,32 @@ class WorldViewState extends ConsumerState<WorldView>
       final tween = _flightTween;
       if (tween != null) transformation.value = tween.value;
     });
+    if (_showHint) {
+      _hand.repeat();
+      // Espera a fala de boas-vindas da escola terminar.
+      _hintSpeech = Timer(const Duration(seconds: 4), () {
+        if (!mounted || !_showHint) return;
+        ref
+            .read(itemFeedbackProvider)
+            .speech
+            .speak(AppLocalizations.of(context)!.worldDragHint);
+      });
+    }
+  }
+
+  void _onInteractionStart(ScaleStartDetails _) {
+    _flight.stop();
+    if (!_showHint) return;
+    setState(() => _showHint = false);
+    _hand.stop();
+    _hintSpeech?.cancel();
+    ref.read(persistenceServiceProvider).setWorldHintSeen();
   }
 
   @override
   void dispose() {
+    _hintSpeech?.cancel();
+    _hand.dispose();
     _flight.dispose();
     transformation.dispose();
     super.dispose();
@@ -125,7 +169,9 @@ class WorldViewState extends ConsumerState<WorldView>
             if (mounted) flyTo(widget.initialFocus!, animate: false);
           });
         }
-        return ClipRect(
+        final grade = ref.watch(schoolControllerProvider).grade ?? 0;
+        final l10n = AppLocalizations.of(context)!;
+        final map = ClipRect(
           child: InteractiveViewer(
             transformationController: transformation,
             constrained: false,
@@ -133,6 +179,7 @@ class WorldViewState extends ConsumerState<WorldView>
             minScale: 1,
             maxScale: 1,
             boundaryMargin: EdgeInsets.zero,
+            onInteractionStart: _onInteractionStart,
             child: SizedBox(
               width: world.width,
               height: world.height,
@@ -154,12 +201,107 @@ class WorldViewState extends ConsumerState<WorldView>
                       child: widget.lotBuilder(s),
                     ),
                   ...widget.worldChildren,
+                  // RM-06: séries futuras cobertas por nuvens, que se
+                  // abrem ao passar de ano.
+                  for (final r in school.regions)
+                    Positioned(
+                      left: r.x,
+                      top: r.y,
+                      width: r.width,
+                      height: r.height,
+                      child: _Fog(
+                        key: ValueKey('fog_${r.grade}'),
+                        covered: r.grade > grade,
+                        onTap: () => widget.onFogTap?.call(r.grade),
+                      ),
+                    ),
                 ],
               ),
             ),
           ),
         );
+        final beacon = widget.beacon;
+        return Stack(
+          children: [
+            Positioned.fill(child: map),
+            if (beacon != null)
+              AnimatedBuilder(
+                animation: transformation,
+                builder: (context, _) => _edgeArrow(beacon, l10n),
+              ),
+            if (beacon != null)
+              Positioned(
+                right: 12,
+                bottom: 12,
+                child: _RoundButton(
+                  key: const ValueKey('worldGoToGlow'),
+                  label: l10n.worldGoToGlow,
+                  onTap: () => flyTo(beacon),
+                  child: const Text('🎯', style: TextStyle(fontSize: 30)),
+                ),
+              ),
+            if (_showHint)
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: AnimatedBuilder(
+                    animation: _hand,
+                    builder: (context, _) {
+                      // Desenho de "8" deitado: mostra que dá pra arrastar
+                      // pros lados E pra cima e pra baixo.
+                      final t = _hand.value * 2 * pi;
+                      return Align(
+                        alignment: Alignment(sin(t) * .45, sin(2 * t) * .25),
+                        child: const Text(
+                          '👆',
+                          key: ValueKey('worldDragHint'),
+                          style: TextStyle(fontSize: 56),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+          ],
+        );
       },
+    );
+  }
+
+  /// Seta na borda apontando pro espaço brilhante quando ele está fora da
+  /// tela; tocar leva a câmera até lá.
+  Widget _edgeArrow(String beacon, AppLocalizations l10n) {
+    if (_viewport == Size.zero || isVisible(beacon)) {
+      return const SizedBox.shrink();
+    }
+    final s = ref.read(contentRepositoryProvider).school.space(beacon);
+    final center = Offset(_viewport.width / 2, _viewport.height / 2);
+    final target = Offset(s.x, s.y) - camera;
+    final dir = target - center;
+    final angle = atan2(dir.dy, dir.dx);
+    const inset = 44.0;
+    // Ponto da borda (com margem) na direção do espaço.
+    final hw = _viewport.width / 2 - inset, hh = _viewport.height / 2 - inset;
+    final k = min(
+      dir.dx == 0 ? double.infinity : hw / dir.dx.abs(),
+      dir.dy == 0 ? double.infinity : hh / dir.dy.abs(),
+    );
+    final p = center + dir * k;
+    return Positioned(
+      left: p.dx - 32,
+      top: p.dy - 32,
+      child: _RoundButton(
+        key: const ValueKey('worldEdgeArrow'),
+        label: l10n.worldGoToGlow,
+        onTap: () => flyTo(beacon),
+        child: Transform.rotate(
+          angle: angle,
+          child: const Icon(
+            Icons.arrow_forward_rounded,
+            size: 34,
+            color: Color(0xFF2B2D42),
+          ),
+        ),
+      ),
     );
   }
 
@@ -272,4 +414,85 @@ class _GroundPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _GroundPainter old) =>
       old.dark != dark || old.school != school;
+}
+
+/// Botão redondo amarelo de 64 dp (alvo de toque da criança, seção 4.10).
+class _RoundButton extends StatelessWidget {
+  const _RoundButton({
+    super.key,
+    required this.label,
+    required this.onTap,
+    required this.child,
+  });
+
+  final String label;
+  final VoidCallback onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: label,
+      excludeSemantics: true,
+      child: Material(
+        color: AppColors.of(context).yellow,
+        shape: const CircleBorder(),
+        elevation: 4,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: SizedBox.square(dimension: 64, child: Center(child: child)),
+        ),
+      ),
+    );
+  }
+}
+
+/// Nuvens sobre a região de uma série futura. Some com um fade ao passar
+/// de ano; enquanto cobre, o toque é da nuvem (o guia diz quando chega).
+class _Fog extends StatelessWidget {
+  const _Fog({super.key, required this.covered, required this.onTap});
+
+  final bool covered;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    return IgnorePointer(
+      ignoring: !covered,
+      child: AnimatedOpacity(
+        opacity: covered ? 1 : 0,
+        duration: const Duration(milliseconds: 1400),
+        curve: Curves.easeOut,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: ExcludeSemantics(
+            child: Container(
+              decoration: BoxDecoration(
+                color: (dark ? const Color(0xFF8A90B8) : Colors.white)
+                    .withValues(alpha: .88),
+                borderRadius: BorderRadius.circular(90),
+              ),
+              child: const Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 18,
+                  runSpacing: 10,
+                  children: [
+                    Text('☁️', style: TextStyle(fontSize: 64)),
+                    Text('☁️', style: TextStyle(fontSize: 48)),
+                    Text('☁️', style: TextStyle(fontSize: 72)),
+                    Text('☁️', style: TextStyle(fontSize: 52)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

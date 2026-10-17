@@ -767,4 +767,10 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get parentsExitHint =>
       'Fecha o Genius Kiddo. O progresso fica salvo neste aparelho.';
+
+  @override
+  String get worldGoToGlow => 'Ir ao espaço brilhante';
+
+  @override
+  String get worldDragHint => 'Arraste o dedo para ver a escola!';
 }

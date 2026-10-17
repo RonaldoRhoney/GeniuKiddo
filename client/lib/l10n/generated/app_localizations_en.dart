@@ -740,4 +740,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get parentsExitHint =>
       'Closes Genius Kiddo. Progress stays saved on this device.';
+
+  @override
+  String get worldGoToGlow => 'Go to the glowing space';
+
+  @override
+  String get worldDragHint => 'Drag your finger to see the school!';
 }

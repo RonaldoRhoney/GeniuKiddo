@@ -148,6 +148,16 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
     if (!mounted) return;
     final reachedGoal = _school.claimableCount > before;
     _say((l10n) => reachedGoal ? l10n.schoolHintGoal : _hint(l10n));
+    _showGlowingSpace();
+  }
+
+  /// Câmera até o espaço brilhante, se ele estiver fora da tela.
+  void _showGlowingSpace() {
+    final sug = _school.suggestion();
+    final world = _worldKey.currentState;
+    if (sug != null && world != null && !world.isVisible(sug)) {
+      world.flyTo(sug);
+    }
   }
 
   /// "▶ Ganhar estrelas": vai direto pra aula da vez (aulas em ordem).
@@ -194,6 +204,9 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
           ? l10n.afterPromotion
           : l10n.afterGraduation,
     );
+    // RM-06: as nuvens da série nova se abrem; a câmera vai até o espaço
+    // novo pra criança ver a área que chegou.
+    _showGlowingSpace();
   }
 
   @override
@@ -290,6 +303,13 @@ class _SchoolScreenState extends ConsumerState<SchoolScreen> {
                     child: WorldView(
                       key: _worldKey,
                       initialFocus: suggestion,
+                      beacon: suggestion,
+                      onFogTap: (g) {
+                        _feedback.sound.play(FeedbackSound.wrong);
+                        _say(
+                          (l10n) => l10n.schoolGradeLocked(l10n.gradeName(g)),
+                        );
+                      },
                       lotBuilder: (space) => SchoolLot(
                         key: ValueKey('lot_${space.id}'),
                         space: space,

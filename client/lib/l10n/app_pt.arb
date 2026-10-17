@@ -278,5 +278,10 @@
   "homeButton": "Início",
   "@homeButton": {"description": "Rótulo (leitor de tela) do botão 🏠 que volta ao menu inicial"},
   "parentsExitLabel": "Sair do app",
-  "parentsExitHint": "Fecha o Genius Kiddo. O progresso fica salvo neste aparelho."
+  "parentsExitHint": "Fecha o Genius Kiddo. O progresso fica salvo neste aparelho.",
+
+  "worldGoToGlow": "Ir ao espaço brilhante",
+  "@worldGoToGlow": {"description": "Rótulo (leitor de tela) do botão 🎯 e da seta de borda que levam a câmera ao espaço brilhante"},
+  "worldDragHint": "Arraste o dedo para ver a escola!",
+  "@worldDragHint": {"description": "Fala da 1ª vez no mapa, junto com a mãozinha animada (RM-02)"}
 }
